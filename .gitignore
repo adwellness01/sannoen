@@ -1,0 +1,10 @@
+# ローカル配信用（Preview MCP専用。リポジトリには不要）
+serve.ps1
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 社内向けの調査・判断記録（リポジトリには含めない）
+analysis/
