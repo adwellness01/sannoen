@@ -61,8 +61,9 @@ table{border-collapse:collapse;}
   width:min(100% - 48px,1250px);margin-inline:auto;height:100%;
   display:flex;align-items:center;justify-content:space-between;gap:24px;
 }
+/* ワードマークは欧文（SANNOUEN）。Montserratで字間を広めに取る */
 .brand{
-  font-family:var(--mincho);font-weight:600;font-size:19px;letter-spacing:var(--ls);
+  font-family:var(--en);font-weight:400;font-size:17px;letter-spacing:.24em;
   text-decoration:none;color:var(--ink);white-space:nowrap;
   transition:color .3s ease;
 }
