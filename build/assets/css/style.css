@@ -287,6 +287,18 @@ table{border-collapse:collapse;}
    responsive
    ========================================================= */
 @media (max-width:1024px){
+  /* スマホ・タブレットでは薄い横罫が視認しづらくノイズになるため、
+     項目間のヘアラインを撤去する（見出し下の罫は構造の目印として残す） */
+  .menu-list li,
+  .course-list li,
+  .spec-list li,
+  .info-table th,
+  .info-table td{border-bottom:none;}
+  .grade-price{border-top:none;padding-top:6px;}
+  .hero-index,
+  .hero-index a{border-top:none;border-bottom:none;}
+  .hero-index a::after{display:none;}
+
   .grade-grid{grid-template-columns:1fr;gap:40px;max-width:460px;margin-inline:auto;}
   .grade-desc{min-height:0;}
   .niku-grid{grid-template-columns:1fr;gap:38px;}
