@@ -191,20 +191,29 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
 /* ================= カタログ（わびのや実仕様） ================= */
 const WOOD='#A97B4F', WOOD2='#8F6238', DARK='#5C4632', TERRA='#9AA49F', ALU='#B9BFB9',
       BROWN='#7B4B33', COUNTER='#6E563E', GREEN='#5E7A4C', POT='#8A5A3B';
+const STONE='#7A756D';
 const CATALOG=[
- {id:'t1f',  name:'1F卓',            w:600, d:750, kind:'table',  color:WOOD,  note:'W600×D750'},
- {id:'t3f',  name:'3F卓',            w:650, d:750, kind:'table',  color:WOOD,  note:'W650×D750'},
- {id:'tter', name:'テラス卓',         w:750, d:750, kind:'table',  color:TERRA, note:'750角・屋外'},
- {id:'ch',   name:'チェア',           w:400, d:420, kind:'chair',  color:WOOD2, note:'W400×D420'},
- {id:'chT',  name:'テラスチェア',      w:400, d:420, kind:'chair',  color:ALU,   note:'アルミ・屋外'},
- {id:'b38',  name:'ベンチソファ W3800', w:3800,d:750, kind:'bench',  color:BROWN, note:'特注・分割搬入'},
- {id:'b35',  name:'ベンチソファ W3500', w:3500,d:750, kind:'bench',  color:BROWN, note:'特注・分割搬入'},
- {id:'b19',  name:'ベンチ W1900',      w:1900,d:750, kind:'bench',  color:BROWN, note:'分割ユニット'},
- {id:'yk2',  name:'焼肉卓 2名',        w:750, d:750, kind:'roaster',color:DARK,  note:'ロースター付'},
- {id:'yk4',  name:'焼肉卓 4名',        w:1200,d:800, kind:'roaster',color:DARK,  note:'ロースター付'},
- {id:'reg',  name:'レジカウンター',     w:1200,d:600, kind:'counter',color:COUNTER,note:'1F 未調達'},
- {id:'regA', name:'レジカウンターA',    w:1000,d:420, kind:'counter',color:COUNTER,note:'1000×420×H800', hgt:800},
- {id:'pl',   name:'観葉植物',          w:450, d:450, kind:'plant',  color:GREEN, note:'装飾'},
+ /* 確定・発注予定品 */
+ {id:'regA', name:'レジ台（確定）',     w:1000,d:400, kind:'counter',color:COUNTER,note:'上海耀祥威 ¥3,500・黒/引出・H800', hgt:800},
+ {id:'b38',  name:'U型ベンチ W3800',    w:3800,d:750, kind:'bench',  color:BROWN, note:'DJJJ ¥15,200/m・分割搬入'},
+ {id:'b35',  name:'U型ベンチ W3500',    w:3500,d:750, kind:'bench',  color:BROWN, note:'DJJJ ¥15,200/m・分割搬入'},
+ {id:'tGan', name:'岩板方卓',           w:650, d:750, kind:'table',  color:STONE, note:'DJJJ ¥3,500・耐熱/コンロ可・要改寸'},
+ {id:'chDJ', name:'餐椅 款式1',         w:450, d:500, kind:'chair',  color:WOOD2, note:'DJJJ ¥5,000'},
+ {id:'stool',name:'木目スツール',        w:400, d:400, kind:'stool',  color:WOOD2, note:'DJJJ ¥2,700・背無'},
+ {id:'benchN',name:'長ベンチ（背無）',   w:1200,d:350, kind:'stool',  color:WOOD2, note:'DJJJ ¥8,200'},
+ {id:'t60',  name:'60角卓',            w:600, d:600, kind:'table',  color:WOOD,  note:'DJJJ ¥3,000・600角'},
+ {id:'t120', name:'120長卓',           w:1200,d:600, kind:'table',  color:WOOD,  note:'DJJJ ¥4,700'},
+ {id:'t1f',  name:'1F卓 RT01',         w:600, d:750, kind:'table',  color:WOOD,  note:'zgchair ¥8,700・MOQ10・要改寸'},
+ {id:'ch',   name:'PUチェア',           w:400, d:420, kind:'chair',  color:WOOD2, note:'zhida ¥9,300〜・金キャップ無指定'},
+ {id:'tter', name:'テラス卓',           w:750, d:750, kind:'table',  color:TERRA, note:'Artsun ¥18,600〜/組・アルミ'},
+ {id:'chT',  name:'テラスチェア',        w:400, d:420, kind:'chair',  color:ALU,   note:'Artsun ¥1,550〜・アームなし'},
+ /* 既存・その他 */
+ {id:'t3f',  name:'3F卓',              w:650, d:750, kind:'table',  color:WOOD,  note:'W650×D750'},
+ {id:'b19',  name:'ベンチ W1900',       w:1900,d:750, kind:'bench',  color:BROWN, note:'分割ユニット'},
+ {id:'yk2',  name:'焼肉卓 2名',         w:750, d:750, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
+ {id:'yk4',  name:'焼肉卓 4名',         w:1200,d:800, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
+ {id:'reg',  name:'レジカウンター大',    w:1200,d:600, kind:'counter',color:COUNTER,note:'旧案・未確定'},
+ {id:'pl',   name:'観葉植物',           w:450, d:450, kind:'plant',  color:GREEN, note:'装飾'},
 ];
 const CAT={}; CATALOG.forEach(c=>CAT[c.id]=c);
 
@@ -260,7 +269,7 @@ function defaultFloors(){
       ['t1f',6600,5200],['t1f',7350,5200],['t1f',8100,5200],['t1f',8850,5200],['t1f',9600,5200],
       ['ch',6600,4600],['ch',7350,4600],['ch',8100,4600],['ch',8850,4600],['ch',9600,4600],
       ['ch',6600,5850,180],['ch',7350,5850,180],['ch',8100,5850,180],['ch',8850,5850,180],['ch',9600,5850,180],
-      ['reg',9700,7100],['pl',6350,7200],
+      ['regA',2400,550],['pl',6350,7200],
     ])};
   /* 2F: 図面精読版。外形10410×7680（1F/3Fと同じ）・コアEV/階段/WCも同位置。
      左は上下2室（間に棚・間仕切り帯y3300-3500）、EVホール脇に収納(536×804)、
@@ -358,13 +367,13 @@ function defaultFloors(){
       {x:7200,y:3942,w:3010,h:3538,label:'右下区画'},
     ],
     items:defItems([
-      ['t3f',1000,1300],['t3f',2200,1300],
-      ['ch',1000,700],['ch',2200,700],['ch',1000,1900,180],['ch',2200,1900,180],
+      ['tGan',1000,1300],['tGan',2200,1300],
+      ['chDJ',1000,700],['chDJ',2200,700],['chDJ',1000,1900,180],['chDJ',2200,1900,180],
       ['b38',600,5400,270],
-      ['t3f',1600,5000],['t3f',2650,5000],['t3f',3700,5000],['t3f',4900,5600],
-      ['ch',1600,4400],['ch',2650,4400],['ch',3700,4400],['ch',4900,5000],
-      ['ch',1600,5650,180],['ch',2650,5650,180],['ch',3700,5650,180],['ch',4900,6250,180],
-      ['t3f',8700,5500],['ch',8700,4900],['ch',8700,6100,180],
+      ['b35',2400,7050,180],
+      ['tGan',1600,5000],['tGan',2650,5000],['tGan',3700,5000],['tGan',4900,5600],
+      ['chDJ',1600,4400],['chDJ',2650,4400],['chDJ',3700,4400],['chDJ',4900,5000],
+      ['tGan',8700,5500],['chDJ',8700,4900],['chDJ',8700,6100,180],
       ['pl',6700,7150],
     ])};
   F['テラス']={w:6200,d:3800,items:defItems([
@@ -629,6 +638,7 @@ function seatsOf(f){
   let seats=0,tables=0,chairs=0;
   f.items.forEach(i=>{ const c=CAT[i.cat];
     if(c.kind==='chair'){seats++;chairs++;}
+    else if(c.kind==='stool'){const n=Math.max(1,Math.round(c.w/600)); seats+=n; chairs+=n;}
     else if(c.kind==='bench'){seats+=Math.round(c.w/600);}
     else if(c.kind==='table'||c.kind==='roaster'){tables++;} });
   return {seats,tables,chairs};
@@ -958,6 +968,12 @@ function model3d(c){
     case 'bench': return [
       {x:0,y:-d/2+100,z:0,w:w,d:200,h:820},
       {x:0,y:-d/2+475,z:0,w:w,d:550,h:440} ];
+    case 'stool': return [
+      {x:0,y:0,z:400,w:w,d:d,h:45},
+      {x:-w/2+25,y:-d/2+25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
+      {x:w/2-25,y:-d/2+25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
+      {x:-w/2+25,y:d/2-25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
+      {x:w/2-25,y:d/2-25,z:0,w:44,d:44,h:400,color:'#4C3A28'} ];
     case 'counter': { const H=c.hgt||950; return [
       {x:0,y:0,z:0,w:w,d:d,h:H-50},
       {x:0,y:0,z:H-50,w:w+70,d:d+70,h:50,color:'#3E2F22'} ]; }
