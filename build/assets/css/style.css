@@ -160,19 +160,6 @@ table{border-collapse:collapse;}
 .card .en{margin-bottom:16px;}
 .card p:last-child{font-size:13px;line-height:2.2;color:var(--ink-2);}
 
-/* ---------- history ---------- */
-.timeline{position:relative;}
-.timeline::before{content:"";position:absolute;left:72px;top:10px;bottom:10px;width:1px;background:var(--line-2);}
-.timeline li{position:relative;display:flex;gap:40px;padding-bottom:42px;}
-.timeline li:last-child{padding-bottom:0;}
-.timeline li::before{content:"";position:absolute;left:68px;top:15px;width:7px;height:7px;background:var(--ink);border-radius:50%;}
-.tl-year{
-  flex:0 0 54px;text-align:right;
-  font-family:var(--en);font-weight:300;font-size:20px;letter-spacing:.06em;color:var(--ink-2);
-}
-.tl-body .ja{display:block;font-size:19px;margin-bottom:10px;}
-.tl-body p:last-child{font-size:13px;line-height:2.2;color:var(--ink-2);}
-
 /* ---------- menu ---------- */
 .menu-cols{columns:2;column-gap:60px;}
 .menu-block{break-inside:avoid;margin-bottom:46px;}
@@ -350,10 +337,6 @@ table{border-collapse:collapse;}
   .menu-cols{columns:1;}
   .room-grid{grid-template-columns:1fr;gap:40px;}
   .spec-list{grid-template-columns:1fr;}
-  .timeline::before{left:44px;}
-  .timeline li{gap:22px;}
-  .tl-year{flex-basis:32px;font-size:17px;}
-  .timeline li::before{left:40px;}
   .info-table th{width:82px;font-size:12.5px;}
   .access-cta .btn{width:100%;}
   .menu-inline{gap:6px 14px;}
