@@ -166,6 +166,7 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
     <div class="selbar" id="selbar">
       <span class="who" id="selName"></span>
       <button id="rotBtn">回転 45°</button>
+      <button id="rot90Btn" hidden>回転 90°</button>
       <button id="dupBtn">複製</button>
       <button id="delBtn" class="del">削除</button>
     </div>
@@ -553,6 +554,7 @@ function selItem(){ return fl().items.find(i=>i.uid===selUid)||null; }
 const PLAN_TYPE_NAMES={wall:'壁', zone:'設備', room:'部屋'};
 function syncSelbar(){
   const rotBtn=document.getElementById('rotBtn');
+  document.getElementById('rot90Btn').hidden=(editMode!=='plan');
   if(editMode==='plan'){
     const r=planRect();
     if(!r){ selbar.classList.remove('show'); return; }
@@ -580,6 +582,17 @@ document.getElementById('rotBtn').addEventListener('click',()=>{
   }
   const it=selItem(); if(!it)return;
   pushUndo(); it.rot=(it.rot+45)%360; clampItem(it); save(); render(); });
+document.getElementById('rot90Btn').addEventListener('click',()=>{
+  if(editMode!=='plan')return;
+  const r=planRect(); if(!r)return;
+  pushUndo();
+  const cx=r.x+r.w/2, cy=r.y+r.h/2, nw=r.h, nh=r.w, f=fl();
+  r.w=nw; r.h=nh;
+  r.x=Math.max(0,Math.min(f.w-nw, Math.round((cx-nw/2)/50)*50));
+  r.y=Math.max(0,Math.min(f.d-nh, Math.round((cy-nh/2)/50)*50));
+  r.rot=(((r.rot||0)+90)%360);
+  save(); render(); syncSelbar();
+});
 document.getElementById('dupBtn').addEventListener('click',()=>{
   if(editMode==='plan'){
     const r=planRect(); if(!r)return;
@@ -717,9 +730,27 @@ function drawPlan2d(f){
     }else if(z.kind==='stairs'){
       ctx.fillStyle=cssVar('--panel2'); ctx.fillRect(px,py,w,h);
       ctx.strokeStyle=cssVar('--grid2'); ctx.lineWidth=1;
-      const step=Math.max(6,260*s), n=Math.floor(w/step);
-      for(let i=1;i<n;i++){ ctx.beginPath(); ctx.moveTo(px+i*step,py); ctx.lineTo(px+i*step,py+h); ctx.stroke(); }
+      const rot=z.rot||0, step=Math.max(6,260*s);
+      if(rot%180===0){
+        const n=Math.floor(w/step);
+        for(let i=1;i<n;i++){ ctx.beginPath(); ctx.moveTo(px+i*step,py); ctx.lineTo(px+i*step,py+h); ctx.stroke(); }
+      }else{
+        const n=Math.floor(h/step);
+        for(let i=1;i<n;i++){ ctx.beginPath(); ctx.moveTo(px,py+i*step); ctx.lineTo(px+w,py+i*step); ctx.stroke(); }
+      }
       ctx.strokeRect(px,py,w,h);
+      /* 上り方向の矢印 */
+      if(Math.min(w,h)>14){
+        const cx2=px+w/2, cy2=py+h/2, L=Math.min(w,h)*0.32;
+        const dir=rot===0?[1,0]:rot===90?[0,1]:rot===180?[-1,0]:[0,-1];
+        const ax=cx2+dir[0]*L, ay=cy2+dir[1]*L, bx=cx2-dir[0]*L, by=cy2-dir[1]*L;
+        ctx.strokeStyle=cssVar('--muted'); ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(ax,ay);
+        ctx.moveTo(ax-dir[0]*6-dir[1]*5, ay-dir[1]*6-dir[0]*5);
+        ctx.lineTo(ax,ay);
+        ctx.lineTo(ax-dir[0]*6+dir[1]*5, ay-dir[1]*6+dir[0]*5);
+        ctx.stroke();
+      }
     }else if(z.kind==='wc'){
       ctx.fillStyle=cssVar('--room'); ctx.fillRect(px,py,w,h);
       ctx.strokeStyle=cssVar('--grid2'); ctx.strokeRect(px,py,w,h);
@@ -847,8 +878,18 @@ function draw3d(){
     (f.zones||[]).forEach(z=>{
       const cx=z.x+z.w/2, cy=z.y+z.h/2;
       if(z.kind==='ev') pushBox(cx,cy,{x:0,y:0,z:0,w:z.w,d:z.h,h:2300},'#8E857A');
-      else if(z.kind==='stairs'){ const n=6, sw=z.w/n;
-        for(let i=0;i<n;i++) pushBox(z.x+sw*(i+.5),cy,{x:0,y:0,z:0,w:sw,d:z.h,h:180*(i+1)},'#8E857A'); }
+      else if(z.kind==='stairs'){
+        const n=6, rot=z.rot||0;
+        if(rot%180===0){
+          const sw=z.w/n;
+          for(let i=0;i<n;i++){ const k=(rot===0? i+1 : n-i);
+            pushBox(z.x+sw*(i+.5),cy,{x:0,y:0,z:0,w:sw,d:z.h,h:180*k},'#8E857A'); }
+        }else{
+          const sd=z.h/n;
+          for(let i=0;i<n;i++){ const k=(rot===90? i+1 : n-i);
+            pushBox(cx,z.y+sd*(i+.5),{x:0,y:0,z:0,w:z.w,d:sd,h:180*k},'#8E857A'); }
+        }
+      }
       else if(z.kind==='wc') pushBox(cx, z.y+450, {x:0,y:0,z:0,w:450,d:700,h:420},'#D8D2C8');
       else if(z.kind==='ps') pushBox(cx,cy,{x:0,y:0,z:0,w:z.w,d:z.h,h:1100},'#8E857A');
       else if(z.kind==='shelf') pushBox(cx,cy,{x:0,y:0,z:0,w:z.w,d:z.h,h:900},'#8E857A');
