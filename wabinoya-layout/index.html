@@ -533,8 +533,8 @@ function planDown(px,py){
   }
   function inRect(r,m){ return mx>=r.x-m&&mx<=r.x+r.w+m&&my>=r.y-m&&my<=r.y+r.h+m; }
   let found=null;
-  const ws=f.walls||[];
-  for(let i=ws.length-1;i>=0;i--){ if(inRect(ws[i],60)){found={t:'wall',i};break} }
+  const ws=f.walls||[], wm=12/view2d.scale;
+  for(let i=ws.length-1;i>=0;i--){ if(inRect(ws[i],wm)){found={t:'wall',i};break} }
   if(!found){ const zs=f.zones||[];
     for(let i=zs.length-1;i>=0;i--){ if(inRect(zs[i],0)){found={t:'zone',i};break} } }
   if(!found){ const rs=f.rooms||[];
@@ -963,13 +963,16 @@ cv.addEventListener('pointerdown',e=>{
   if(editMode==='plan'){ planDown(px,py); return; }
   const [mx,my]=toMm(px,py);
   const items=fl().items;
+  /* 1周目=厳密一致、2周目=12px相当の許容（許容を大きくすると隣の椅子を誤選択する） */
   let hit=null;
-  for(let i=items.length-1;i>=0;i--){
-    const it=items[i], c=CAT[it.cat], a=it.rot*Math.PI/180;
-    const dx=mx-it.x, dy=my-it.y;
-    const lx=dx*Math.cos(-a)-dy*Math.sin(-a), ly=dx*Math.sin(-a)+dy*Math.cos(-a);
-    const m=60/view2d.scale;
-    if(Math.abs(lx)<=c.w/2+m && Math.abs(ly)<=c.d/2+m){ hit=it; break; }
+  for(let pass=0; pass<2 && !hit; pass++){
+    const m = pass===0 ? 0 : 12/view2d.scale;
+    for(let i=items.length-1;i>=0;i--){
+      const it=items[i], c=CAT[it.cat], a=it.rot*Math.PI/180;
+      const dx=mx-it.x, dy=my-it.y;
+      const lx=dx*Math.cos(-a)-dy*Math.sin(-a), ly=dx*Math.sin(-a)+dy*Math.cos(-a);
+      if(Math.abs(lx)<=c.w/2+m && Math.abs(ly)<=c.d/2+m){ hit=it; break; }
+    }
   }
   if(hit){
     selUid=hit.uid;
