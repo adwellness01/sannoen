@@ -614,7 +614,7 @@ presetListEl.addEventListener('click',async e=>{
 /* 2D/3D切替 */
 const v2d=document.getElementById('v2d'), v3d=document.getElementById('v3d'), hint=document.getElementById('hint');
 function updateHint(){
-  if(mode==='3d'){ hint.hidden=false; hint.textContent='ドラッグで回転 / 右ドラッグで移動 / ホイール・ピンチで拡大縮小'; }
+  if(mode==='3d'){ hint.hidden=false; hint.textContent='ドラッグで回転 / 右ドラッグ・2本指で移動 / ホイール・ピンチで拡大縮小'; }
   else if(editMode==='plan'){ hint.hidden=false; hint.textContent='壁・設備をクリック→ドラッグで移動、■ハンドルで伸縮。部屋はラベル部をクリック'; }
   else hint.hidden=true;
 }
@@ -1295,7 +1295,7 @@ const touches=new Map();
 cv.addEventListener('pointerdown',e=>{ touches.set(e.pointerId,[e.clientX,e.clientY]);
   if(touches.size===2){ drag=null;
     const a=[...touches.values()], d0=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
-    if(mode==='3d'){ pinch={t:'3d', d0, dist0:camDist()}; }
+    if(mode==='3d'){ pinch={t:'3d', d0, dist0:camDist(), mid:[(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2]}; }
     else{
       const r=cv.getBoundingClientRect();
       const mx=(a[0][0]+a[1][0])/2-r.left, my=(a[0][1]+a[1][1])/2-r.top;
@@ -1309,6 +1309,18 @@ function handlePinch(e){
   if(pinch.t==='3d'){
     const f=fl(), base=Math.max(f.w,f.d);
     cam.dist=Math.min(base*8, Math.max(Math.max(300,base*0.03), pinch.dist0*pinch.d0/Math.max(20,d)));
+    /* 2本指の移動＝パン（右ドラッグと同じ挙動） */
+    const mx=(a[0][0]+a[1][0])/2, my=(a[0][1]+a[1][1])/2;
+    const dmx=mx-pinch.mid[0], dmy=my-pinch.mid[1];
+    pinch.mid=[mx,my];
+    const fovLen=Math.min(CW,CH)*1.25, w2p=camDist()/fovLen;
+    const sy=Math.sin(cam.yaw), cy2=Math.cos(cam.yaw);
+    const vy=dmy/Math.max(0.3,Math.sin(cam.pitch));
+    cam.tx += (-sy*dmx - cy2*vy)*w2p;
+    cam.ty += ( cy2*dmx - sy*vy)*w2p;
+    const lim=base*1.5;
+    cam.tx=Math.max(-lim,Math.min(lim,cam.tx));
+    cam.ty=Math.max(-lim,Math.min(lim,cam.ty));
   }else{
     const r=cv.getBoundingClientRect(), f=fl(), pad=52;
     const mx=(a[0][0]+a[1][0])/2-r.left, my=(a[0][1]+a[1][1])/2-r.top;
