@@ -983,10 +983,10 @@ function draw3d(){
     });
   }
   /* 接近時の壁の半透過（2段階・手前側の面のみ）:
-     外周壁=0.9倍以内で薄く(28%)透過、内壁=0.6倍以内。どちらも0.25倍以内で7割透過 */
+     外周壁=1.8倍以内で薄く(28%)透過、内壁=0.6倍以内。どちらも0.25倍以内で7割透過 */
   const wallBase=Math.max(f.w,f.d);
   const aIn  = D<wallBase*0.25 ? 0.30 : D<wallBase*0.6 ? 0.72 : 1;
-  const aOut = D<wallBase*0.25 ? 0.30 : D<wallBase*0.9 ? 0.72 : 1;
+  const aOut = D<wallBase*0.25 ? 0.30 : D<wallBase*1.8 ? 0.72 : 1;
   if(f.walls){
     const wallC3=cssVar('--wall3d');
     f.walls.forEach(wr=>{
