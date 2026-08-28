@@ -883,9 +883,11 @@ function draw3d(){
       if(dot(fc.n, sub(eye,fc.c))<=0)return;
       const sh=0.6+0.4*Math.max(0,dot(fc.n,light));
       const o=quad(fc.pts, shade(color,sh), stroke||null);
-      if(o)faces.push(o);
+      if(o){ o.pw=true; faces.push(o); }
     });
   }
+  /* 接近時の壁の半透過: 建物幅の0.6倍より寄ると、カメラ手前側の壁が距離に応じて透ける */
+  const zoomT=Math.max(0, Math.min(1, (Math.max(f.w,f.d)*0.6-D)/(Math.max(f.w,f.d)*0.45)));
   if(f.walls){
     const wallC3=cssVar('--wall3d');
     f.walls.forEach(wr=>pushBox(wr.x+wr.w/2, wr.y+wr.h/2, {x:0,y:0,z:0,w:wr.w,d:wr.h,h:1150}, wallC3));
@@ -940,10 +942,15 @@ function draw3d(){
     });
   });
   faces.sort((a,b)=>b.z-a.z);
-  faces.forEach(o=>{ ctx.beginPath(); ctx.moveTo(o.q[0].x,o.q[0].y);
+  faces.forEach(o=>{
+    const fade=(o.pw && zoomT>0 && o.z<D);
+    if(fade)ctx.globalAlpha=Math.max(0.4, 1-0.55*zoomT);
+    ctx.beginPath(); ctx.moveTo(o.q[0].x,o.q[0].y);
     for(let i=1;i<4;i++)ctx.lineTo(o.q[i].x,o.q[i].y); ctx.closePath();
     ctx.fillStyle=o.color; ctx.fill();
-    ctx.strokeStyle=o.stroke||'rgba(0,0,0,.14)'; ctx.lineWidth=o.selW||.7; ctx.stroke(); });
+    ctx.strokeStyle=o.stroke||'rgba(0,0,0,.14)'; ctx.lineWidth=o.selW||.7; ctx.stroke();
+    if(fade)ctx.globalAlpha=1;
+  });
 
   /* フロア名 */
   ctx.fillStyle=cssVar('--muted'); ctx.font='12px "Zen Kaku Gothic New",sans-serif';
@@ -1100,7 +1107,7 @@ cv.addEventListener('wheel',e=>{
   if(mode!=='3d')return;
   e.preventDefault();
   const f=fl(), base=Math.max(f.w,f.d);
-  cam.dist=Math.min(base*8, Math.max(base*0.15, camDist()*(1+e.deltaY*0.0012)));
+  cam.dist=Math.min(base*8, Math.max(Math.max(300,base*0.03), camDist()*(1+e.deltaY*0.0012)));
   render();
 },{passive:false});
 /* ピンチ（3D拡縮） */
@@ -1113,7 +1120,7 @@ function handlePinch(e){
   if(touches.size<2){pinch=null;return;}
   const a=[...touches.values()], d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
   const f=fl(), base=Math.max(f.w,f.d);
-  cam.dist=Math.min(base*8, Math.max(base*0.15, pinch.dist0*pinch.d0/Math.max(20,d)));
+  cam.dist=Math.min(base*8, Math.max(Math.max(300,base*0.03), pinch.dist0*pinch.d0/Math.max(20,d)));
   render();
 }
 cv.addEventListener('pointerup',e=>{ touches.delete(e.pointerId); if(touches.size<2)pinch=null; });
