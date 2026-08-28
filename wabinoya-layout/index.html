@@ -224,7 +224,8 @@ const CATALOG=[
  {id:'ch',   name:'チェア汎用',         w:400, d:420, kind:'chair',  color:WOOD2, note:'W400×D420・2F既存席'},
  {id:'yk2',  name:'焼肉卓 2名',         w:750, d:750, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
  {id:'yk4',  name:'焼肉卓 4名',         w:1200,d:800, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
- {id:'yk8',  name:'焼肉卓 8名',         w:2400,d:800, kind:'roaster',color:DARK,  note:'ロースター2口'},
+ {id:'yk6',  name:'焼肉卓 6名',         w:1800,d:800, kind:'roaster',color:DARK,  note:'ロースター中央1口', ro:1},
+ {id:'yk8',  name:'焼肉卓 8名',         w:2400,d:800, kind:'roaster',color:DARK,  note:'ロースター2口', ro:2},
  {id:'pl',   name:'観葉植物',           w:450, d:450, kind:'plant',  color:GREEN, note:'装飾'},
 ];
 const CAT={}; CATALOG.forEach(c=>CAT[c.id]=c);
@@ -918,7 +919,7 @@ function drawItem2d(it, sel){
     ctx.fillStyle='rgba(0,0,0,.30)'; rr(-w/2,-d/2,w,Math.max(2,d*.16),2); ctx.fill(); }
   if(c.kind==='bench'){ ctx.fillStyle='rgba(0,0,0,.25)'; rr(-w/2,-d/2,w,Math.max(2,d*.25),2); ctx.fill(); }
   if(c.kind==='roaster'){
-    const n=Math.max(1,Math.round(c.w/1200)), r=Math.min(w/n,d)*.30;
+    const n=c.ro||Math.max(1,Math.round(c.w/1200)), r=Math.min(w/n,d)*.30;
     for(let i=0;i<n;i++){
       const cx=-w/2+w*(2*i+1)/(2*n);
       ctx.fillStyle='#2A2320'; ctx.beginPath(); ctx.arc(cx,0,r,0,7); ctx.fill();
@@ -1086,7 +1087,7 @@ function model3d(c){
       {x:0,y:0,z:650,w:w,d:d,h:55},
       {x:0,y:0,z:30,w:80,d:80,h:620,color:'#4C3A28'},
       {x:0,y:0,z:0,w:Math.min(w*.7,420),d:Math.min(d*.7,420),h:30,color:'#4C3A28'} ];
-    case 'roaster': { const n=Math.max(1,Math.round(w/1200)), s=Math.min(w/n,d)*.5;
+    case 'roaster': { const n=c.ro||Math.max(1,Math.round(w/1200)), s=Math.min(w/n,d)*.5;
       const arr=[
         {x:0,y:0,z:640,w:w,d:d,h:80},
         {x:0,y:0,z:0,w:w*.55,d:d*.55,h:640,color:'#3E2F22'} ];
