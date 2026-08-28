@@ -219,17 +219,12 @@ const CATALOG=[
  {id:'tter', name:'テラス卓 750角',     w:750, d:750, kind:'table',  color:TERRA, note:'Artsun 750角指定・要見積確認'},
  {id:'chT',  name:'テラスチェア',        w:400, d:420, kind:'chair',  color:ALU,   note:'Artsun ¥1,550〜・アームなし指定'},
  {id:'tRnd', name:'丸卓 φ550(代替)',    w:550, d:550, kind:'round',  color:TERRA, note:'紅蜘蛛 ¥11,500/2脚付・H800'},
- /* 既存・旧案 */
- {id:'t3f',  name:'3F卓（旧案）',       w:650, d:750, kind:'table',  color:WOOD,  note:'W650×D750'},
- {id:'t1f',  name:'RT01卓（旧案）',     w:600, d:750, kind:'table',  color:WOOD,  note:'zgchair・不採用'},
+ /* 既存 */
  {id:'t60',  name:'60角卓',            w:600, d:600, kind:'table',  color:WOOD,  note:'DJJJ ¥3,000'},
- {id:'ch',   name:'チェア汎用',         w:400, d:420, kind:'chair',  color:WOOD2, note:'W400×D420'},
- {id:'b38',  name:'U型ベンチ W3800',    w:3800,d:750, kind:'bench',  color:BROWN, note:'旧案・連続U型'},
- {id:'b35',  name:'U型ベンチ W3500',    w:3500,d:750, kind:'bench',  color:BROWN, note:'旧案・連続U型'},
- {id:'b19',  name:'ベンチ W1900',       w:1900,d:750, kind:'bench',  color:BROWN, note:'分割ユニット'},
+ {id:'ch',   name:'チェア汎用',         w:400, d:420, kind:'chair',  color:WOOD2, note:'W400×D420・2F既存席'},
  {id:'yk2',  name:'焼肉卓 2名',         w:750, d:750, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
  {id:'yk4',  name:'焼肉卓 4名',         w:1200,d:800, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
- {id:'reg',  name:'レジカウンター大',    w:1200,d:600, kind:'counter',color:COUNTER,note:'旧案・未確定'},
+ {id:'yk8',  name:'焼肉卓 8名',         w:2400,d:800, kind:'roaster',color:DARK,  note:'ロースター2口'},
  {id:'pl',   name:'観葉植物',           w:450, d:450, kind:'plant',  color:GREEN, note:'装飾'},
 ];
 const CAT={}; CATALOG.forEach(c=>CAT[c.id]=c);
@@ -436,6 +431,9 @@ try{
     /* 旧テラス(5400×3600)の保存データは新仕様(6200×3800・対面配置)へ置き換え */
     const tr=state.floors['テラス'];
     if(tr && tr.w===5400 && tr.d===3600) state.floors['テラス']=defs['テラス'];
+    /* カタログから消えた家具が保存データに残っていても落ちないよう除去 */
+    FLOOR_NAMES.forEach(n=>{ const fv=state.floors[n];
+      if(fv&&fv.items) fv.items=fv.items.filter(i=>CAT[i.cat]); });
   }
 }catch(e){}
 let cur='1F', mode='2d', selUid=null, uidSeq=Date.now()%100000;
@@ -919,9 +917,14 @@ function drawItem2d(it, sel){
   if(c.kind==='chair'){ /* 背もたれ */
     ctx.fillStyle='rgba(0,0,0,.30)'; rr(-w/2,-d/2,w,Math.max(2,d*.16),2); ctx.fill(); }
   if(c.kind==='bench'){ ctx.fillStyle='rgba(0,0,0,.25)'; rr(-w/2,-d/2,w,Math.max(2,d*.25),2); ctx.fill(); }
-  if(c.kind==='roaster'){ ctx.fillStyle='#2A2320';
-    const r=Math.min(w,d)*.30; ctx.beginPath(); ctx.arc(0,0,r,0,7); ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.beginPath(); ctx.arc(0,0,r*.6,0,7); ctx.stroke(); }
+  if(c.kind==='roaster'){
+    const n=Math.max(1,Math.round(c.w/1200)), r=Math.min(w/n,d)*.30;
+    for(let i=0;i<n;i++){
+      const cx=-w/2+w*(2*i+1)/(2*n);
+      ctx.fillStyle='#2A2320'; ctx.beginPath(); ctx.arc(cx,0,r,0,7); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.beginPath(); ctx.arc(cx,0,r*.6,0,7); ctx.stroke();
+    }
+  }
   if(c.kind==='table'){ ctx.strokeStyle='rgba(0,0,0,.15)';
     ctx.beginPath(); ctx.moveTo(-w/2+3,0); ctx.lineTo(w/2-3,0); ctx.moveTo(0,-d/2+3); ctx.lineTo(0,d/2-3); ctx.stroke(); }
   if(c.kind==='plant'){ ctx.fillStyle='rgba(255,255,255,.25)';
@@ -1083,10 +1086,12 @@ function model3d(c){
       {x:0,y:0,z:650,w:w,d:d,h:55},
       {x:0,y:0,z:30,w:80,d:80,h:620,color:'#4C3A28'},
       {x:0,y:0,z:0,w:Math.min(w*.7,420),d:Math.min(d*.7,420),h:30,color:'#4C3A28'} ];
-    case 'roaster': return [
-      {x:0,y:0,z:640,w:w,d:d,h:80},
-      {x:0,y:0,z:720,w:Math.min(w,d)*.5,d:Math.min(w,d)*.5,h:10,color:'#211B17'},
-      {x:0,y:0,z:0,w:w*.55,d:d*.55,h:640,color:'#3E2F22'} ];
+    case 'roaster': { const n=Math.max(1,Math.round(w/1200)), s=Math.min(w/n,d)*.5;
+      const arr=[
+        {x:0,y:0,z:640,w:w,d:d,h:80},
+        {x:0,y:0,z:0,w:w*.55,d:d*.55,h:640,color:'#3E2F22'} ];
+      for(let i=0;i<n;i++) arr.push({x:-w/2+w*(2*i+1)/(2*n),y:0,z:720,w:s,d:s,h:10,color:'#211B17'});
+      return arr; }
     case 'chair': return [
       {x:0,y:0,z:400,w:w,d:d,h:50},
       {x:-w/2+25,y:-d/2+25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
