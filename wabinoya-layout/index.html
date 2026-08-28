@@ -950,7 +950,8 @@ function draw3d(){
     return {x:CW/2-fovLen*dot(v,rgt)/dz, y:CH/2-fovLen*dot(v,up)/dz, z:dz}; }
   function quad(pts,color,stroke){
     const q=pts.map(proj); if(q.some(p=>!p))return null;
-    return {q,z:(q[0].z+q[1].z+q[2].z+q[3].z)/4,color,stroke}; }
+    return {q,z:(q[0].z+q[1].z+q[2].z+q[3].z)/4,
+      zmin:Math.min(q[0].z,q[1].z,q[2].z,q[3].z),color,stroke}; }
   function fillQ(o){ ctx.beginPath(); ctx.moveTo(o.q[0].x,o.q[0].y);
     for(let i=1;i<4;i++)ctx.lineTo(o.q[i].x,o.q[i].y); ctx.closePath();
     ctx.fillStyle=o.color; ctx.fill();
@@ -989,9 +990,16 @@ function draw3d(){
   const aOut = D<wallBase*0.25 ? 0.30 : D<wallBase*1.8 ? 0.72 : 1;
   if(f.walls){
     const wallC3=cssVar('--wall3d');
+    /* 長い壁は1.5m単位に分割して描く（距離判定・前後判定を局所化するため） */
     f.walls.forEach(wr=>{
       const outer=(wr.x<=0 || wr.y<=0 || wr.x+wr.w>=f.w || wr.y+wr.h>=f.d);
-      pushBox(wr.x+wr.w/2, wr.y+wr.h/2, {x:0,y:0,z:0,w:wr.w,d:wr.h,h:1150}, wallC3, outer);
+      const horiz=wr.w>=wr.h, len=horiz?wr.w:wr.h;
+      const n=Math.max(1,Math.ceil(len/1500)), step=len/n;
+      for(let i=0;i<n;i++){
+        const sx=horiz? wr.x+step*i : wr.x, sy=horiz? wr.y : wr.y+step*i;
+        const sw=horiz? step : wr.w, sh=horiz? wr.h : step;
+        pushBox(sx+sw/2, sy+sh/2, {x:0,y:0,z:0,w:sw,d:sh,h:1150}, wallC3, outer);
+      }
     });
     (f.zones||[]).forEach(z=>{
       const cx=z.x+z.w/2, cy=z.y+z.h/2;
@@ -1046,7 +1054,7 @@ function draw3d(){
   faces.sort((a,b)=>b.z-a.z);
   faces.forEach(o=>{
     const a=o.po?aOut:aIn;
-    const fade=(o.pw && a<1 && o.z<D);
+    const fade=(o.pw && a<1 && o.zmin<D);
     if(fade)ctx.globalAlpha=a;
     ctx.beginPath(); ctx.moveTo(o.q[0].x,o.q[0].y);
     for(let i=1;i<4;i++)ctx.lineTo(o.q[i].x,o.q[i].y); ctx.closePath();
