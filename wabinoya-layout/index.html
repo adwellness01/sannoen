@@ -126,11 +126,30 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
 @media (max-width:760px){
   main{flex-direction:column}
   aside{width:100%; border-right:0; border-bottom:1px solid var(--line); overflow-x:auto; overflow-y:hidden;
-    display:flex; gap:4px; padding:8px; align-items:stretch}
+    display:flex; gap:4px; padding:6px; align-items:stretch}
   aside h2{display:none}
-  .pal{flex-direction:column; gap:4px; width:auto; min-width:86px; text-align:center; padding:6px}
+  .pal{flex-direction:column; gap:3px; width:auto; min-width:76px; text-align:center; padding:5px 4px}
+  .pal .nm{font-size:11px; line-height:1.2}
   .pal .sz{display:none}
+  .pal .sw{width:22px; height:16px; margin:0 auto}
+  .wordmark{font-size:15px}
   .wordmark small{display:none}
+  header{padding:8px 10px 6px; gap:8px}
+  .tabs button{padding:5px 10px; font-size:13px}
+  .seg button{padding:5px 11px; font-size:13px}
+  .toolbar{padding:5px 10px; gap:6px}
+  .toolbar .note{display:none}
+  .toolbar .dims{font-size:11px}
+  .toolbar input[type=number]{width:58px; padding:3px 4px}
+  .tbtn{padding:5px 8px; font-size:12px}
+  footer{gap:8px; padding:5px 10px; font-size:11px}
+  footer .chip{display:none}
+  footer .chip:last-of-type{display:inline}
+  .hint3d{font-size:10px; padding:3px 8px; max-width:70vw}
+  .selbar{bottom:8px; padding:5px 6px; flex-wrap:wrap; justify-content:center; max-width:94vw}
+  .selbar .who{font-size:11px}
+  .selbar button{padding:5px 8px; font-size:12px}
+  dialog{padding:14px}
 }
 </style>
 </head>
@@ -203,6 +222,12 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
 
 <script>
 'use strict';
+/* viewportメタが無いホストではスマホが仮想980px幅で描画されモバイルCSSが効かないため注入する */
+if(!document.querySelector('meta[name="viewport"]')){
+  const vm=document.createElement('meta'); vm.name='viewport';
+  vm.content='width=device-width, initial-scale=1, viewport-fit=cover';
+  (document.head||document.documentElement).appendChild(vm);
+}
 /* ================= カタログ（わびのや実仕様） ================= */
 const WOOD='#A97B4F', WOOD2='#8F6238', DARK='#5C4632', TERRA='#9AA49F', ALU='#B9BFB9',
       BROWN='#7B4B33', COUNTER='#6E563E', GREEN='#5E7A4C', POT='#8A5A3B';
@@ -439,6 +464,7 @@ try{
 }catch(e){}
 let cur='1F', mode='2d', selUid=null, uidSeq=Date.now()%100000;
 let editMode='furn', selPlan=null;
+const COARSE=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||false; /* タッチ端末は当たり判定を拡大 */
 const undoStack=[];
 function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
 function pushUndo(){ undoStack.push(JSON.stringify({cur,fl:state.floors[cur]})); if(undoStack.length>60)undoStack.shift(); }
@@ -640,15 +666,16 @@ function planDown(px,py){
   const [mx,my]=toMm(px,py), f=fl();
   const curR=planRect();
   if(curR){
+    const hr=COARSE?16:10;
     for(const p of planHandlePts(curR)){
-      if(Math.abs(px-p.x)<10&&Math.abs(py-p.y)<10){
+      if(Math.abs(px-p.x)<hr&&Math.abs(py-p.y)<hr){
         pushUndo(); drag={type:'presize',edge:p.edge,moved:false}; return;
       }
     }
   }
   function inRect(r,m){ return mx>=r.x-m&&mx<=r.x+r.w+m&&my>=r.y-m&&my<=r.y+r.h+m; }
   let found=null;
-  const ws=f.walls||[], wm=12/view2d.scale;
+  const ws=f.walls||[], wm=(COARSE?20:12)/view2d.scale;
   for(let i=ws.length-1;i>=0;i--){ if(inRect(ws[i],wm)){found={t:'wall',i};break} }
   if(!found){ const zs=f.zones||[];
     for(let i=zs.length-1;i>=0;i--){ if(inRect(zs[i],0)){found={t:'zone',i};break} } }
@@ -903,7 +930,8 @@ function drawPlanSel(){
   ctx.strokeStyle=cssVar('--accent'); ctx.lineWidth=2; ctx.setLineDash([6,4]);
   ctx.strokeRect(px-2,py-2,w+4,h+4); ctx.setLineDash([]);
   ctx.fillStyle=cssVar('--accent');
-  planHandlePts(r).forEach(p=>{ ctx.fillRect(p.x-5,p.y-5,10,10); });
+  const hs=COARSE?7:5;
+  planHandlePts(r).forEach(p=>{ ctx.fillRect(p.x-hs,p.y-hs,hs*2,hs*2); });
   ctx.font='bold 11px "Zen Kaku Gothic New",sans-serif';
   ctx.textAlign='center'; ctx.textBaseline='bottom';
   ctx.fillText(r.w.toLocaleString()+'×'+r.h.toLocaleString(), px+w/2, py-8);
@@ -1163,7 +1191,7 @@ cv.addEventListener('pointerdown',e=>{
   /* 1周目=厳密一致、2周目=12px相当の許容（許容を大きくすると隣の椅子を誤選択する） */
   let hit=null;
   for(let pass=0; pass<2 && !hit; pass++){
-    const m = pass===0 ? 0 : 12/view2d.scale;
+    const m = pass===0 ? 0 : (COARSE?20:12)/view2d.scale;
     for(let i=items.length-1;i>=0;i--){
       const it=items[i], c=CAT[it.cat], a=it.rot*Math.PI/180;
       const dx=mx-it.x, dy=my-it.y;
