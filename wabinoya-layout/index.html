@@ -193,22 +193,24 @@ const WOOD='#A97B4F', WOOD2='#8F6238', DARK='#5C4632', TERRA='#9AA49F', ALU='#B9
       BROWN='#7B4B33', COUNTER='#6E563E', GREEN='#5E7A4C', POT='#8A5A3B';
 const STONE='#7A756D';
 const CATALOG=[
- /* 確定・発注予定品 */
+ /* 確定・発注予定品（2026-08-28更新版） */
  {id:'regA', name:'レジ台（確定）',     w:1000,d:400, kind:'counter',color:COUNTER,note:'上海耀祥威 ¥3,500・黒/引出・H800', hgt:800},
- {id:'b38',  name:'U型ベンチ W3800',    w:3800,d:750, kind:'bench',  color:BROWN, note:'DJJJ ¥15,200/m・分割搬入'},
- {id:'b35',  name:'U型ベンチ W3500',    w:3500,d:750, kind:'bench',  color:BROWN, note:'DJJJ ¥15,200/m・分割搬入'},
- {id:'tGan', name:'岩板方卓',           w:650, d:750, kind:'table',  color:STONE, note:'DJJJ ¥3,500・耐熱/コンロ可・要改寸'},
- {id:'chDJ', name:'餐椅 款式1',         w:450, d:500, kind:'chair',  color:WOOD2, note:'DJJJ ¥5,000'},
+ {id:'kaza', name:'卡座ベンチ W1200',   w:1200,d:575, kind:'bench',  color:BROWN, note:'DJJJ ¥8,900・奥行/高さ要確認①', hgt:1000},
+ {id:'tGan', name:'岩板方卓 600角',     w:600, d:600, kind:'table',  color:STONE, note:'DJJJ ¥3,500・耐熱・H要確認②'},
+ {id:'chDJ', name:'餐椅 款式1',         w:400, d:420, kind:'chair',  color:WOOD2, note:'DJJJ ¥5,000・寸法要確認(枠400×420)'},
  {id:'stool',name:'木目スツール',        w:400, d:400, kind:'stool',  color:WOOD2, note:'DJJJ ¥2,700・背無'},
  {id:'benchN',name:'長ベンチ（背無）',   w:1200,d:350, kind:'stool',  color:WOOD2, note:'DJJJ ¥8,200'},
- {id:'t60',  name:'60角卓',            w:600, d:600, kind:'table',  color:WOOD,  note:'DJJJ ¥3,000・600角'},
  {id:'t120', name:'120長卓',           w:1200,d:600, kind:'table',  color:WOOD,  note:'DJJJ ¥4,700'},
- {id:'t1f',  name:'1F卓 RT01',         w:600, d:750, kind:'table',  color:WOOD,  note:'zgchair ¥8,700・MOQ10・要改寸'},
- {id:'ch',   name:'PUチェア',           w:400, d:420, kind:'chair',  color:WOOD2, note:'zhida ¥9,300〜・金キャップ無指定'},
- {id:'tter', name:'テラス卓',           w:750, d:750, kind:'table',  color:TERRA, note:'Artsun ¥18,600〜/組・アルミ'},
- {id:'chT',  name:'テラスチェア',        w:400, d:420, kind:'chair',  color:ALU,   note:'Artsun ¥1,550〜・アームなし'},
- /* 既存・その他 */
- {id:'t3f',  name:'3F卓',              w:650, d:750, kind:'table',  color:WOOD,  note:'W650×D750'},
+ {id:'tter', name:'テラス卓 750角',     w:750, d:750, kind:'table',  color:TERRA, note:'Artsun 750角指定・要見積確認'},
+ {id:'chT',  name:'テラスチェア',        w:400, d:420, kind:'chair',  color:ALU,   note:'Artsun ¥1,550〜・アームなし指定'},
+ {id:'tRnd', name:'丸卓 φ550(代替)',    w:550, d:550, kind:'round',  color:TERRA, note:'紅蜘蛛 ¥11,500/2脚付・H800'},
+ /* 既存・旧案 */
+ {id:'t3f',  name:'3F卓（旧案）',       w:650, d:750, kind:'table',  color:WOOD,  note:'W650×D750'},
+ {id:'t1f',  name:'RT01卓（旧案）',     w:600, d:750, kind:'table',  color:WOOD,  note:'zgchair・不採用'},
+ {id:'t60',  name:'60角卓',            w:600, d:600, kind:'table',  color:WOOD,  note:'DJJJ ¥3,000'},
+ {id:'ch',   name:'チェア汎用',         w:400, d:420, kind:'chair',  color:WOOD2, note:'W400×D420'},
+ {id:'b38',  name:'U型ベンチ W3800',    w:3800,d:750, kind:'bench',  color:BROWN, note:'旧案・連続U型'},
+ {id:'b35',  name:'U型ベンチ W3500',    w:3500,d:750, kind:'bench',  color:BROWN, note:'旧案・連続U型'},
  {id:'b19',  name:'ベンチ W1900',       w:1900,d:750, kind:'bench',  color:BROWN, note:'分割ユニット'},
  {id:'yk2',  name:'焼肉卓 2名',         w:750, d:750, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
  {id:'yk4',  name:'焼肉卓 4名',         w:1200,d:800, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
@@ -266,9 +268,9 @@ function defaultFloors(){
       {x:7580,y:200,w:2630,h:2790,label:'右上区画'},
     ],
     items:defItems([
-      ['t1f',6600,5200],['t1f',7350,5200],['t1f',8100,5200],['t1f',8850,5200],['t1f',9600,5200],
-      ['ch',6600,4600],['ch',7350,4600],['ch',8100,4600],['ch',8850,4600],['ch',9600,4600],
-      ['ch',6600,5850,180],['ch',7350,5850,180],['ch',8100,5850,180],['ch',8850,5850,180],['ch',9600,5850,180],
+      ['tGan',6600,5100],['tGan',7350,5100],['tGan',8100,5100],['tGan',8850,5100],['tGan',9600,5100],
+      ['chDJ',6600,4550],['chDJ',7350,4550],['chDJ',8100,4550],['chDJ',8850,4550],['chDJ',9600,4550],
+      ['chDJ',6600,5650,180],['chDJ',7350,5650,180],['chDJ',8100,5650,180],['chDJ',8850,5650,180],['chDJ',9600,5650,180],
       ['regA',2400,550],['pl',6350,7200],
     ])};
   /* 2F: 図面精読版。外形10410×7680（1F/3Fと同じ）・コアEV/階段/WCも同位置。
@@ -367,13 +369,14 @@ function defaultFloors(){
       {x:7200,y:3942,w:3010,h:3538,label:'右下区画'},
     ],
     items:defItems([
-      ['tGan',1000,1300],['tGan',2200,1300],
-      ['chDJ',1000,700],['chDJ',2200,700],['chDJ',1000,1900,180],['chDJ',2200,1900,180],
-      ['b38',600,5400,270],
-      ['b35',2400,7050,180],
-      ['tGan',1600,5000],['tGan',2650,5000],['tGan',3700,5000],['tGan',4900,5600],
-      ['chDJ',1600,4400],['chDJ',2650,4400],['chDJ',3700,4400],['chDJ',4900,5000],
-      ['tGan',8700,5500],['chDJ',8700,4900],['chDJ',8700,6100,180],
+      ['kaza',900,500],['kaza',2100,500],
+      ['tGan',900,1300],['tGan',2100,1300],
+      ['chDJ',900,1950,180],['chDJ',2100,1950,180],
+      ['kaza',1200,7050,180],['kaza',2400,7050,180],['kaza',3600,7050,180],
+      ['tGan',1200,6250],['tGan',2400,6250],['tGan',3600,6250],
+      ['chDJ',1200,5600],['chDJ',2400,5600],['chDJ',3600,5600],
+      ['tGan',4900,5600],['chDJ',4900,4950],
+      ['tGan',8700,5500],['chDJ',8700,4900],
       ['pl',6700,7150],
     ])};
   F['テラス']={w:6200,d:3800,items:defItems([
@@ -808,7 +811,8 @@ function drawItem2d(it, sel){
   ctx.save(); ctx.translate(px,py); ctx.rotate(it.rot*Math.PI/180);
   const w=c.w*s, d=c.d*s;
   ctx.fillStyle=c.color; ctx.strokeStyle='rgba(0,0,0,.28)'; ctx.lineWidth=1;
-  rr(-w/2,-d/2,w,d,Math.min(5,w*.08)); ctx.fill(); ctx.stroke();
+  if(c.kind==='round'){ ctx.beginPath(); ctx.arc(0,0,w/2,0,7); ctx.fill(); ctx.stroke(); }
+  else { rr(-w/2,-d/2,w,d,Math.min(5,w*.08)); ctx.fill(); ctx.stroke(); }
   if(c.kind==='chair'){ /* 背もたれ */
     ctx.fillStyle='rgba(0,0,0,.30)'; rr(-w/2,-d/2,w,Math.max(2,d*.16),2); ctx.fill(); }
   if(c.kind==='bench'){ ctx.fillStyle='rgba(0,0,0,.25)'; rr(-w/2,-d/2,w,Math.max(2,d*.25),2); ctx.fill(); }
@@ -965,9 +969,13 @@ function model3d(c){
       {x:-w/2+25,y:d/2-25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
       {x:w/2-25,y:d/2-25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
       {x:0,y:-d/2+30,z:450,w:w,d:55,h:330} ];
-    case 'bench': return [
-      {x:0,y:-d/2+100,z:0,w:w,d:200,h:820},
-      {x:0,y:-d/2+475,z:0,w:w,d:550,h:440} ];
+    case 'bench': { const sd=Math.max(300,d-200), bh=c.hgt||820; return [
+      {x:0,y:-d/2+100,z:0,w:w,d:200,h:bh},
+      {x:0,y:-d/2+200+sd/2,z:0,w:w,d:sd,h:440} ]; }
+    case 'round': return [
+      {x:0,y:0,z:680,w:w,d:d,h:40},
+      {x:0,y:0,z:30,w:80,d:80,h:650,color:'#4C3A28'},
+      {x:0,y:0,z:0,w:Math.min(w*.7,420),d:Math.min(d*.7,420),h:30,color:'#4C3A28'} ];
     case 'stool': return [
       {x:0,y:0,z:400,w:w,d:d,h:45},
       {x:-w/2+25,y:-d/2+25,z:0,w:44,d:44,h:400,color:'#4C3A28'},
