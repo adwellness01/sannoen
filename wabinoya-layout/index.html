@@ -117,6 +117,11 @@ dialog textarea{
 }
 dialog .row{display:flex; gap:8px; justify-content:flex-end; margin-top:12px}
 dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.prow{display:flex; align-items:center; gap:8px; padding:6px 4px; border-bottom:1px solid var(--line); font-size:13px}
+.prow b{flex:1; font-weight:700}
+.prow small{color:var(--muted); font-variant-numeric:tabular-nums}
+.prow button{padding:3px 10px; border:1px solid var(--line); border-radius:6px; background:var(--panel2); font-size:12px}
+.prow button.del{color:var(--accent)}
 
 @media (max-width:760px){
   main{flex-direction:column}
@@ -176,8 +181,16 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
 <footer id="foot"></footer>
 
 <dialog id="ioDlg">
-  <h3>レイアウトの書き出し / 読み込み</h3>
-  <p>下のテキストを保存しておけば、別の端末や共有相手の画面で「読み込み」から復元できる。</p>
+  <h3>サーバープリセット（全端末で共有）</h3>
+  <p id="srvNote">確認中…</p>
+  <div class="row" id="srvSaveRow" style="justify-content:flex-start" hidden>
+    <input id="presetName" placeholder="プリセット名（例: 9月案A）"
+      style="flex:1; padding:6px 8px; border:1px solid var(--line); border-radius:7px; background:var(--panel2);">
+    <button class="tbtn primary" id="presetSaveBtn">サーバーに保存</button>
+  </div>
+  <div id="presetList"></div>
+  <h3 style="margin-top:16px">テキストで書き出し / 読み込み</h3>
+  <p>下のテキストを渡せば、どの環境でも「読み込み」から復元できる。</p>
   <textarea id="ioText" spellcheck="false"></textarea>
   <div class="row">
     <button class="tbtn" id="ioCopy">コピー</button>
@@ -185,6 +198,8 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
     <button class="tbtn" id="ioClose">閉じる</button>
   </div>
 </dialog>
+
+<script id="presetData" type="application/json">{}</script>
 
 <script>
 'use strict';
@@ -481,6 +496,87 @@ document.getElementById('ioLoad').addEventListener('click',()=>{
     pushUndo(); FLOOR_NAMES.forEach(n=>{ if(p.floors[n]) state.floors[n]=p.floors[n]; });
     selUid=null; selPlan=null; syncRoomInputs(); save(); render(); renderFoot(); dlg.close();
   }catch(e){ alert('読み込めなかった。書き出したテキストをそのまま貼ること。'); }
+});
+
+/* ================= サーバープリセット（アーティファクト版のみ） ================= */
+let serverNS=null;
+const srvNote=document.getElementById('srvNote'), srvSaveRow=document.getElementById('srvSaveRow'),
+      presetListEl=document.getElementById('presetList'), presetNameEl=document.getElementById('presetName'),
+      presetSaveBtn=document.getElementById('presetSaveBtn');
+(async()=>{
+  try{ if(window.claude && window.claude.use){ serverNS=await window.claude.use('artifact'); } }catch(e){ serverNS=null; }
+  updatePresetUI();
+})();
+function getPresets(){
+  try{ return JSON.parse(document.getElementById('presetData').textContent||'{}')||{}; }
+  catch(e){ return {}; }
+}
+function updatePresetUI(){
+  const ps=getPresets(), names=Object.keys(ps);
+  if(serverNS){
+    srvNote.textContent='現在の全フロア配置を名前を付けて保存すると、このページを開くどの端末からでも呼び出せる（保存時にページが再読み込みされる）。';
+    srvSaveRow.hidden=false;
+  }else{
+    srvNote.textContent=names.length
+      ? 'この版では呼び出しのみ可能。保存はclaude.aiのアーティファクト版ページから行う。'
+      : 'サーバー保存はclaude.aiのアーティファクト版ページでのみ使える。この版では下のテキスト書き出しで共有する。';
+    srvSaveRow.hidden=true;
+  }
+  presetListEl.innerHTML = names.length
+    ? names.map(n=>{
+        return '<div class="prow" data-name="'+n.replace(/"/g,'&quot;')+'"><b></b><small>'+
+          (ps[n].savedAt||'')+'</small><button data-act="load">呼び出し</button>'+
+          (serverNS?'<button data-act="del" class="del">削除</button>':'')+'</div>';
+      }).join('')
+    : '<p style="font-size:12px;color:var(--muted)">保存済みプリセットはまだ無い。</p>';
+  /* 名前はtextContentで安全に流し込む */
+  [...presetListEl.querySelectorAll('.prow')].forEach(row=>{
+    row.querySelector('b').textContent=row.dataset.name;
+  });
+}
+async function publishPresets(presets){
+  const res=await fetch(location.href,{cache:'no-store'});
+  if(!res.ok) throw new Error('fetch:'+res.status);
+  let html=await res.text();
+  const json=JSON.stringify(presets).replace(/</g,'\\u003c');
+  const re=/(<script id="presetData" type="application\/json">)[\s\S]*?(<\/script>)/;
+  if(!re.test(html)) throw new Error('presetData block not found');
+  html=html.replace(re,(m,a,b)=>a+json+b);
+  if(!/^\s*<!doctype/i.test(html)) html='<!doctype html>\n'+html;
+  await serverNS.publish(html);
+}
+presetSaveBtn.addEventListener('click',async()=>{
+  if(!serverNS)return;
+  const name=(presetNameEl.value||'').trim();
+  if(!name){ alert('プリセット名を入れて保存する。'); return; }
+  const presets=getPresets();
+  if(presets[name] && !confirm('「'+name+'」を上書きする？'))return;
+  presets[name]={savedAt:new Date().toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}),
+    floors:JSON.parse(JSON.stringify(state.floors))};
+  presetSaveBtn.disabled=true; presetSaveBtn.textContent='保存中…';
+  try{ await publishPresets(presets); /* 成功すると全ビューが新バージョンへ再読み込みされる */ }
+  catch(e){
+    alert('保存に失敗: '+(e&&e.message||e)+'\n（他の端末が先に保存した場合はページが自動更新されるので、更新後にやり直す）');
+    presetSaveBtn.disabled=false; presetSaveBtn.textContent='サーバーに保存';
+  }
+});
+presetListEl.addEventListener('click',async e=>{
+  const btn=e.target.closest('button'); if(!btn)return;
+  const name=btn.closest('.prow').dataset.name, presets=getPresets();
+  if(btn.dataset.act==='load'){
+    const p=presets[name]; if(!p||!p.floors)return;
+    pushUndo();
+    FLOOR_NAMES.forEach(n=>{ if(p.floors[n]) state.floors[n]=JSON.parse(JSON.stringify(p.floors[n])); });
+    selUid=null; selPlan=null; save(); syncRoomInputs(); render(); renderFoot(); syncSelbar();
+    dlg.close();
+  }
+  if(btn.dataset.act==='del'){
+    if(!serverNS || !confirm('プリセット「'+name+'」をサーバーから削除する？'))return;
+    delete presets[name];
+    btn.disabled=true; btn.textContent='削除中…';
+    try{ await publishPresets(presets); }
+    catch(err){ alert('削除に失敗: '+(err&&err.message||err)); btn.disabled=false; btn.textContent='削除'; }
+  }
 });
 
 /* 2D/3D切替 */
@@ -877,21 +973,26 @@ function draw3d(){
   /* 壁（図面フロア＝腰高1150のドールハウス表示／テラス＝奥側フェンスのみ） */
   const light=norm([0.45,0.3,0.85]);
   const faces=[];
-  function pushBox(cx,cy,b,color,stroke){
+  function pushBox(cx,cy,b,color,stroke,outer){
     const pit={x:cx,y:cy,rot:0};
     boxFaces(pit,b).forEach(fc=>{
       if(dot(fc.n, sub(eye,fc.c))<=0)return;
       const sh=0.6+0.4*Math.max(0,dot(fc.n,light));
       const o=quad(fc.pts, shade(color,sh), stroke||null);
-      if(o){ o.pw=true; faces.push(o); }
+      if(o){ o.pw=true; o.po=!!outer; faces.push(o); }
     });
   }
-  /* 接近時の壁の半透過（2段階）: 建物幅0.6倍以内=薄く透過、0.25倍以内=7割透過。手前側の面のみ */
+  /* 接近時の壁の半透過（2段階・手前側の面のみ）:
+     外周壁=0.9倍以内で薄く(28%)透過、内壁=0.6倍以内。どちらも0.25倍以内で7割透過 */
   const wallBase=Math.max(f.w,f.d);
-  const wallA = D<wallBase*0.25 ? 0.30 : D<wallBase*0.6 ? 0.72 : 1;
+  const aIn  = D<wallBase*0.25 ? 0.30 : D<wallBase*0.6 ? 0.72 : 1;
+  const aOut = D<wallBase*0.25 ? 0.30 : D<wallBase*0.9 ? 0.72 : 1;
   if(f.walls){
     const wallC3=cssVar('--wall3d');
-    f.walls.forEach(wr=>pushBox(wr.x+wr.w/2, wr.y+wr.h/2, {x:0,y:0,z:0,w:wr.w,d:wr.h,h:1150}, wallC3));
+    f.walls.forEach(wr=>{
+      const outer=(wr.x<=0 || wr.y<=0 || wr.x+wr.w>=f.w || wr.y+wr.h>=f.d);
+      pushBox(wr.x+wr.w/2, wr.y+wr.h/2, {x:0,y:0,z:0,w:wr.w,d:wr.h,h:1150}, wallC3, outer);
+    });
     (f.zones||[]).forEach(z=>{
       const cx=z.x+z.w/2, cy=z.y+z.h/2;
       if(z.kind==='ev') pushBox(cx,cy,{x:0,y:0,z:0,w:z.w,d:z.h,h:2300},'#8E857A');
@@ -944,8 +1045,9 @@ function draw3d(){
   });
   faces.sort((a,b)=>b.z-a.z);
   faces.forEach(o=>{
-    const fade=(o.pw && wallA<1 && o.z<D);
-    if(fade)ctx.globalAlpha=wallA;
+    const a=o.po?aOut:aIn;
+    const fade=(o.pw && a<1 && o.z<D);
+    if(fade)ctx.globalAlpha=a;
     ctx.beginPath(); ctx.moveTo(o.q[0].x,o.q[0].y);
     for(let i=1;i<4;i++)ctx.lineTo(o.q[i].x,o.q[i].y); ctx.closePath();
     ctx.fillStyle=o.color; ctx.fill();
