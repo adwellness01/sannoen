@@ -7,7 +7,7 @@
 (function () {
   "use strict";
   const バンク = window.問題バンク;
-  const パスコードハッシュ = "a8028621700e292c184dd2f446c009faf7a6504a4fb275d04e268c65b07be1bc"; // SHA-256
+  const パスコードハッシュ = "90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510"; // SHA-256
   const 保存キー_認証 = "sannoen_test_auth";
   const 保存キー_氏名 = "sannoen_test_name";
   const 保存キー_履歴 = "sannoen_test_history";
@@ -80,7 +80,7 @@
       const s = バンク.セット一覧[(w - 1) % バンク.セット一覧.length];
       const o = document.createElement("option");
       o.value = String(w);
-      o.textContent = `第${w}週：${s.名称}${w === 今週 ? "（今週）" : ""}`;
+      o.textContent = `第${w}週：${s.名称}`;
       sel.appendChild(o);
     }
     const oAll = document.createElement("option");
@@ -102,7 +102,7 @@
     const v = $("パスコード").value.trim();
     if (!v) return;
     let ok = false;
-    try { ok = (await sha256(v)) === パスコードハッシュ; } catch (e) { ok = v === "sannoen"; }
+    try { ok = (await sha256(v)) === パスコードハッシュ; } catch (e) { ok = v === "0903"; }
     if (ok) { try { localStorage.setItem(保存キー_認証, "1"); } catch (e) {} 開始画面へ(); }
     else { $("パスコードエラー").textContent = "パスコードが違います。"; $("パスコード").select(); }
   }
