@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 理解テスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4f0; --card:#fff; --ink:#1a1a1a; --sub:#6b6b6b; --line:rgba(0,0,0,.12);
+  --accent:#8b1e1e; --accent-ink:#fff; --ok:#1f7a3a; --ng:#b3261e; --ok-bg:#e9f5ec; --ng-bg:#fbeae9; --sel:#fff4e5;
+  --mincho:"Shippori Mincho B1","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+  --gothic:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--gothic);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:8px 0 16px}
+header .brand{font-family:var(--mincho);font-weight:600;font-size:18px;letter-spacing:.08em}
+header .brand small{display:block;font-family:var(--gothic);font-weight:400;font-size:12px;color:var(--sub);letter-spacing:.02em}
+.badge{font-size:12px;color:var(--sub);white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+h1{font-family:var(--mincho);font-weight:600;font-size:22px;line-height:1.5;margin:0 0 8px;letter-spacing:.06em}
+h2{font-family:var(--mincho);font-weight:600;font-size:18px;margin:0 0 8px;letter-spacing:.04em}
+p{margin:0 0 12px}
+.sub{color:var(--sub);font-size:14px}
+label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+input[type=text],input[type=password]{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;font:inherit;font-weight:700;font-size:17px;padding:14px 18px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;letter-spacing:.04em}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.small{width:auto;font-size:14px;padding:8px 14px;font-weight:500}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1}
+.progress{height:6px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden;margin:4px 0 16px}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.qnum{font-size:13px;color:var(--sub);letter-spacing:.06em}
+.qtext{font-size:18px;font-weight:700;line-height:1.6;margin:6px 0 16px}
+.choices{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.choice{display:flex;gap:10px;align-items:flex-start;padding:14px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:16px;line-height:1.55;transition:border-color .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.choice .mark{flex:0 0 26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;color:var(--sub);margin-top:2px}
+.choice.selected{border-color:var(--accent);background:var(--sel)}
+.choice.selected .mark{background:var(--accent);color:#fff;border-color:var(--accent)}
+.choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+.choice.correct .mark{background:var(--ok);color:#fff;border-color:var(--ok)}
+.choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+.choice.wrong .mark{background:var(--ng);color:#fff;border-color:var(--ng)}
+.choice.locked{cursor:default}
+.explain{margin-top:14px;padding:12px 14px;border-radius:10px;background:#f3f1ec;font-size:14px;line-height:1.7}
+.explain b{display:block;margin-bottom:2px}
+.explain .src{color:var(--sub);font-size:12px;margin-top:4px}
+.score{font-family:var(--mincho);font-size:44px;font-weight:600;line-height:1.1;letter-spacing:.02em;margin:4px 0 2px}
+.score small{font-size:18px;color:var(--sub);font-family:var(--gothic);font-weight:400}
+.pass{display:inline-block;font-weight:700;padding:4px 12px;border-radius:999px;font-size:14px}
+.pass.ok{background:var(--ok-bg);color:var(--ok)}
+.pass.ng{background:var(--ng-bg);color:var(--ng)}
+textarea{width:100%;font:inherit;font-size:13px;line-height:1.6;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fafafa;color:var(--ink);min-height:120px;resize:vertical}
+.review .item{padding:12px 0;border-top:1px solid var(--line)}
+.review .item:first-child{border-top:0}
+.review .q{font-weight:700;margin-bottom:4px}
+.review .a{font-size:14px}
+.review .a.ok{color:var(--ok)}
+.review .a.ng{color:var(--ng)}
+.review .e{font-size:13px;color:var(--sub);margin-top:4px}
+.hist{font-size:13px;color:var(--sub)}
+.hist li{margin:2px 0}
+.note{font-size:12px;color:var(--sub);margin-top:12px}
+.hidden{display:none!important}
+.setlist{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.setlist li{display:flex;gap:8px;align-items:baseline;font-size:14px}
+.setlist .n{flex:0 0 3.4em;color:var(--sub)}
+.setlist .now{color:var(--accent);font-weight:700}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">焼肉 山王苑<small>メニュー・調理方法 理解テスト</small></div>
+    <div class="badge" id="週バッジ"></div>
+  </header>
+
+  <!-- 入口: パスコード -->
+  <section class="card" id="画面_パスコード">
+    <h1>スタッフ確認</h1>
+    <p class="sub">店舗から案内されたパスコードを入力してください。</p>
+    <label for="パスコード">パスコード</label>
+    <input type="password" id="パスコード" autocomplete="off" inputmode="latin">
+    <p class="sub" id="パスコードエラー" style="color:var(--ng);margin-top:8px"></p>
+    <button class="btn" id="btn_パスコード" style="margin-top:12px">次へ</button>
+  </section>
+
+  <!-- 受験前 -->
+  <section class="card hidden" id="画面_開始">
+    <h1 id="開始_見出し"></h1>
+    <p class="sub" id="開始_範囲"></p>
+    <p class="sub">全<span id="開始_問数"></span>問・4択。回答するとその場で正解と解説が出ます。合格ラインは<span id="開始_合格"></span>%です。</p>
+    <label for="氏名">氏名</label>
+    <input type="text" id="氏名" placeholder="例：山田 太郎" autocomplete="name">
+    <button class="btn" id="btn_開始" style="margin-top:14px" disabled>テストを始める</button>
+    <div id="履歴" class="hist" style="margin-top:16px"></div>
+    <details style="margin-top:16px">
+      <summary class="sub">週ごとの出題範囲（6週で一巡）</summary>
+      <ul class="setlist" id="セット一覧"></ul>
+      <p class="note">同じ範囲でも週が変わると出題される問題と順番が変わります。</p>
+    </details>
+  </section>
+
+  <!-- 出題 -->
+  <section class="card hidden" id="画面_出題">
+    <div class="progress"><i id="進捗バー" style="width:0%"></i></div>
+    <div class="qnum" id="問番号"></div>
+    <div class="qtext" id="問文"></div>
+    <ul class="choices" id="選択肢"></ul>
+    <div class="explain hidden" id="解説"></div>
+    <button class="btn hidden" id="btn_次へ" style="margin-top:16px">次の問題へ</button>
+  </section>
+
+  <!-- 結果 -->
+  <section class="card hidden" id="画面_結果">
+    <h2>結果</h2>
+    <div class="score" id="結果_得点"></div>
+    <div id="結果_判定"></div>
+    <p class="sub" id="結果_氏名" style="margin-top:8px"></p>
+    <label for="結果テキスト" style="margin-top:14px">報告用テキスト（コピーしてLINE／チャットワークに貼り付け）</label>
+    <textarea id="結果テキスト" readonly></textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="btn_コピー">コピー</button>
+      <button class="btn ghost" id="btn_共有">共有</button>
+    </div>
+    <details style="margin-top:18px" open>
+      <summary class="sub">解答と解説をすべて見る</summary>
+      <div class="review" id="復習"></div>
+    </details>
+    <button class="btn ghost" id="btn_もう一度" style="margin-top:18px">最初に戻る</button>
+  </section>
+
+  <footer>焼肉 山王苑 社内用</footer>
+</div>
+<div class="toast" id="トースト"></div>
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

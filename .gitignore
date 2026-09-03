@@ -11,3 +11,6 @@ analysis/
 
 # 別案件の作業ファイル（わびのや配置スタジオ等）はリポジトリに含めない
 wabinoya-layout/
+
+# テスト用ローカル配信（Preview MCP専用）
+serve-test.ps1
