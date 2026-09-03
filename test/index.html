@@ -144,10 +144,43 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
     <button class="btn ghost" id="btn_もう一度" style="margin-top:18px">最初に戻る</button>
   </section>
 
+  <!-- 管理: 設問の確認と修正点の記入 -->
+  <section class="card hidden" id="画面_管理">
+    <h2>設問の確認・修正点の記入</h2>
+    <p class="sub">週（範囲）を選び、1問ずつ確認して修正点を書き込んでください。書き込みは端末に自動保存されます。</p>
+    <label for="管理_週">週（範囲）</label>
+    <select id="管理_週"></select>
+    <label for="管理_設問" style="margin-top:10px">設問</label>
+    <select id="管理_設問"></select>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost small" id="btn_管理_前へ">← 前の問題</button>
+      <button class="btn ghost small" id="btn_管理_次へ">次の問題 →</button>
+    </div>
+    <div class="qnum" id="管理_問番号" style="margin-top:16px"></div>
+    <div class="qtext" id="管理_問文"></div>
+    <ul class="choices" id="管理_選択肢"></ul>
+    <div class="explain" id="管理_解説"></div>
+    <label for="管理_修正点" style="margin-top:16px">この問題の修正点（自由記述）</label>
+    <textarea id="管理_修正点" placeholder="例：正解の厚さは3mmではなく5mm／選択肢Cの表現がわかりにくい／この問題は不要"></textarea>
+    <p class="sub" id="管理_件数" style="margin-top:8px"></p>
+  </section>
+  <section class="card hidden" id="画面_管理_出力">
+    <h2>修正点をまとめて共有</h2>
+    <p class="sub">記入した修正点だけをまとめたテキストです。コピーしてそのまま送ってください。</p>
+    <textarea id="管理_出力テキスト" readonly style="min-height:200px"></textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="btn_管理_コピー">コピー</button>
+      <button class="btn ghost" id="btn_管理_共有">共有</button>
+    </div>
+    <button class="btn ghost" id="btn_管理_戻る" style="margin-top:14px">受験画面に戻る</button>
+    <p class="note">「記入をすべて消す」は下のボタン。送信後に整理したいときに使ってください。</p>
+    <button class="btn ghost small" id="btn_管理_全消去">記入をすべて消す</button>
+  </section>
+
   <footer>焼肉 山王苑 社内用</footer>
 </div>
 <div class="toast" id="トースト"></div>
-<script src="questions.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="questions.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

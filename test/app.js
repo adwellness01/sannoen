@@ -13,8 +13,8 @@
   const 保存キー_履歴 = "sannoen_test_history";
 
   const $ = (id) => document.getElementById(id);
-  const 画面 = ["画面_パスコード", "画面_開始", "画面_出題", "画面_結果"];
-  function 画面切替(id) { 画面.forEach((p) => $(p).classList.toggle("hidden", p !== id)); window.scrollTo(0, 0); }
+  const 画面 = ["画面_パスコード", "画面_開始", "画面_出題", "画面_結果", "画面_管理", "画面_管理_出力"];
+  function 画面切替(id) { const ids = Array.isArray(id) ? id : [id]; 画面.forEach((p) => $(p).classList.toggle("hidden", !ids.includes(p))); window.scrollTo(0, 0); }
 
   // ---------- 週の決定 ----------
   const params = new URLSearchParams(location.search);
@@ -101,6 +101,7 @@
   async function パスコード確認() {
     const v = $("パスコード").value.trim();
     if (!v) return;
+    if (v.toLowerCase() === "admin") { 管理モード開始(); return; }
     let ok = false;
     try { ok = (await sha256(v)) === パスコードハッシュ; } catch (e) { ok = v === "0903"; }
     if (ok) { try { localStorage.setItem(保存キー_認証, "1"); } catch (e) {} 開始画面へ(); }
@@ -203,6 +204,81 @@
     else { トースト("この端末は共有に対応していません。コピーを使ってください"); }
   });
   $("btn_もう一度").addEventListener("click", () => { location.href = location.pathname + location.search; });
+
+  // ---------- 管理モード（設問確認・修正点の記入） ----------
+  const 保存キー_修正点 = "sannoen_test_admin_notes";
+  let 管理_セット = 0, 管理_番号 = 0;
+  function 修正点読込() { try { return JSON.parse(localStorage.getItem(保存キー_修正点) || "{}"); } catch (e) { return {}; } }
+  function 修正点保存(obj) { try { localStorage.setItem(保存キー_修正点, JSON.stringify(obj)); } catch (e) {} }
+  function 設問キー(s, i) { return `${s.id}-${i + 1}`; }
+  function 管理モード開始() {
+    const sel = $("管理_週"); sel.innerHTML = "";
+    バンク.セット一覧.forEach((s, i) => {
+      const o = document.createElement("option"); o.value = String(i); o.textContent = `${i + 1}週目：${s.名称}（${s.問題.length}問）`; sel.appendChild(o);
+    });
+    管理_セット = Math.max(0, バンク.セット一覧.findIndex((s) => s.id === セット.id)); 管理_番号 = 0;
+    sel.value = String(管理_セット);
+    管理_設問一覧更新(); 管理_設問表示(); 管理_出力更新();
+    画面切替(["画面_管理", "画面_管理_出力"]);
+  }
+  function 管理_設問一覧更新() {
+    const s = バンク.セット一覧[管理_セット]; const notes = 修正点読込(); const sel = $("管理_設問"); sel.innerHTML = "";
+    s.問題.forEach((q, i) => {
+      const o = document.createElement("option"); o.value = String(i);
+      const mark = notes[設問キー(s, i)] ? "✎ " : "";
+      o.textContent = `${mark}第${i + 1}問　${q.q.length > 22 ? q.q.slice(0, 22) + "…" : q.q}`;
+      sel.appendChild(o);
+    });
+    sel.value = String(管理_番号);
+  }
+  function 管理_設問表示() {
+    const s = バンク.セット一覧[管理_セット]; const q = s.問題[管理_番号]; const key = 設問キー(s, 管理_番号);
+    $("管理_問番号").textContent = `${管理_セット + 1}週目：${s.名称}　第${管理_番号 + 1}問 / ${s.問題.length}　［${key}］`;
+    $("管理_問文").textContent = q.q;
+    const ul = $("管理_選択肢"); ul.innerHTML = "";
+    q.c.forEach((text, i) => {
+      const li = document.createElement("li"); li.className = "choice locked" + (i === q.a ? " correct" : "");
+      li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${text}${i === q.a ? "　（正解）" : ""}</span>`; ul.appendChild(li);
+    });
+    $("管理_解説").innerHTML = `<b>解説</b>${q.e}<div class="src">出典: ${出典名(q.s)}</div>`;
+    $("管理_修正点").value = 修正点読込()[key] || "";
+    $("btn_管理_前へ").disabled = 管理_番号 === 0;
+    $("btn_管理_次へ").disabled = 管理_番号 >= s.問題.length - 1;
+    $("管理_設問").value = String(管理_番号);
+  }
+  function 管理_出力更新() {
+    const notes = 修正点読込(); const lines = []; let 件数 = 0;
+    バンク.セット一覧.forEach((s, si) => {
+      const rows = [];
+      s.問題.forEach((q, i) => { const n = (notes[設問キー(s, i)] || "").trim(); if (n) { 件数++; rows.push(`[${設問キー(s, i)}] ${q.q}\n　修正点: ${n}`); } });
+      if (rows.length) lines.push(`■ ${si + 1}週目：${s.名称}\n${rows.join("\n")}`);
+    });
+    const d = new Date(); const pad = (n) => String(n).padStart(2, "0");
+    const head = `【山王苑 理解テスト 修正依頼】${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}　${件数}件`;
+    $("管理_出力テキスト").value = 件数 ? `${head}\n\n${lines.join("\n\n")}` : `${head}\n（修正点の記入はまだありません）`;
+    $("管理_件数").textContent = `記入済み: ${件数}件（全${バンク.セット一覧.reduce((a, s) => a + s.問題.length, 0)}問中）`;
+  }
+  $("管理_週").addEventListener("change", () => { 管理_セット = parseInt($("管理_週").value, 10) || 0; 管理_番号 = 0; 管理_設問一覧更新(); 管理_設問表示(); });
+  $("管理_設問").addEventListener("change", () => { 管理_番号 = parseInt($("管理_設問").value, 10) || 0; 管理_設問表示(); });
+  $("btn_管理_前へ").addEventListener("click", () => { if (管理_番号 > 0) { 管理_番号--; 管理_設問表示(); } });
+  $("btn_管理_次へ").addEventListener("click", () => { if (管理_番号 < バンク.セット一覧[管理_セット].問題.length - 1) { 管理_番号++; 管理_設問表示(); } });
+  $("管理_修正点").addEventListener("input", () => {
+    const s = バンク.セット一覧[管理_セット]; const key = 設問キー(s, 管理_番号); const notes = 修正点読込();
+    const v = $("管理_修正点").value; if (v.trim()) notes[key] = v; else delete notes[key];
+    修正点保存(notes); 管理_出力更新();
+    const opt = $("管理_設問").options[管理_番号]; if (opt) opt.textContent = (v.trim() ? "✎ " : "") + opt.textContent.replace(/^✎ /, "");
+  });
+  $("btn_管理_コピー").addEventListener("click", async () => {
+    const ta = $("管理_出力テキスト");
+    try { await navigator.clipboard.writeText(ta.value); トースト("コピーしました"); }
+    catch (e) { ta.focus(); ta.select(); try { document.execCommand("copy"); トースト("コピーしました"); } catch (e2) { トースト("長押しでコピーしてください"); } }
+  });
+  $("btn_管理_共有").addEventListener("click", async () => {
+    const text = $("管理_出力テキスト").value;
+    if (navigator.share) { try { await navigator.share({ text }); } catch (e) {} } else { トースト("この端末は共有に対応していません。コピーを使ってください"); }
+  });
+  $("btn_管理_戻る").addEventListener("click", () => { location.href = location.pathname; });
+  $("btn_管理_全消去").addEventListener("click", () => { if (confirm("記入した修正点をすべて消します。よろしいですか？")) { 修正点保存({}); 管理_設問一覧更新(); 管理_設問表示(); 管理_出力更新(); トースト("消去しました"); } });
 
   // ---------- 起動 ----------
   let 認証済 = false; try { 認証済 = localStorage.getItem(保存キー_認証) === "1"; } catch (e) {}
