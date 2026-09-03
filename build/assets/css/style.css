@@ -333,8 +333,10 @@ table{border-collapse:collapse;}
 }
 
 @media (max-width:768px){
-  /* スマホは左右の余白を広めに取る（24pxずつ） */
-  .wrap,.wrap-narrow{width:calc(100% - 48px);}
+  /* スマホは左右の余白を広めに取る（32pxずつ） */
+  .wrap,.wrap-narrow{width:calc(100% - 64px);}
+  .header-inner{width:calc(100% - 64px);}
+  .hero-index a{width:calc(100% - 64px);}
   .section{padding:60px 0;}
   .hero{padding-top:calc(var(--head-h) + 56px);}
   .hero-mark{margin-bottom:64px;}
