@@ -121,6 +121,21 @@ table{border-collapse:collapse;}
 .hero-index a:hover{padding-left:10px;}
 .hero-index a:hover::after{width:48px;background:var(--ink);}
 
+/* ---------- 集客フックの告知バンド ---------- */
+.campaign-bar{
+  display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;
+  gap:8px 20px;padding:18px 24px;
+  background:var(--ink);color:#fff;text-decoration:none;
+  transition:background .3s ease;
+}
+.campaign-bar:hover{background:#2a2a2a;}
+.campaign-bar b{
+  font-family:var(--mincho);font-weight:400;font-size:12px;letter-spacing:var(--ls);
+  border:1px solid rgba(255,255,255,.4);padding:3px 12px;
+}
+.campaign-bar span{font-family:var(--mincho);font-size:19px;letter-spacing:var(--ls);}
+.campaign-bar i{font-style:normal;font-size:10.5px;letter-spacing:.02em;color:rgba(255,255,255,.55);}
+
 /* ---------- section common ---------- */
 .section{padding:clamp(72px,8vw,120px) 0;}
 .section:nth-of-type(even){background:var(--bg-2);}
