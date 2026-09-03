@@ -29,7 +29,8 @@ p{margin:0 0 12px}
 .sub{color:var(--sub);font-size:14px}
 label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
 input[type=text],input[type=password]{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
-input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+select{width:100%;font:inherit;font-size:16px;padding:12px 40px 12px 14px;border:1.5px solid var(--accent);border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%238b1e1e' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 14px center;color:var(--ink);-webkit-appearance:none;appearance:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;font:inherit;font-weight:700;font-size:17px;padding:14px 18px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;letter-spacing:.04em}
 .btn:disabled{opacity:.4;cursor:default}
 .btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
@@ -98,7 +99,9 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
 
   <!-- 受験前 -->
   <section class="card hidden" id="画面_開始">
-    <h1 id="開始_見出し"></h1>
+    <label for="週選択">受けるテスト（何週目・どの範囲か）</label>
+    <select id="週選択"></select>
+    <h1 id="開始_見出し" style="margin-top:14px"></h1>
     <p class="sub" id="開始_範囲"></p>
     <p class="sub">全<span id="開始_問数"></span>問・4択。回答するとその場で正解と解説が出ます。合格ラインは<span id="開始_合格"></span>%です。</p>
     <label for="氏名">氏名</label>

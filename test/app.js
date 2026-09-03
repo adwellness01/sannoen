@@ -23,14 +23,14 @@
     const jst = new Date(now.getTime() + (now.getTimezoneOffset() + 9 * 60) * 60000);
     return new Date(jst.getFullYear(), jst.getMonth(), jst.getDate());
   }
-  function 週番号を求める() {
-    if (params.get("week")) return Math.max(1, parseInt(params.get("week"), 10) || 1);
+  function 暦の週番号() {
     const [y, m, d] = バンク.週の起点.split("-").map(Number);
     const 起点 = new Date(y, m - 1, d);
     const 経過日 = Math.floor((今日JST() - 起点) / 86400000);
     return 経過日 < 0 ? 1 : Math.floor(経過日 / 7) + 1;
   }
-  const 週 = 週番号を求める();
+  const 今週 = 暦の週番号();
+  const 週 = params.get("week") ? Math.max(1, parseInt(params.get("week"), 10) || 1) : 今週;
   const 全範囲 = params.get("all") === "1";
   let セット;
   if (全範囲) {
@@ -60,7 +60,7 @@
   // ---------- 表示初期化 ----------
   const 週ラベル = 全範囲 ? "総合" : `第${週}週`;
   $("週バッジ").textContent = 週ラベル;
-  $("開始_見出し").textContent = `${週ラベル}：${セット.名称}`;
+  $("開始_見出し").textContent = 全範囲 ? セット.名称 : `${週ラベル}：${セット.名称}`;
   $("開始_範囲").textContent = セット.範囲;
   $("開始_問数").textContent = 出題数;
   $("開始_合格").textContent = Math.round(バンク.合格ライン * 100);
@@ -70,6 +70,27 @@
     li.innerHTML = `<span class="n">${i + 1}週目</span><span class="${該当 ? "now" : ""}">${s.名称}</span>`;
     $("セット一覧").appendChild(li);
   });
+
+  // ---------- 週・範囲の選択（開始画面） ----------
+  (function 週選択を作る() {
+    const sel = $("週選択");
+    const 表示週数 = Math.max(12, Math.ceil(今週 / バンク.セット一覧.length) * バンク.セット一覧.length + バンク.セット一覧.length);
+    for (let w = 1; w <= 表示週数; w++) {
+      const s = バンク.セット一覧[(w - 1) % バンク.セット一覧.length];
+      const o = document.createElement("option");
+      o.value = String(w);
+      o.textContent = `第${w}週：${s.名称}${w === 今週 ? "（今週）" : ""}`;
+      sel.appendChild(o);
+    }
+    const oAll = document.createElement("option");
+    oAll.value = "all"; oAll.textContent = "総合：全範囲からランダム15問";
+    sel.appendChild(oAll);
+    sel.value = 全範囲 ? "all" : String(週);
+    sel.addEventListener("change", () => {
+      const v = sel.value;
+      location.href = location.pathname + (v === "all" ? "?all=1" : `?week=${v}`);
+    });
+  })();
 
   // ---------- パスコード ----------
   async function sha256(text) {
