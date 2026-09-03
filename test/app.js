@@ -8,6 +8,13 @@
  */
 (function () {
   "use strict";
+  /* 古い入口ページ（キャッシュ）から読み込まれた場合は、別URLで新しい入口を取り直す */
+  if (!document.getElementById("app") || !document.getElementById("画面_管理_正解")) {
+    const q = location.search.replace(/^\?/, "").split("&").filter((p) => p && !/^r=/.test(p));
+    q.push("r=" + Date.now());
+    location.replace(location.pathname + "?" + q.join("&"));
+    return;
+  }
   const バンク = window.問題バンク;
   const パスコードハッシュ = "90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510"; // SHA-256
   const 保存キー_認証 = "sannoen_test_auth";
