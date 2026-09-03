@@ -24,7 +24,7 @@
   const 表示週数 = 12;
 
   const $ = (id) => document.getElementById(id);
-  const 画面 = ["画面_パスコード", "画面_開始", "画面_出題", "画面_結果", "画面_管理_正解", "画面_管理", "画面_管理_出力"];
+  const 画面 = ["画面_パスコード", "画面_開始", "画面_出題", "画面_結果", "画面_管理メニュー", "画面_管理_正解", "画面_管理", "画面_管理_出力"];
   function 画面切替(id) { const ids = Array.isArray(id) ? id : [id]; 画面.forEach((p) => $(p).classList.toggle("hidden", !ids.includes(p))); window.scrollTo(0, 0); }
   function トースト(msg) { const t = $("トースト"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1600); }
   async function コピー(ta) {
@@ -175,8 +175,13 @@
     バンク.セット一覧.forEach((s, i) => { const o = document.createElement("option"); o.value = String(i); o.textContent = `${i + 1}週目：${s.名称}（${s.問題.length}問）`; sel.appendChild(o); });
     管理_セット = Math.max(0, バンク.セット一覧.findIndex((s) => s.id === セット.id)); 管理_番号 = 0; sel.value = String(管理_セット);
     管理_設問一覧更新(); 管理_設問表示(); 管理_出力更新();
-    画面切替(["画面_管理_正解", "画面_管理", "画面_管理_出力"]);
+    画面切替("画面_管理メニュー");
   }
+  $("btn_メニュー_正解").addEventListener("click", () => 画面切替("画面_管理_正解"));
+  $("btn_メニュー_設問").addEventListener("click", () => 画面切替(["画面_管理", "画面_管理_出力"]));
+  $("btn_メニュー_戻る").addEventListener("click", () => { location.href = location.pathname; });
+  $("btn_正解_メニュー").addEventListener("click", () => 画面切替("画面_管理メニュー"));
+  $("btn_管理_メニュー").addEventListener("click", () => 画面切替("画面_管理メニュー"));
   // 採点用の正解一覧（受験者と同じ生成ロジックで週ごとに固定）
   function 正解一覧表示() {
     const w = parseInt($("正解_週").value, 10) || 1; const 範囲 = 週の範囲(w); const list = 出題を作る(w, false);
@@ -226,7 +231,7 @@
   });
   $("btn_管理_コピー").addEventListener("click", () => コピー($("管理_出力テキスト")));
   $("btn_管理_共有").addEventListener("click", () => 共有($("管理_出力テキスト").value));
-  $("btn_管理_戻る").addEventListener("click", () => { location.href = location.pathname; });
+  $("btn_管理_戻る").addEventListener("click", () => 画面切替("画面_管理メニュー"));
   $("btn_管理_全消去").addEventListener("click", () => { if (confirm("記入した修正点をすべて消します。よろしいですか？")) { 修正点保存({}); 管理_設問一覧更新(); 管理_設問表示(); 管理_出力更新(); トースト("消去しました"); } });
 
   // ---------- 起動 ----------

@@ -123,8 +123,20 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
     <button class="btn ghost" id="btn_もう一度" style="margin-top:8px">最初に戻る</button>
   </section>
 
+  <!-- 管理: 入口メニュー -->
+  <section class="card hidden" id="画面_管理メニュー">
+    <h2>管理メニュー</h2>
+    <p class="sub">使う機能を選んでください。</p>
+    <button class="btn" id="btn_メニュー_正解" style="margin-top:6px">採点用の正解一覧</button>
+    <p class="sub" style="margin:6px 0 14px">受験者の回答一覧と突き合わせて採点する</p>
+    <button class="btn" id="btn_メニュー_設問">設問の確認・修正点の記入</button>
+    <p class="sub" style="margin:6px 0 14px">全設問を1問ずつ見て修正点を書き、まとめて共有する</p>
+    <button class="btn ghost" id="btn_メニュー_戻る">受験画面に戻る</button>
+  </section>
+
   <!-- 管理: 採点用の正解一覧 -->
   <section class="card hidden" id="画面_管理_正解">
+    <button class="btn ghost small" id="btn_正解_メニュー" style="margin-bottom:12px">← 管理メニュー</button>
     <h2>採点用の正解一覧</h2>
     <p class="sub">受験者と同じ週を選ぶと、その週の出題順どおりの正解が出ます。回答一覧と突き合わせて採点してください。</p>
     <label for="正解_週">週</label>
@@ -138,6 +150,7 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
 
   <!-- 管理: 設問の確認と修正点の記入 -->
   <section class="card hidden" id="画面_管理">
+    <button class="btn ghost small" id="btn_管理_メニュー" style="margin-bottom:12px">← 管理メニュー</button>
     <h2>設問の確認・修正点の記入</h2>
     <p class="sub">週（範囲）を選び、1問ずつ確認して修正点を書き込んでください。書き込みは端末に自動保存されます。</p>
     <label for="管理_週">週（範囲）</label>
@@ -164,7 +177,7 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
       <button class="btn" id="btn_管理_コピー">コピー</button>
       <button class="btn ghost" id="btn_管理_共有">共有</button>
     </div>
-    <button class="btn ghost" id="btn_管理_戻る" style="margin-top:14px">受験画面に戻る</button>
+    <button class="btn ghost" id="btn_管理_戻る" style="margin-top:14px">← 管理メニュー</button>
     <p class="note">送信後に整理したいときは下のボタンで記入を消せます。</p>
     <button class="btn ghost small" id="btn_管理_全消去">記入をすべて消す</button>
   </section>
