@@ -205,9 +205,23 @@
     q.c.forEach((text, i) => { const li = document.createElement("li"); li.className = "choice locked" + (i === q.a ? " correct" : ""); li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${text}${i === q.a ? "　（正解）" : ""}</span>`; ul.appendChild(li); });
     $("管理_解説").innerHTML = `<b>解説</b>${q.e}<div class="src">出典: ${出典名(q.s)}</div>`;
     $("管理_修正点").value = 修正点読込()[key] || "";
-    $("btn_管理_前へ").disabled = 管理_番号 === 0; $("btn_管理_次へ").disabled = 管理_番号 >= s.問題.length - 1;
+    const 最後 = 管理_番号 >= s.問題.length - 1;
+    $("btn_管理_前へ").disabled = 管理_番号 === 0; $("btn_管理_次へ").disabled = 最後;
+    $("btn_管理_保存次へ").textContent = 最後 ? "保存する（この週の最後の問題）" : "保存して次の問題へ";
     $("管理_設問").value = String(管理_番号);
   }
+  function 修正点を保存する() {
+    const s = バンク.セット一覧[管理_セット]; const key = 設問キー(s, 管理_番号); const notes = 修正点読込();
+    const v = $("管理_修正点").value; if (v.trim()) notes[key] = v; else delete notes[key];
+    修正点保存(notes); 管理_出力更新();
+    const opt = $("管理_設問").options[管理_番号]; if (opt) opt.textContent = (v.trim() ? "✎ " : "") + opt.textContent.replace(/^✎ /, "");
+  }
+  $("btn_管理_保存次へ").addEventListener("click", () => {
+    修正点を保存する();
+    const 最後 = 管理_番号 >= バンク.セット一覧[管理_セット].問題.length - 1;
+    if (最後) { トースト("保存しました。この週の最後の問題です"); return; }
+    管理_番号++; 管理_設問表示(); トースト("保存しました"); window.scrollTo(0, 0);
+  });
   function 管理_出力更新() {
     const notes = 修正点読込(); const lines = []; let 件数 = 0;
     バンク.セット一覧.forEach((s, si) => {
@@ -223,12 +237,7 @@
   $("管理_設問").addEventListener("change", () => { 管理_番号 = parseInt($("管理_設問").value, 10) || 0; 管理_設問表示(); });
   $("btn_管理_前へ").addEventListener("click", () => { if (管理_番号 > 0) { 管理_番号--; 管理_設問表示(); } });
   $("btn_管理_次へ").addEventListener("click", () => { if (管理_番号 < バンク.セット一覧[管理_セット].問題.length - 1) { 管理_番号++; 管理_設問表示(); } });
-  $("管理_修正点").addEventListener("input", () => {
-    const s = バンク.セット一覧[管理_セット]; const key = 設問キー(s, 管理_番号); const notes = 修正点読込();
-    const v = $("管理_修正点").value; if (v.trim()) notes[key] = v; else delete notes[key];
-    修正点保存(notes); 管理_出力更新();
-    const opt = $("管理_設問").options[管理_番号]; if (opt) opt.textContent = (v.trim() ? "✎ " : "") + opt.textContent.replace(/^✎ /, "");
-  });
+  $("管理_修正点").addEventListener("input", 修正点を保存する);
   $("btn_管理_コピー").addEventListener("click", () => コピー($("管理_出力テキスト")));
   $("btn_管理_共有").addEventListener("click", () => 共有($("管理_出力テキスト").value));
   $("btn_管理_戻る").addEventListener("click", () => 画面切替("画面_管理メニュー"));
