@@ -74,6 +74,7 @@
   // ---------- 週・範囲の選択（開始画面） ----------
   (function 週選択を作る() {
     const sel = $("週選択");
+    if (!sel) return;
     const 表示週数 = Math.max(12, Math.ceil(今週 / バンク.セット一覧.length) * バンク.セット一覧.length + バンク.セット一覧.length);
     for (let w = 1; w <= 表示週数; w++) {
       const s = バンク.セット一覧[(w - 1) % バンク.セット一覧.length];
