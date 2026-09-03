@@ -1,0 +1,174 @@
+<style>
+:root{
+  --bg:#f6f4f0; --card:#fff; --ink:#1a1a1a; --sub:#6b6b6b; --line:rgba(0,0,0,.12);
+  --accent:#8b1e1e; --accent-ink:#fff; --ok:#1f7a3a; --ng:#b3261e; --ok-bg:#e9f5ec; --ng-bg:#fbeae9; --sel:#fff4e5;
+  --mincho:"Shippori Mincho B1","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+  --gothic:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--gothic);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:8px 0 16px}
+header .brand{font-family:var(--mincho);font-weight:600;font-size:18px;letter-spacing:.08em}
+header .brand small{display:block;font-family:var(--gothic);font-weight:400;font-size:12px;color:var(--sub);letter-spacing:.02em}
+.badge{font-size:12px;color:var(--sub);white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+h1{font-family:var(--mincho);font-weight:600;font-size:22px;line-height:1.5;margin:0 0 8px;letter-spacing:.06em}
+h2{font-family:var(--mincho);font-weight:600;font-size:18px;margin:0 0 8px;letter-spacing:.04em}
+p{margin:0 0 12px}
+.sub{color:var(--sub);font-size:14px}
+label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+input[type=text],input[type=password]{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+select{width:100%;font:inherit;font-size:16px;padding:12px 40px 12px 14px;border:1.5px solid var(--accent);border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%238b1e1e' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 14px center;color:var(--ink);-webkit-appearance:none;appearance:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;font:inherit;font-weight:700;font-size:17px;padding:14px 18px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;letter-spacing:.04em}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.small{width:auto;font-size:14px;padding:8px 14px;font-weight:500}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1}
+.progress{height:6px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden;margin:4px 0 16px}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.qnum{font-size:13px;color:var(--sub);letter-spacing:.06em}
+.qtext{font-size:18px;font-weight:700;line-height:1.6;margin:6px 0 16px}
+.choices{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.choice{display:flex;gap:10px;align-items:flex-start;padding:14px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:16px;line-height:1.55;transition:border-color .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.choice .mark{flex:0 0 26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;color:var(--sub);margin-top:2px}
+.choice.selected{border-color:var(--accent);background:var(--sel)}
+.choice.selected .mark{background:var(--accent);color:#fff;border-color:var(--accent)}
+.choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+.choice.correct .mark{background:var(--ok);color:#fff;border-color:var(--ok)}
+.choice.locked{cursor:default}
+.explain{margin-top:14px;padding:12px 14px;border-radius:10px;background:#f3f1ec;font-size:14px;line-height:1.7}
+.explain b{display:block;margin-bottom:2px}
+.explain .src{color:var(--sub);font-size:12px;margin-top:4px}
+.pass{display:inline-block;font-weight:700;padding:4px 12px;border-radius:999px;font-size:14px}
+.pass.ok{background:var(--ok-bg);color:var(--ok)}
+textarea{width:100%;font:inherit;font-size:13px;line-height:1.6;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fafafa;color:var(--ink);min-height:120px;resize:vertical}
+textarea.memo{background:#fff;font-size:15px;min-height:96px}
+.hist{font-size:13px;color:var(--sub)}
+.hist li{margin:2px 0}
+.note{font-size:12px;color:var(--sub);margin-top:12px}
+.hidden{display:none!important}
+.setlist{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.setlist li{display:flex;gap:8px;align-items:baseline;font-size:14px}
+.setlist .n{flex:0 0 3.4em;color:var(--sub)}
+.setlist .now{color:var(--accent);font-weight:700}
+.keylist{font-size:14px;line-height:1.8;margin:8px 0 0;padding:0;list-style:none}
+.keylist li{display:flex;gap:8px;border-top:1px solid var(--line);padding:6px 0}
+.keylist .k{flex:0 0 4.5em;font-weight:700}
+.keylist .id{flex:0 0 3.2em;color:var(--sub);font-size:12px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
+</style>
+<div class="wrap">
+  <header>
+    <div class="brand">焼肉 山王苑<small>メニュー・調理方法 理解テスト</small></div>
+    <div class="badge" id="週バッジ"></div>
+  </header>
+
+  <!-- 入口: パスコード -->
+  <section class="card" id="画面_パスコード">
+    <h1>スタッフ確認</h1>
+    <p class="sub">店舗から案内されたパスコードを入力してください。</p>
+    <label for="パスコード">パスコード</label>
+    <input type="password" id="パスコード" autocomplete="off">
+    <p class="sub" id="パスコードエラー" style="color:var(--ng);margin-top:8px"></p>
+    <button class="btn" id="btn_パスコード" style="margin-top:12px">次へ</button>
+  </section>
+
+  <!-- 受験前 -->
+  <section class="card hidden" id="画面_開始">
+    <label for="週選択">受けるテスト（何週目・どの範囲か）</label>
+    <select id="週選択"></select>
+    <h1 id="開始_見出し" style="margin-top:14px"></h1>
+    <p class="sub" id="開始_範囲"></p>
+    <p class="sub">全<span id="開始_問数"></span>問・4択。答え合わせは店舗で行うため、回答中に正解は表示されません。最後に回答一覧が出るので、コピーして報告してください。</p>
+    <label for="氏名">氏名</label>
+    <input type="text" id="氏名" placeholder="例：山田 太郎" autocomplete="name">
+    <button class="btn" id="btn_開始" style="margin-top:14px" disabled>テストを始める</button>
+    <div id="履歴" class="hist" style="margin-top:16px"></div>
+    <details style="margin-top:16px">
+      <summary class="sub">週ごとの出題範囲（6週で一巡）</summary>
+      <ul class="setlist" id="セット一覧"></ul>
+      <p class="note">その週の範囲の問題を中心に、他の範囲からも出題されます。同じ週に受けた人は全員同じ問題・同じ順番です。</p>
+    </details>
+  </section>
+
+  <!-- 出題 -->
+  <section class="card hidden" id="画面_出題">
+    <div class="progress"><i id="進捗バー" style="width:0%"></i></div>
+    <div class="qnum" id="問番号"></div>
+    <div class="qtext" id="問文"></div>
+    <ul class="choices" id="選択肢"></ul>
+    <div class="row" style="margin-top:16px">
+      <button class="btn ghost" id="btn_前へ">← 前へ</button>
+      <button class="btn" id="btn_次へ" disabled>次へ →</button>
+    </div>
+  </section>
+
+  <!-- 回答完了 -->
+  <section class="card hidden" id="画面_結果">
+    <h2>回答完了</h2>
+    <p><span class="pass ok">おつかれさまでした</span></p>
+    <p class="sub" id="結果_氏名"></p>
+    <label for="結果テキスト" style="margin-top:14px">回答一覧（コピーしてLINE／チャットワークで報告）</label>
+    <textarea id="結果テキスト" readonly></textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="btn_コピー">コピー</button>
+      <button class="btn ghost" id="btn_共有">共有</button>
+    </div>
+    <p class="note">採点は店舗で行います。この画面を閉じる前に、必ずコピーまたは共有で送ってください。</p>
+    <button class="btn ghost" id="btn_もう一度" style="margin-top:8px">最初に戻る</button>
+  </section>
+
+  <!-- 管理: 採点用の正解一覧 -->
+  <section class="card hidden" id="画面_管理_正解">
+    <h2>採点用の正解一覧</h2>
+    <p class="sub">受験者と同じ週を選ぶと、その週の出題順どおりの正解が出ます。回答一覧と突き合わせて採点してください。</p>
+    <label for="正解_週">週</label>
+    <select id="正解_週"></select>
+    <p class="sub" id="正解_見出し" style="margin-top:10px"></p>
+    <ul class="keylist" id="正解_一覧"></ul>
+    <label for="正解_テキスト" style="margin-top:14px">コピー用</label>
+    <textarea id="正解_テキスト" readonly style="min-height:90px"></textarea>
+    <button class="btn small" id="btn_正解_コピー" style="margin-top:8px">正解一覧をコピー</button>
+  </section>
+
+  <!-- 管理: 設問の確認と修正点の記入 -->
+  <section class="card hidden" id="画面_管理">
+    <h2>設問の確認・修正点の記入</h2>
+    <p class="sub">週（範囲）を選び、1問ずつ確認して修正点を書き込んでください。書き込みは端末に自動保存されます。</p>
+    <label for="管理_週">週（範囲）</label>
+    <select id="管理_週"></select>
+    <label for="管理_設問" style="margin-top:10px">設問</label>
+    <select id="管理_設問"></select>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost small" id="btn_管理_前へ">← 前の問題</button>
+      <button class="btn ghost small" id="btn_管理_次へ">次の問題 →</button>
+    </div>
+    <div class="qnum" id="管理_問番号" style="margin-top:16px"></div>
+    <div class="qtext" id="管理_問文"></div>
+    <ul class="choices" id="管理_選択肢"></ul>
+    <div class="explain" id="管理_解説"></div>
+    <label for="管理_修正点" style="margin-top:16px">この問題の修正点（自由記述）</label>
+    <textarea class="memo" id="管理_修正点" placeholder="例：正解の厚さは3mmではなく5mm／選択肢Cの表現がわかりにくい／この問題は不要"></textarea>
+    <p class="sub" id="管理_件数" style="margin-top:8px"></p>
+  </section>
+  <section class="card hidden" id="画面_管理_出力">
+    <h2>修正点をまとめて共有</h2>
+    <p class="sub">記入した修正点だけをまとめたテキストです。コピーしてそのまま送ってください。</p>
+    <textarea id="管理_出力テキスト" readonly style="min-height:200px"></textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="btn_管理_コピー">コピー</button>
+      <button class="btn ghost" id="btn_管理_共有">共有</button>
+    </div>
+    <button class="btn ghost" id="btn_管理_戻る" style="margin-top:14px">受験画面に戻る</button>
+    <p class="note">送信後に整理したいときは下のボタンで記入を消せます。</p>
+    <button class="btn ghost small" id="btn_管理_全消去">記入をすべて消す</button>
+  </section>
+
+  <footer>焼肉 山王苑 社内用</footer>
+</div>
+<div class="toast" id="トースト"></div>
