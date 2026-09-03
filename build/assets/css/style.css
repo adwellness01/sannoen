@@ -121,20 +121,17 @@ table{border-collapse:collapse;}
 .hero-index a:hover{padding-left:10px;}
 .hero-index a:hover::after{width:48px;background:var(--ink);}
 
-/* ---------- 集客フックの告知バンド ---------- */
-.campaign-bar{
-  display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;
-  gap:8px 20px;padding:18px 24px;
-  background:var(--ink);color:#fff;text-decoration:none;
-  transition:background .3s ease;
+/* ---------- お知らせ ---------- */
+.news-list li{max-width:640px;margin:0 auto;text-align:center;}
+.news-list li + li{margin-top:36px;}
+.news-tag{
+  display:inline-block;font-family:var(--mincho);font-size:12px;letter-spacing:var(--ls);
+  color:#fff;background:var(--ink);padding:4px 14px;margin-bottom:14px;
 }
-.campaign-bar:hover{background:#2a2a2a;}
-.campaign-bar b{
-  font-family:var(--mincho);font-weight:400;font-size:12px;letter-spacing:var(--ls);
-  border:1px solid rgba(255,255,255,.4);padding:3px 12px;
-}
-.campaign-bar span{font-family:var(--mincho);font-size:19px;letter-spacing:var(--ls);}
-.campaign-bar i{font-style:normal;font-size:10.5px;letter-spacing:.02em;color:rgba(255,255,255,.55);}
+.news-title{font-size:19px;font-weight:400;letter-spacing:var(--ls);margin-bottom:12px;}
+.news-title a{text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line);transition:border-color .3s ease;}
+.news-title a:hover{border-color:var(--ink);}
+.news-body{font-size:13px;line-height:2.2;color:var(--ink-2);}
 
 /* ---------- section common ---------- */
 .section{padding:clamp(72px,8vw,120px) 0;}
