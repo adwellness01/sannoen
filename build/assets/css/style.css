@@ -202,6 +202,7 @@ table{border-collapse:collapse;}
   font-family:var(--mincho);font-size:30px;font-weight:400;letter-spacing:.04em;
   margin:10px 0 16px;
 }
+.course-price small{display:block;font-family:var(--mincho);font-size:13px;letter-spacing:.04em;color:var(--ink-2);margin-top:6px;}
 .course-desc{font-size:13px;line-height:2.2;color:var(--ink-2);margin-bottom:20px;}
 .course-list li{
   font-size:13px;color:var(--ink-2);padding:7px 0;border-bottom:1px solid var(--line-2);
