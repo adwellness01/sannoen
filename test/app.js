@@ -108,6 +108,13 @@
   }
   $("btn_パスコード").addEventListener("click", パスコード確認);
   $("パスコード").addEventListener("keydown", (e) => { if (e.key === "Enter") パスコード確認(); });
+  /* ログアウト: 端末に記憶したパスコード認証を消してパスコード入力へ戻る（admin など別のパスコードで入り直すため） */
+  function ログアウト() {
+    try { localStorage.removeItem(保存キー_認証); } catch (e) {}
+    $("パスコード").value = ""; $("パスコードエラー").textContent = "";
+    画面切替("画面_パスコード"); $("パスコード").focus(); トースト("パスコードの記憶を消しました");
+  }
+  $("btn_ログアウト").addEventListener("click", ログアウト);
 
   // ---------- 開始画面 ----------
   function 履歴読込() { try { return JSON.parse(localStorage.getItem(保存キー_履歴) || "[]"); } catch (e) { return []; } }
