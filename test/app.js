@@ -172,15 +172,28 @@
   $("btn_もう一度").addEventListener("click", () => { location.href = location.pathname + location.search; });
 
   // ---------- 管理モード ----------
-  let 管理_セット = 0, 管理_番号 = 0;
+  /* 設問確認は「受験者に出る問題」を見る画面。週を選ぶと 出題を作る(週) と同じ50問・同じ順番・同じ選択肢の並びを表示する。
+   * 修正点は問題バンク上の位置（セットid-問番号）をキーに保存するので、どの週から記入しても同じ問題には同じ修正点が付く。
+   * 週の出題に入らない問題も確認できるように、プルダウンの末尾に「範囲別：全問」も置く */
+  let 管理_番号 = 0, 管理_一覧 = [], 管理_見出し = "";
   function 修正点読込() { try { return JSON.parse(localStorage.getItem(保存キー_修正点) || "{}"); } catch (e) { return {}; } }
   function 修正点保存(obj) { try { localStorage.setItem(保存キー_修正点, JSON.stringify(obj)); } catch (e) {} }
   function 設問キー(s, i) { return `${s.id}-${i + 1}`; }
+  function 管理_一覧を作る(v) {
+    if (v.startsWith("s:")) {
+      const s = バンク.セット一覧[parseInt(v.slice(2), 10) || 0];
+      管理_一覧 = 全問(s); 管理_見出し = `範囲${s.id}：${s.名称}（全${管理_一覧.length}問）`;
+    } else {
+      const w = parseInt(v.slice(2), 10) || 1;
+      管理_一覧 = 出題を作る(w, false); 管理_見出し = `第${w}週：${週の範囲(w).名称}（${管理_一覧.length}問・出題順）`;
+    }
+  }
   function 管理モード開始() {
     週プルダウン($("正解_週"), false); $("正解_週").value = String(Math.min(週, 表示週数)); 正解一覧表示();
     const sel = $("管理_週"); sel.innerHTML = "";
-    バンク.セット一覧.forEach((s, i) => { const o = document.createElement("option"); o.value = String(i); o.textContent = `${i + 1}週目：${s.名称}（${s.問題.length}問）`; sel.appendChild(o); });
-    管理_セット = Math.max(0, バンク.セット一覧.findIndex((s) => s.id === セット.id)); 管理_番号 = 0; sel.value = String(管理_セット);
+    for (let w = 1; w <= 表示週数; w++) { const o = document.createElement("option"); o.value = `w:${w}`; o.textContent = `第${w}週：${週の範囲(w).名称}（${出題を作る(w, false).length}問・出題順）`; sel.appendChild(o); }
+    バンク.セット一覧.forEach((s, i) => { const o = document.createElement("option"); o.value = `s:${i}`; o.textContent = `範囲${s.id}：${s.名称}（全${s.問題.length}問）`; sel.appendChild(o); });
+    sel.value = `w:${Math.min(週, 表示週数)}`; 管理_一覧を作る(sel.value); 管理_番号 = 0;
     管理_設問一覧更新(); 管理_設問表示(); 管理_出力更新();
     画面切替("画面_管理メニュー");
   }
@@ -200,32 +213,32 @@
   $("btn_正解_コピー").addEventListener("click", () => コピー($("正解_テキスト")));
 
   function 管理_設問一覧更新() {
-    const s = バンク.セット一覧[管理_セット]; const notes = 修正点読込(); const sel = $("管理_設問"); sel.innerHTML = "";
-    s.問題.forEach((q, i) => { const o = document.createElement("option"); o.value = String(i); o.textContent = `${notes[設問キー(s, i)] ? "✎ " : ""}第${i + 1}問　${q.q.length > 22 ? q.q.slice(0, 22) + "…" : q.q}`; sel.appendChild(o); });
+    const notes = 修正点読込(); const sel = $("管理_設問"); sel.innerHTML = "";
+    管理_一覧.forEach((q, i) => { const o = document.createElement("option"); o.value = String(i); o.textContent = `${notes[q.id] ? "✎ " : ""}第${i + 1}問　${q.q.length > 22 ? q.q.slice(0, 22) + "…" : q.q}`; sel.appendChild(o); });
     sel.value = String(管理_番号);
   }
   function 管理_設問表示() {
-    const s = バンク.セット一覧[管理_セット]; const q = s.問題[管理_番号]; const key = 設問キー(s, 管理_番号);
-    $("管理_問番号").textContent = `${管理_セット + 1}週目：${s.名称}　第${管理_番号 + 1}問 / ${s.問題.length}　［${key}］`;
+    const q = 管理_一覧[管理_番号]; const key = q.id;
+    $("管理_問番号").textContent = `${管理_見出し}　第${管理_番号 + 1}問 / ${管理_一覧.length}　［${key}］`;
     $("管理_問文").textContent = q.q;
     const ul = $("管理_選択肢"); ul.innerHTML = "";
     q.c.forEach((text, i) => { const li = document.createElement("li"); li.className = "choice locked" + (i === q.a ? " correct" : ""); li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${text}${i === q.a ? "　（正解）" : ""}</span>`; ul.appendChild(li); });
     $("管理_解説").innerHTML = `<b>解説</b>${q.e}<div class="src">出典: ${出典名(q.s)}</div>`;
     $("管理_修正点").value = 修正点読込()[key] || "";
-    const 最後 = 管理_番号 >= s.問題.length - 1;
+    const 最後 = 管理_番号 >= 管理_一覧.length - 1;
     $("btn_管理_前へ").disabled = 管理_番号 === 0; $("btn_管理_次へ").disabled = 最後;
     $("btn_管理_保存次へ").textContent = 最後 ? "保存する（この週の最後の問題）" : "保存して次の問題へ";
     $("管理_設問").value = String(管理_番号);
   }
   function 修正点を保存する() {
-    const s = バンク.セット一覧[管理_セット]; const key = 設問キー(s, 管理_番号); const notes = 修正点読込();
+    const key = 管理_一覧[管理_番号].id; const notes = 修正点読込();
     const v = $("管理_修正点").value; if (v.trim()) notes[key] = v; else delete notes[key];
     修正点保存(notes); 管理_出力更新();
     const opt = $("管理_設問").options[管理_番号]; if (opt) opt.textContent = (v.trim() ? "✎ " : "") + opt.textContent.replace(/^✎ /, "");
   }
   $("btn_管理_保存次へ").addEventListener("click", () => {
     修正点を保存する();
-    const 最後 = 管理_番号 >= バンク.セット一覧[管理_セット].問題.length - 1;
+    const 最後 = 管理_番号 >= 管理_一覧.length - 1;
     if (最後) { トースト("保存しました。この週の最後の問題です"); return; }
     管理_番号++; 管理_設問表示(); トースト("保存しました"); window.scrollTo(0, 0);
   });
@@ -234,16 +247,16 @@
     バンク.セット一覧.forEach((s, si) => {
       const rows = [];
       s.問題.forEach((q, i) => { const n = (notes[設問キー(s, i)] || "").trim(); if (n) { 件数++; rows.push(`[${設問キー(s, i)}] ${q.q}\n　修正点: ${n}`); } });
-      if (rows.length) lines.push(`■ ${si + 1}週目：${s.名称}\n${rows.join("\n")}`);
+      if (rows.length) lines.push(`■ 範囲${s.id}：${s.名称}\n${rows.join("\n")}`);
     });
     const head = `【山王苑 理解テスト 修正依頼】${日時文字列()}　${件数}件`;
     $("管理_出力テキスト").value = 件数 ? `${head}\n\n${lines.join("\n\n")}` : `${head}\n（修正点の記入はまだありません）`;
     $("管理_件数").textContent = `記入済み: ${件数}件（全${バンク.セット一覧.reduce((a, s) => a + s.問題.length, 0)}問中）`;
   }
-  $("管理_週").addEventListener("change", () => { 管理_セット = parseInt($("管理_週").value, 10) || 0; 管理_番号 = 0; 管理_設問一覧更新(); 管理_設問表示(); });
+  $("管理_週").addEventListener("change", () => { 管理_一覧を作る($("管理_週").value); 管理_番号 = 0; 管理_設問一覧更新(); 管理_設問表示(); });
   $("管理_設問").addEventListener("change", () => { 管理_番号 = parseInt($("管理_設問").value, 10) || 0; 管理_設問表示(); });
   $("btn_管理_前へ").addEventListener("click", () => { if (管理_番号 > 0) { 管理_番号--; 管理_設問表示(); } });
-  $("btn_管理_次へ").addEventListener("click", () => { if (管理_番号 < バンク.セット一覧[管理_セット].問題.length - 1) { 管理_番号++; 管理_設問表示(); } });
+  $("btn_管理_次へ").addEventListener("click", () => { if (管理_番号 < 管理_一覧.length - 1) { 管理_番号++; 管理_設問表示(); } });
   $("管理_修正点").addEventListener("input", 修正点を保存する);
   $("btn_管理_コピー").addEventListener("click", () => コピー($("管理_出力テキスト")));
   $("btn_管理_共有").addEventListener("click", () => 共有($("管理_出力テキスト").value));
