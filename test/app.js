@@ -67,7 +67,8 @@
   window.ふりがな = ふりがな; // 確認用（ブラウザのコンソールから読みを検証できる）
   /* page.html に書かれた固定の文言（見出し・説明・ボタン）にもルビを振る。select/option/textarea/input は対象外 */
   function 静的ふりがな(root) {
-    const skip = ["SCRIPT", "STYLE", "TEXTAREA", "OPTION", "SELECT", "INPUT", "RUBY", "RT"];
+    /* ボタンは対象外: rt の高さ分で文字が下にずれて見えるため（ボタンの文言は短い定型文なので読みは付けない） */
+    const skip = ["SCRIPT", "STYLE", "TEXTAREA", "OPTION", "SELECT", "INPUT", "RUBY", "RT", "BUTTON"];
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); const nodes = []; let n;
     while ((n = walker.nextNode())) { if (!skip.includes(n.parentNode.tagName) && /[一-鿿々〆]/.test(n.nodeValue)) nodes.push(n); }
     nodes.forEach((t) => { const tpl = document.createElement("template"); tpl.innerHTML = ふりがな(t.nodeValue); t.parentNode.replaceChild(tpl.content, t); });
@@ -217,7 +218,7 @@
     });
     $("btn_前へ").disabled = 現在 === 0;
     $("btn_次へ").disabled = 回答[現在] === undefined;
-    ルビ設定($("btn_次へ"), 現在 + 1 < 出題数 ? "次へ →" : "回答を終える");
+    $("btn_次へ").textContent = 現在 + 1 < 出題数 ? "次へ →" : "回答を終える";
     window.scrollTo(0, 0);
   }
   $("btn_前へ").addEventListener("click", () => { if (現在 > 0) { 現在--; 出題表示(); } });
