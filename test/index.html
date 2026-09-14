@@ -20,7 +20,7 @@
   try {
     var r = await fetch("page.html?t=" + t, { cache: "no-store" });
     document.getElementById("app").innerHTML = await r.text();
-    for (var f of ["questions.js", "app.js"]) {
+    for (var f of ["questions.js", "furigana.js", "app.js"]) {
       await new Promise(function (res, rej) {
         var s = document.createElement("script"); s.src = f + "?t=" + t; s.onload = res; s.onerror = rej; document.body.appendChild(s);
       });

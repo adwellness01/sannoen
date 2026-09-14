@@ -21,9 +21,76 @@
   const 保存キー_氏名 = "sannoen_test_name";
   const 保存キー_履歴 = "sannoen_test_history";
   const 保存キー_修正点 = "sannoen_test_admin_notes";
-  const 表示週数 = 12;
+  const 保存キー_ふりがな = "sannoen_test_ruby";
+  const 表示週数 = 22;
 
   const $ = (id) => document.getElementById(id);
+
+  // ---------- ふりがな（辞書は furigana.js） ----------
+  /* 漢字で始まる語を辞書から最長一致で探し、漢字部分だけに <ruby> を振る。
+   * 辞書に無い漢字はそのまま表示し、「未登録」に記録する（管理メニューで一覧できる）。
+   * 表示のON/OFFは body.ruby-off（CSSで rt を隠す）で切り替えるので再描画は要らない */
+  const 辞書 = window.ふりがな辞書 || {};
+  const 辞書最長 = Object.keys(辞書).reduce((m, k) => Math.max(m, k.length), 1);
+  const 漢字か = (ch) => /[一-鿿々〆]/.test(ch);
+  const 未登録 = new Set();
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function ルビ片(key, yomi) {
+    const runs = key.match(/[一-鿿々〆]+|[^一-鿿々〆]+/g) || [key];
+    const 全体 = () => `<ruby>${esc(key)}<rt>${esc(yomi)}</rt></ruby>`;
+    let pos = 0, out = "", pending = null;
+    for (const r of runs) {
+      if (漢字か(r[0])) { pending = r; continue; }
+      const idx = yomi.indexOf(r, pos);
+      if (idx < 0 || (pending && idx === pos)) return 全体();
+      if (pending) { out += `<ruby>${esc(pending)}<rt>${esc(yomi.slice(pos, idx))}</rt></ruby>`; pending = null; }
+      out += esc(r); pos = idx + r.length;
+    }
+    if (pending) { const rest = yomi.slice(pos); if (!rest) return 全体(); out += `<ruby>${esc(pending)}<rt>${esc(rest)}</rt></ruby>`; }
+    return out;
+  }
+  function ふりがな(text) {
+    text = String(text == null ? "" : text); let out = "", i = 0;
+    while (i < text.length) {
+      const ch = text[i];
+      /* かな始まりのキー（例「た後」「の方」）も使えるように、どの位置でも最長一致を試す */
+      let hit = null;
+      for (let len = Math.min(辞書最長, text.length - i); len >= 1; len--) { const k = text.substr(i, len); if (Object.prototype.hasOwnProperty.call(辞書, k)) { hit = k; break; } }
+      if (hit && /[一-鿿々〆]/.test(hit)) { out += ルビ片(hit, 辞書[hit]); i += hit.length; continue; }
+      if (!漢字か(ch)) { out += esc(ch); i++; continue; }
+      let j = i; while (j < text.length && 漢字か(text[j])) j++;
+      未登録.add(text.slice(i, j)); out += esc(ch); i++;
+    }
+    return out;
+  }
+  function ルビ設定(el, text) { el.innerHTML = ふりがな(text); }
+  window.ふりがな = ふりがな; // 確認用（ブラウザのコンソールから読みを検証できる）
+  /* page.html に書かれた固定の文言（見出し・説明・ボタン）にもルビを振る。select/option/textarea/input は対象外 */
+  function 静的ふりがな(root) {
+    const skip = ["SCRIPT", "STYLE", "TEXTAREA", "OPTION", "SELECT", "INPUT", "RUBY", "RT"];
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); const nodes = []; let n;
+    while ((n = walker.nextNode())) { if (!skip.includes(n.parentNode.tagName) && /[一-鿿々〆]/.test(n.nodeValue)) nodes.push(n); }
+    nodes.forEach((t) => { const tpl = document.createElement("template"); tpl.innerHTML = ふりがな(t.nodeValue); t.parentNode.replaceChild(tpl.content, t); });
+  }
+  function ふりがな未登録一覧() {
+    未登録.clear();
+    バンク.セット一覧.forEach((s) => { ふりがな(s.名称); ふりがな(s.範囲); s.問題.forEach((q) => { ふりがな(q.q); q.c.forEach((c) => ふりがな(c)); }); });
+    const skip = ["SCRIPT", "STYLE", "TEXTAREA", "OPTION", "SELECT", "INPUT", "RT"];
+    const walker = document.createTreeWalker($("app"), NodeFilter.SHOW_TEXT); let n;
+    while ((n = walker.nextNode())) { if (!skip.includes(n.parentNode.tagName)) ふりがな(n.nodeValue); }
+    return Array.from(未登録).sort();
+  }
+  function ふりがな表示(on) {
+    document.body.classList.toggle("ruby-off", !on);
+    $("btn_ふりがな").textContent = on ? "ふりがな：あり" : "ふりがな：なし";
+    try { localStorage.setItem(保存キー_ふりがな, on ? "1" : "0"); } catch (e) {}
+  }
+  static_init: {
+    静的ふりがな($("app"));
+    let on = true; try { on = localStorage.getItem(保存キー_ふりがな) !== "0"; } catch (e) {}
+    ふりがな表示(on);
+    $("btn_ふりがな").addEventListener("click", () => ふりがな表示(document.body.classList.contains("ruby-off")));
+  }
   const 画面 = ["画面_パスコード", "画面_開始", "画面_出題", "画面_結果", "画面_管理メニュー", "画面_管理_正解", "画面_管理", "画面_管理_出力"];
   function 画面切替(id) { const ids = Array.isArray(id) ? id : [id]; 画面.forEach((p) => $(p).classList.toggle("hidden", !ids.includes(p))); window.scrollTo(0, 0); }
   function トースト(msg) { const t = $("トースト"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1600); }
@@ -34,7 +101,7 @@
   async function 共有(text) {
     if (navigator.share) { try { await navigator.share({ text }); } catch (e) {} } else { トースト("この端末は共有に対応していません。コピーを使ってください"); }
   }
-  function 出典名(s) { return { 盛付: "盛り付け・調理マニュアル", 弁当: "ランチ・弁当シート", 体制: "仕込み体制・スキルシート" }[s] || s; }
+  function 出典名(s) { return { 盛付: "盛り付け・調理マニュアル", 弁当: "ランチ・弁当シート", 体制: "仕込み体制・スキルシート", 調理: "調理マニュアル（たれ・仕込み・提供）" }[s] || s; }
   function 日時文字列() { const d = new Date(); const pad = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`; }
 
   // ---------- 週の決定 ----------
@@ -78,13 +145,14 @@
   const 週ラベル = 全範囲 ? "総合" : `第${週}週`;
 
   // ---------- 表示初期化 ----------
-  $("週バッジ").textContent = 週ラベル;
-  $("開始_見出し").textContent = 全範囲 ? セット.名称 : `${週ラベル}：${セット.名称}`;
-  $("開始_範囲").textContent = 全範囲 ? セット.範囲 : `中心となる範囲：${セット.範囲}`;
+  ルビ設定($("週バッジ"), 週ラベル);
+  ルビ設定($("開始_見出し"), 全範囲 ? セット.名称 : `${週ラベル}：${セット.名称}`);
+  ルビ設定($("開始_範囲"), 全範囲 ? セット.範囲 : `中心となる範囲：${セット.範囲}`);
   $("開始_問数").textContent = 出題数;
+  $("開始_週数").textContent = バンク.セット一覧.length;
   バンク.セット一覧.forEach((s, i) => {
     const li = document.createElement("li"); const 該当 = !全範囲 && s.id === セット.id;
-    li.innerHTML = `<span class="n">${i + 1}週目</span><span class="${該当 ? "now" : ""}">${s.名称}</span>`;
+    li.innerHTML = `<span class="n">${ふりがな(`${i + 1}週目`)}</span><span class="${該当 ? "now" : ""}">${ふりがな(s.名称)}</span>`;
     $("セット一覧").appendChild(li);
   });
   function 週プルダウン(sel, 総合あり) {
@@ -120,7 +188,7 @@
   function 履歴読込() { try { return JSON.parse(localStorage.getItem(保存キー_履歴) || "[]"); } catch (e) { return []; } }
   function 履歴表示() {
     const h = 履歴読込(); if (!h.length) { $("履歴").innerHTML = ""; return; }
-    $("履歴").innerHTML = "<div>この端末での受験履歴</div><ul style='margin:4px 0 0;padding-left:18px'>" + h.slice(-5).reverse().map((r) => `<li>${r.日時}　${r.週}　${r.問数}問 回答済み</li>`).join("") + "</ul>";
+    $("履歴").innerHTML = "<div>" + ふりがな("この端末での受験履歴") + "</div><ul style='margin:4px 0 0;padding-left:18px'>" + h.slice(-5).reverse().map((r) => `<li>${ふりがな(`${r.日時}　${r.週}　${r.問数}問 回答済み`)}</li>`).join("") + "</ul>";
   }
   function 開始画面へ() {
     let 名 = ""; try { 名 = localStorage.getItem(保存キー_氏名) || ""; } catch (e) {}
@@ -138,18 +206,18 @@
   function 出題表示() {
     const q = 出題[現在];
     $("進捗バー").style.width = `${(現在 / 出題数) * 100}%`;
-    $("問番号").textContent = `第${現在 + 1}問 / ${出題数}`;
-    $("問文").textContent = q.q;
+    ルビ設定($("問番号"), `第${現在 + 1}問 / ${出題数}`);
+    ルビ設定($("問文"), q.q);
     const ul = $("選択肢"); ul.innerHTML = "";
     q.c.forEach((text, i) => {
       const li = document.createElement("li"); li.className = "choice" + (回答[現在] === i ? " selected" : "");
-      li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${text}</span>`;
+      li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${ふりがな(text)}</span>`;
       li.addEventListener("click", () => { 回答[現在] = i; Array.from(ul.children).forEach((c, k) => c.classList.toggle("selected", k === i)); $("btn_次へ").disabled = false; });
       ul.appendChild(li);
     });
     $("btn_前へ").disabled = 現在 === 0;
     $("btn_次へ").disabled = 回答[現在] === undefined;
-    $("btn_次へ").textContent = 現在 + 1 < 出題数 ? "次へ →" : "回答を終える";
+    ルビ設定($("btn_次へ"), 現在 + 1 < 出題数 ? "次へ →" : "回答を終える");
     window.scrollTo(0, 0);
   }
   $("btn_前へ").addEventListener("click", () => { if (現在 > 0) { 現在--; 出題表示(); } });
@@ -160,7 +228,7 @@
   function 結果表示() {
     const 日時 = 日時文字列();
     $("進捗バー").style.width = "100%";
-    $("結果_氏名").textContent = `${受験者}　${日時}　${週ラベル}：${セット.名称}`;
+    ルビ設定($("結果_氏名"), `${受験者}　${日時}　${週ラベル}：${セット.名称}`);
     const 一覧 = 出題.map((q, i) => `${i + 1}:${"ABCD"[回答[i]]}`);
     const text = [`【山王苑 理解テスト 回答】${週ラベル}：${セット.名称}（${出題数}問）`, `氏名：${受験者}`, `受験日時：${日時}`, "回答：", 回答行(一覧)].join("\n");
     $("結果テキスト").value = text;
@@ -200,13 +268,17 @@
   $("btn_メニュー_正解").addEventListener("click", () => 画面切替("画面_管理_正解"));
   $("btn_メニュー_設問").addEventListener("click", () => 画面切替(["画面_管理", "画面_管理_出力"]));
   $("btn_メニュー_戻る").addEventListener("click", () => { location.href = location.pathname; });
+  $("btn_メニュー_ふりがな").addEventListener("click", () => {
+    const list = ふりがな未登録一覧(); const ta = $("ふりがな_未登録"); ta.hidden = false;
+    ta.value = list.length ? `未登録 ${list.length}語\n` + list.join("　") : "未登録の漢字はありません";
+  });
   $("btn_正解_メニュー").addEventListener("click", () => 画面切替("画面_管理メニュー"));
   $("btn_管理_メニュー").addEventListener("click", () => 画面切替("画面_管理メニュー"));
   // 採点用の正解一覧（受験者と同じ生成ロジックで週ごとに固定）
   function 正解一覧表示() {
     const w = parseInt($("正解_週").value, 10) || 1; const 範囲 = 週の範囲(w); const list = 出題を作る(w, false);
-    $("正解_見出し").textContent = `第${w}週：${範囲.名称}（${list.length}問）`;
-    $("正解_一覧").innerHTML = list.map((q, i) => `<li><span class="k">${i + 1}: ${"ABCD"[q.a]}</span><span class="id">[${q.id}]</span><span>${q.q}</span></li>`).join("");
+    ルビ設定($("正解_見出し"), `第${w}週：${範囲.名称}（${list.length}問）`);
+    $("正解_一覧").innerHTML = list.map((q, i) => `<li><span class="k">${i + 1}: ${"ABCD"[q.a]}</span><span class="id">[${q.id}]</span><span>${ふりがな(q.q)}</span></li>`).join("");
     $("正解_テキスト").value = `【山王苑 理解テスト 正解】第${w}週：${範囲.名称}（${list.length}問）\n` + 回答行(list.map((q, i) => `${i + 1}:${"ABCD"[q.a]}`));
   }
   $("正解_週").addEventListener("change", 正解一覧表示);
@@ -219,11 +291,11 @@
   }
   function 管理_設問表示() {
     const q = 管理_一覧[管理_番号]; const key = q.id;
-    $("管理_問番号").textContent = `${管理_見出し}　第${管理_番号 + 1}問 / ${管理_一覧.length}　［${key}］`;
-    $("管理_問文").textContent = q.q;
+    ルビ設定($("管理_問番号"), `${管理_見出し}　第${管理_番号 + 1}問 / ${管理_一覧.length}　［${key}］`);
+    ルビ設定($("管理_問文"), q.q);
     const ul = $("管理_選択肢"); ul.innerHTML = "";
-    q.c.forEach((text, i) => { const li = document.createElement("li"); li.className = "choice locked" + (i === q.a ? " correct" : ""); li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${text}${i === q.a ? "　（正解）" : ""}</span>`; ul.appendChild(li); });
-    $("管理_解説").innerHTML = `<b>解説</b>${q.e}<div class="src">出典: ${出典名(q.s)}</div>`;
+    q.c.forEach((text, i) => { const li = document.createElement("li"); li.className = "choice locked" + (i === q.a ? " correct" : ""); li.innerHTML = `<span class="mark">${"ABCD"[i]}</span><span>${ふりがな(text)}${i === q.a ? ふりがな("　（正解）") : ""}</span>`; ul.appendChild(li); });
+    $("管理_解説").innerHTML = `<b>解説</b>${ふりがな(q.e)}<div class="src">出典: ${出典名(q.s)}</div>`;
     $("管理_修正点").value = 修正点読込()[key] || "";
     const 最後 = 管理_番号 >= 管理_一覧.length - 1;
     $("btn_管理_前へ").disabled = 管理_番号 === 0; $("btn_管理_次へ").disabled = 最後;
