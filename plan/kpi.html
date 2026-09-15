@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 集客半年計画</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1e1d1a; --muted:#67655e; --rule:#d8d5cd;
+  --accent:#2b4a70; --accent-soft:#e3e9f1; --ember:#b23a2a; --ember-soft:#f4e3df;
+  --ok:#3d6b45; --ok-soft:#e2ecdf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+    --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+    --ok:#8fbf95; --ok-soft:#22342a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+  --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+  --ok:#8fbf95; --ok-soft:#22342a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;padding-block:32px 64px;padding-inline:16px;font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;text-wrap:balance;margin:0}
+h1{font-size:30px;line-height:1.3;letter-spacing:.02em}
+h2{font-size:21px;margin-top:56px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin-top:28px;color:var(--accent)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead{color:var(--muted);margin:12px 0 0;max-width:40em}
+p{margin:12px 0;max-width:42em}
+.head{border-bottom:1px solid var(--rule);padding-bottom:24px}
+.head .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:12px;letter-spacing:.06em;background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap}
+tr.total td{font-weight:700;border-top:2px solid var(--ink)}
+tr.hi td{background:var(--ember-soft)}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:3px;white-space:nowrap}
+.p0{background:var(--ember-soft);color:var(--ember)}
+.p1{background:var(--accent-soft);color:var(--accent)}
+.p2{background:var(--bg);color:var(--muted);border:1px solid var(--rule)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi div{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:"Shippori Mincho B1",serif;font-size:24px;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.tl{display:grid;grid-template-columns:96px 1fr;gap:0;margin:16px 0;border-left:2px solid var(--rule)}
+.tl .m{padding:14px 12px 14px 16px;font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:15px;position:relative}
+.tl .m::before{content:"";position:absolute;left:-7px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.tl .m.key::before{background:var(--ember);border-color:var(--ember)}
+.tl .m small{display:block;font-family:"BIZ UDPGothic",sans-serif;font-weight:400;font-size:12px;color:var(--muted)}
+.tl .b{padding:14px 0 14px 8px;border-bottom:1px solid var(--rule);font-size:14px}
+.tl .b:last-child{border-bottom:none}
+.tl .b b{color:var(--ember)}
+.note{background:var(--surface);border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;font-size:14px}
+.note.warn{border-left-color:var(--ember)}
+ul{padding-left:1.3em;max-width:42em}
+li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+@media (max-width:520px){.tl{grid-template-columns:76px 1fr}.tl .m{font-size:13px;padding-left:12px}h1{font-size:24px}}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--accent)}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 集客半年計画</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+
+<div class="wrap">
+<header class="head">
+  <div class="eyebrow">焼肉 山王苑（大森）</div>
+  <h1>山王苑 集客半年計画</h1>
+  <p class="lead">食べログ有料出稿を軸に、2026年9月後半から2027年3月までを組む。撮影 → 無料範囲の整備 → 有料化 → 忘年会で回収 → 歓送迎会で定着、の順。各工程に1〜2週間の余裕を持たせた。</p>
+  <div class="meta"><span>有料化の開始: 11月1日</span><span>評価: 11〜1月の3か月平均</span><span>月次レビュー: 毎月5日</span><span>金額は税別概算</span></div>
+</header>
+
+<h2>1. 現在地</h2>
+<div class="kpi">
+  <div><div class="l">8月売上（夜のみ）</div><div class="v">164万円</div><div class="s">293人・100組・客単価5,600円</div></div>
+  <div><div class="l">ディナー客数</div><div class="v">12人<span style="font-size:14px">/日</span></div><div class="s">金11.8万・土9.5万・火2.9万</div></div>
+  <div><div class="l">食べログ</div><div class="v">3.28</div><div class="s">口コミ106件・保存6,104人</div></div>
+  <div><div class="l">Googleマップ</div><div class="v">★4.0</div><div class="s">112件・オーナー権限なし</div></div>
+  <div><div class="l">LINE友だち</div><div class="v">95人</div><div class="s">配信0本</div></div>
+  <div><div class="l">コース売上</div><div class="v">0</div><div class="s">8月実績</div></div>
+</div>
+<p>9月上旬は9日間で41.5万円（月換算140万円前後）。ランチは再開直後で1日2千円程度。伸びしろは「平日の夜」と「ランチの立ち上げ」の2か所にある。媒体はどれも整備前で、いま有料化しても受け皿が無い。</p>
+
+<h2>2. 目標の置き直し</h2>
+<p>到達線はランチ200万円＋ディナー600万円＝月商800万円。現状からの距離が大きいので、10月600万円ではなく<strong>半年で550万円、その先で800万円</strong>に向かう余裕線を置く。ザンさんへの言い切りは別物として扱い、この表は社内の運用線とする。</p>
+<div class="tw"><table>
+<tr><th>月</th><th class="num">ランチ</th><th class="num">ディナー</th><th class="num">合計</th><th class="num">夜1日平均</th><th>主な打ち手</th></tr>
+<tr><td>9月</td><td class="num">15万円</td><td class="num">165万円</td><td class="num">180万円</td><td class="num">6.3万円</td><td>撮影・無料範囲の整備着手</td></tr>
+<tr><td>10月</td><td class="num">40万円</td><td class="num">220万円</td><td class="num">260万円</td><td class="num">8.1万円</td><td>媒体の受け皿完成・LINE起動・チラシ</td></tr>
+<tr class="hi"><td>11月</td><td class="num">60万円</td><td class="num">300万円</td><td class="num">360万円</td><td class="num">11.5万円</td><td>食べログ有料開始・忘年会予約受付</td></tr>
+<tr><td>12月</td><td class="num">60万円</td><td class="num">480万円</td><td class="num">540万円</td><td class="num">17.8万円</td><td>忘年会ピーク（2F30名）</td></tr>
+<tr><td>1月</td><td class="num">60万円</td><td class="num">300万円</td><td class="num">360万円</td><td class="num">12.5万円</td><td>有料3か月目の評価・閑散期対策</td></tr>
+<tr><td>2月</td><td class="num">80万円</td><td class="num">340万円</td><td class="num">420万円</td><td class="num">13.6万円</td><td>ホットペッパー再スポット・歓送迎会受付</td></tr>
+<tr><td>3月</td><td class="num">90万円</td><td class="num">460万円</td><td class="num">550万円</td><td class="num">17.7万円</td><td>歓送迎会ピーク・半年レビュー</td></tr>
+<tr class="total"><td>到達線</td><td class="num">200万円</td><td class="num">600万円</td><td class="num">800万円</td><td class="num">23.1万円</td><td>金土2回転＋平日法人需要の定着</td></tr>
+</table></div>
+<p class="small">算数の前提: 夜は客単価7,000円×2.5名＝1組1.75万円。ディナー600万円は33名/夜で50席の回転1回未満。ランチ200万円は約80人/日で、50席×1.6回転（11:00-13:30）。</p>
+
+<h2>3. 施策リスト</h2>
+<p><span class="pill p0">P0</span> 有料化の前提（無いと広告費が漏れる）　<span class="pill p1">P1</span> 有料化と同時に回す　<span class="pill p2">P2</span> 余力があれば</p>
+
+<h3>A. 土台（無料・撮影を起点）</h3>
+<div class="tw"><table>
+<tr><th>ID</th><th>優先</th><th>施策</th><th>目的</th><th>担当</th><th>費用</th><th>着手 → 完了</th></tr>
+<tr><td>A1</td><td><span class="pill p0">P0</span></td><td>撮影20カットの実施と翌日セレクト。媒体別（横長・料理寄り／縦・外観）に振り分け</td><td>全媒体の共通ボトルネック解消</td><td>現場・マーケ</td><td>4.8万円（承認済）</td><td>9月中 → 撮影+4日</td></tr>
+<tr><td>A2</td><td><span class="pill p0">P0</span></td><td>食べログ無料範囲の整備: 写真全差替・キャッチを厳選ハラミ／炭火／1980年からの店へ・メニュー価格をラミネート版に統一・営業時間にランチ帯追加・コース登録・ネット予約の席数と締切設定</td><td>有料化の受け皿</td><td>管理部</td><td>0</td><td>撮影+5日 → 10月中旬</td></tr>
+<tr><td>A3</td><td><span class="pill p0">P0</span></td><td>GBP整備: オーナー権限取得 → 営業時間（月〜金11:00-13:30／17:00-22:30・土日夜のみ・月定休）→ 写真差替 → メニュー登録 → 週1投稿</td><td>無料で最大の集客源を実態に合わせる</td><td>管理部</td><td>0</td><td>即日（権限申請）→ 10月中旬</td></tr>
+<tr><td>A4</td><td><span class="pill p1">P1</span></td><td>公式サイトの実写真差替・ランチ「再開準備中」注記の削除・お知らせ更新</td><td>予約導線の手前を整える</td><td>マーケ</td><td>0</td><td>撮影+5日 → 10月上旬</td></tr>
+<tr><td>A5</td><td><span class="pill p1">P1</span></td><td>ホットペッパー「ネット予約プラン」（掲載料無料）で旧情報を消し、基本情報・コース・クーポンを載せる</td><td>固定費ゼロで宴会検索の入口を確保</td><td>管理部</td><td>0（予約手数料のみ）</td><td>10月上旬 → 10月下旬</td></tr>
+<tr><td>A6</td><td><span class="pill p2">P2</span></td><td>Instagram新アカウントのプロフィール整備と初期9投稿（撮影写真の使い回し）</td><td>「閉店」認知の払拭</td><td>マーケ・現場</td><td>0</td><td>10月 → 10月末</td></tr>
+</table></div>
+
+<h3>B. 有料出稿</h3>
+<div class="tw"><table>
+<tr><th>ID</th><th>優先</th><th>施策</th><th>目的</th><th>担当</th><th>費用</th><th>着手 → 完了</th></tr>
+<tr class="hi"><td>B1</td><td><span class="pill p0">P0</span></td><td><strong>食べログ有料化（ベーシック）</strong>。営業担当へ問い合わせ → 見積 → 決裁 → 月初開始。3か月固定で評価</td><td>¥6-8千帯の夜需要。保存6,104人の回収</td><td>管理部・ザンさん決裁</td><td>2.5万円/月＋予約手数料（夜200円・昼100円/人）</td><td>10月上旬に問い合わせ → <strong>11/1開始</strong>（A2が10/10までに完了なら10/16も可）</td></tr>
+<tr><td>B2</td><td><span class="pill p1">P1</span></td><td>ホットペッパー有料スポット（11月〜1月末・2月〜4月末）。2F30名の宴会コースを載せる</td><td>忘年会・歓送迎会の宴会需要</td><td>管理部</td><td>要見積（仮3万円/月）</td><td>10月中旬に問い合わせ → 11月上旬開始</td></tr>
+<tr><td>B3</td><td><span class="pill p1">P1</span></td><td>チラシ本刷り（3,900部×3円）。表＝ランチ、裏＝平日コース3,200円・ホルモン500円。スタッフの空き時間で小ロット配布しCVRを出す</td><td>駅前通行客と南大井の昼間就業者</td><td>新井さん・現場</td><td>1.2万円/回</td><td>10月上旬入稿 → 10月中旬配布</td></tr>
+<tr><td>B4</td><td><span class="pill p2">P2</span></td><td>Google広告（検索「大森 焼肉」・ローカル枠）の少額テスト</td><td>食べログの外側の需要</td><td>マーケ</td><td>3〜5万円/月</td><td>2月判断 → 3月評価</td></tr>
+</table></div>
+
+<h3>C. リピート・口コミ・転換</h3>
+<div class="tw"><table>
+<tr><th>ID</th><th>優先</th><th>施策</th><th>目的</th><th>担当</th><th>費用</th><th>着手 → 完了</th></tr>
+<tr><td>C1</td><td><span class="pill p0">P0</span></td><td>口コミ導線: 卓上POP・会計カードにGoogleマップのレビューQR。Google優先</td><td>★と件数を有料化前に積む</td><td>マーケ（制作）・現場（設置）</td><td>0.5万円</td><td>9月下旬 → 10月上旬設置</td></tr>
+<tr><td>C2</td><td><span class="pill p1">P1</span></td><td>LINE公式の起動: 友だち追加特典（次回ドリンク1杯）・月2配信・食べログ予約リンク</td><td>常連の呼び戻しと再来の最短経路</td><td>マーケ（文面）・現場（案内）</td><td>無料枠 → 友だち300超でライト0.5万円/月</td><td>10月上旬 → 10月中旬に初配信</td></tr>
+<tr><td>C3</td><td><span class="pill p1">P1</span></td><td>15%オフクーポンに通し番号と有効期限を付け、回収枚数を記録</td><td>リピート施策を数字にする</td><td>現場</td><td>0</td><td>10月 → 10月中</td></tr>
+<tr><td>C4</td><td><span class="pill p1">P1</span></td><td>ランチ→ディナー転換: ランチ会計時に「平日コース3,200円・当日OK」の紹介カードを渡し、回収枚数を数える</td><td>転換ゼロの解消</td><td>マーケ（制作）・現場</td><td>0.3万円</td><td>10月下旬 → 11月上旬開始</td></tr>
+</table></div>
+
+<h3>D. 商品・訴求</h3>
+<div class="tw"><table>
+<tr><th>ID</th><th>優先</th><th>施策</th><th>目的</th><th>担当</th><th>費用</th><th>着手 → 完了</th></tr>
+<tr><td>D1</td><td><span class="pill p0">P0</span></td><td>コース確定（6,600円全9品／8,800円全10品／飲み放題1,650円）。原価率・提供オペは現場確認。確定後に食べログ・HP・サイトへ登録</td><td>有料化と忘年会の商品</td><td>西村・平石（確定）／管理部（登録）</td><td>0</td><td>撮影MTG → 10月中旬</td></tr>
+<tr><td>D2</td><td><span class="pill p0">P0</span></td><td>忘年会プラン: 2F30名貸切・飲み放題付・幹事特典を1枚に。食べログ・HP・LINE・法人案内に同時掲載</td><td>12月の売上本体</td><td>マーケ</td><td>0</td><td>10月中旬 → 10月末に受付開始</td></tr>
+<tr><td>D3</td><td><span class="pill p2">P2</span></td><td>ホルモン500円「リニューアル記念」の終了時期と次のフック（平日限定半額デーの定例化など）</td><td>平日夜の底上げ</td><td>ザンさん・現場</td><td>0</td><td>11月 → 12月前</td></tr>
+<tr><td>D4</td><td><span class="pill p1">P1</span></td><td>法人向け宴会案内: 南大井の企業（昼間流入3.3万人）へランチ客経由でチラシ・LINE案内</td><td>平日夜の法人需要</td><td>マーケ（文面）・現場（手渡し）</td><td>チラシ流用</td><td>11月上旬 → 11月中</td></tr>
+</table></div>
+
+<h3>E. 計測</h3>
+<div class="tw"><table>
+<tr><th>ID</th><th>優先</th><th>施策</th><th>目的</th><th>担当</th><th>費用</th><th>着手 → 完了</th></tr>
+<tr><td>E1</td><td><span class="pill p0">P0</span></td><td>来店経路ヒアリング: レジで「何を見て来たか」を聞き、会計メモか紙台帳に記録（食べログ／Google／LINE／チラシ／通りがかり／常連）</td><td>有料化の効果を分離する</td><td>現場</td><td>0</td><td>9月下旬 → 継続</td></tr>
+<tr><td>E2</td><td><span class="pill p0">P0</span></td><td>月次レビュー（毎月5日）: Airメイト・食べログ管理画面・GBPインサイト・LINE管理画面の数字を進行シートに転記</td><td>KPIの運用</td><td>マーケ</td><td>0</td><td>10/5 → 毎月</td></tr>
+<tr><td>E3</td><td><span class="pill p1">P1</span></td><td>進行シートに施策IDを転記し、状態（未着手／進行／完了）を管理</td><td>進捗の見える化</td><td>マーケ</td><td>0</td><td>9月下旬 → 継続</td></tr>
+</table></div>
+
+<h2>4. スケジュール（余裕線）</h2>
+<p>各月の「やること」は着手の目安。1〜2週間遅れても次工程が壊れないよう、有料化を11月1日に置いている。</p>
+<div class="tl">
+  <div class="m">9月後半<small>撮影完了</small></div><div class="b">A1撮影・セレクト／A3 GBPオーナー権限申請／C1口コミPOP制作／E1経路ヒアリング開始／E3進行シート整備</div>
+  <div class="m">10月上旬<small>受け皿づくり</small></div><div class="b">A2食べログ整備・A3 GBP整備・A4サイト差替・A5ホットペッパー無料掲載／B3チラシ入稿／C2 LINE起動／B1食べログ営業へ問い合わせ → 見積受領</div>
+  <div class="m">10月中旬<small>商品確定</small></div><div class="b">D1コース確定・登録／C3クーポン計測開始／B1決裁（月額と回収ラインの2点で言い切り）／B2ホットペッパー問い合わせ</div>
+  <div class="m">10月下旬<small>忘年会準備</small></div><div class="b">D2忘年会プランを全媒体に掲載・受付開始／C4転換カード制作／A2〜A5の完了確認（§5チェック）</div>
+  <div class="m key">11月<small>有料化1か月目</small></div><div class="b"><b>B1食べログ有料開始（11/1）</b>／B2ホットペッパースポット開始／D4法人案内／C4転換カード配布／忘年会予約の週次確認</div>
+  <div class="m">12月<small>忘年会ピーク</small></div><div class="b">2F宴会の運用（予約台帳と席数の整合）／B1 2か月目。11月末の予約状況で12月だけプレミアム5への一時格上げを判断／LINE配信は忘年会 → 新年会</div>
+  <div class="m">1月<small>評価月</small></div><div class="b">B1 3か月評価（継続・格上げ・格下げを§5の基準で判断）／B2停止（1月末）／閑散期の平日施策（D3）</div>
+  <div class="m">2月<small>歓送迎会準備</small></div><div class="b">B2再開／D2を歓送迎会版に更新／B4 Google広告テストの判断／C2友だち300超でLINEプラン検討</div>
+  <div class="m">3月<small>半年レビュー</small></div><div class="b">歓送迎会ピーク運用／9月〜3月のKPI総括／4月以降の計画（到達線800万円への道筋）</div>
+</div>
+<div class="note">前倒しの条件: 撮影が9/17までに終わり、A2・A3が10/10までに完了していれば、B1を10/16開始に前倒ししてよい（日割りの有無を営業担当に確認）。</div>
+<div class="note warn">後ろ倒しの条件: 撮影が10月にずれてもB1は12/1を上限とする。忘年会の検索は11月に集中するため、それ以降は1月開始に回す方が無駄が無い。</div>
+
+<h2>5. 食べログ有料化の運用ルール</h2>
+<div class="tw"><table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td>プラン</td><td><strong>ベーシック（月額2.5万円・税別）</strong>から開始。ライトは表示枠が弱く、プレミアムは受け皿が育つ前では過剰</td></tr>
+<tr><td>予約手数料</td><td>ディナー200円・ランチ100円／人（税別）。月30組×2.5名なら約1.5万円</td></tr>
+<tr><td>月額の総額</td><td>月4万円前後（月額＋手数料）。夜3組（5.3万円）で回収</td></tr>
+<tr><td>評価期間</td><td><strong>3か月固定（11月〜1月）</strong>。1か月目の数字でプランを動かさない</td></tr>
+<tr><td>継続の基準</td><td>3か月平均で ネット予約20組/月以上 または 経由売上35万円/月以上</td></tr>
+<tr><td>格上げの基準</td><td>ネット予約が席数上限に当たる月が続く／11月末時点で12月の宴会予約が2Fの半分未満なら、12月だけプレミアム5（5万円）を検討</td></tr>
+<tr><td>格下げ・停止</td><td>3か月平均で予約10組/月未満 かつ PVが有料化前の2倍未満。ただし停止の前に写真・コース・予約設定の3点を先に見直す</td></tr>
+<tr><td>見る場所</td><td>食べログ管理画面（PV・保存数・予約数）／Airメイト（売上・客数）／レジの経路ヒアリング</td></tr>
+</table></div>
+<p><strong>有料化の前に必ず終えること</strong>: 営業時間の媒体間一致／写真の実写差替／メニュー価格の統一／コース登録／ネット予約の受付設定／口コミ導線の設置／LINEで「ネット予約できるようになった」を1本配信。</p>
+
+<h2>6. KPI（先行指標・月末値）</h2>
+<p>売上は§2の月別表を正とし、ここでは先行指標を置く。「—」は基準値の取得が先。</p>
+<h3>6-1. 媒体</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th class="num">現状</th><th class="num">10月末</th><th class="num">12月末</th><th class="num">3月末</th><th>見る場所</th></tr>
+<tr class="hi"><td>食べログ ネット予約（組/月）</td><td class="num">0</td><td class="num">8</td><td class="num">40</td><td class="num">40</td><td>食べログ管理画面</td></tr>
+<tr><td>食べログ 保存数</td><td class="num">6,104</td><td class="num">6,300</td><td class="num">6,800</td><td class="num">7,500</td><td>同上</td></tr>
+<tr><td>食べログ 口コミ件数</td><td class="num">106</td><td class="num">110</td><td class="num">120</td><td class="num">135</td><td>店舗ページ</td></tr>
+<tr><td>食べログ 点数</td><td class="num">3.28</td><td class="num">3.30</td><td class="num">3.35</td><td class="num">3.40</td><td>競合線: OGAWA 3.46・白ひげ 3.38</td></tr>
+<tr><td>食べログ PV</td><td class="num">—</td><td class="num">基準取得</td><td class="num">基準の2倍</td><td class="num">2倍維持</td><td>食べログ管理画面</td></tr>
+<tr><td>Googleマップ 口コミ件数</td><td class="num">112</td><td class="num">125</td><td class="num">150</td><td class="num">180</td><td>GBP</td></tr>
+<tr><td>Googleマップ 評価</td><td class="num">★4.0</td><td class="num">4.0維持</td><td class="num">4.1</td><td class="num">4.1</td><td>GBP</td></tr>
+<tr><td>GBP 経路案内・通話数</td><td class="num">—</td><td class="num">基準取得</td><td class="num">1.5倍</td><td class="num">2倍</td><td>GBPインサイト</td></tr>
+<tr><td>LINE 友だち</td><td class="num">95</td><td class="num">150</td><td class="num">300</td><td class="num">450</td><td>LINE管理画面</td></tr>
+<tr><td>LINE 配信本数</td><td class="num">0</td><td class="num">2/月</td><td class="num">2/月</td><td class="num">2/月</td><td>同上</td></tr>
+<tr><td>Instagram 投稿</td><td class="num">0</td><td class="num">9件</td><td class="num">週2</td><td class="num">週2</td><td>IG</td></tr>
+<tr><td>ホットペッパー 予約（組/月）</td><td class="num">0</td><td class="num">0</td><td class="num">10</td><td class="num">10</td><td>HP管理画面</td></tr>
+</table></div>
+<h3>6-2. 店内・転換</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th class="num">現状</th><th class="num">10月末</th><th class="num">12月末</th><th class="num">3月末</th><th>見る場所</th></tr>
+<tr><td>ディナー客数/営業日</td><td class="num">12人</td><td class="num">14人</td><td class="num">26人</td><td class="num">26人</td><td>Airメイト</td></tr>
+<tr><td>ディナー客単価</td><td class="num">5,600円</td><td class="num">5,800円</td><td class="num">6,800円</td><td class="num">6,500円</td><td>Airメイト</td></tr>
+<tr><td>ランチ客数/営業日</td><td class="num">立ち上げ中</td><td class="num">16人</td><td class="num">25人</td><td class="num">35人</td><td>Airメイト</td></tr>
+<tr><td>コース売上（組/月）</td><td class="num">0</td><td class="num">5</td><td class="num">30</td><td class="num">30</td><td>Airメイト・予約台帳</td></tr>
+<tr><td>2F宴会（組/月）</td><td class="num">0</td><td class="num">2</td><td class="num">15</td><td class="num">12</td><td>予約台帳</td></tr>
+<tr><td>15%クーポン回収率</td><td class="num">未計測</td><td class="num">計測開始</td><td class="num">15%</td><td class="num">20%</td><td>回収枚数÷配布枚数</td></tr>
+<tr><td>ランチ→夜転換カード回収（組/月）</td><td class="num">0</td><td class="num">制作</td><td class="num">10</td><td class="num">15</td><td>回収枚数</td></tr>
+<tr><td>来店経路の判明率</td><td class="num">0%</td><td class="num">50%</td><td class="num">80%</td><td class="num">80%</td><td>レジ記録</td></tr>
+</table></div>
+<h3>6-3. 判定の仕方</h3>
+<ul>
+<li>売上が目標を下回っても、先行指標（予約組数・口コミ・LINE友だち）が乗っていれば施策は続ける。両方が下回ったときだけ入れ替える</li>
+<li>12月は忘年会の特需で数字が跳ねる。1月の落ち込みは想定内で、評価は11〜1月の3か月平均で行う</li>
+<li>有料化の判断は§5の基準に従い、月次レビュー（毎月5日）で決める</li>
+</ul>
+
+<h2>7. 予算（月次・税別概算）</h2>
+<div class="tw"><table>
+<tr><th>費目</th><th class="num">9月</th><th class="num">10月</th><th class="num">11月</th><th class="num">12月</th><th class="num">1月</th><th class="num">2月</th><th class="num">3月</th></tr>
+<tr><td>撮影</td><td class="num">4.8万円</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+<tr><td>食べログ ベーシック＋手数料</td><td class="num"></td><td class="num"></td><td class="num">4万円</td><td class="num">4.5万円<br><span class="small">格上げなら7万円</span></td><td class="num">4万円</td><td class="num">4万円</td><td class="num">4.5万円</td></tr>
+<tr><td>ホットペッパー スポット</td><td class="num"></td><td class="num"></td><td class="num">3万円</td><td class="num">3万円</td><td class="num">3万円</td><td class="num">3万円</td><td class="num">3万円</td></tr>
+<tr><td>チラシ</td><td class="num"></td><td class="num">1.2万円</td><td class="num"></td><td class="num">1.2万円</td><td class="num"></td><td class="num">1.2万円</td><td class="num"></td></tr>
+<tr><td>口コミPOP・転換カード</td><td class="num">0.5万円</td><td class="num">0.3万円</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+<tr><td>LINE</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0.5万円</td><td class="num">0.5万円</td><td class="num">0.5万円</td><td class="num">0.5万円</td></tr>
+<tr><td>Google広告（任意）</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">3万円</td><td class="num">3万円</td></tr>
+<tr class="total"><td>合計</td><td class="num">5.3万円</td><td class="num">1.5万円</td><td class="num">7万円</td><td class="num">9.2万円</td><td class="num">7.5万円</td><td class="num">11.7万円</td><td class="num">11万円</td></tr>
+</table></div>
+<p class="small">売上目標に対する比率は11月以降で2〜3%。ホットペッパーの月額は見積次第で差し替える。</p>
+
+<h2>8. 申し送り（マーケの範囲外）</h2>
+<div class="tw"><table>
+<tr><th>内容</th><th>担当</th></tr>
+<tr><td>コース（6,600円／8,800円）の原価率・提供オペ・生食提供の可否</td><td>西村・平石</td></tr>
+<tr><td>忘年会30名時の2F運用（仕込み量・ホール人数）</td><td>平石</td></tr>
+<tr><td>レジでの来店経路ヒアリングとクーポン回収枚数の記録</td><td>現場</td></tr>
+<tr><td>食べログ・GBP・ホットペッパーの操作、営業担当への問い合わせと見積受領</td><td>管理部</td></tr>
+<tr><td>有料化・ホットペッパースポットの決裁</td><td>ザンさん</td></tr>
+<tr><td>ランチ営業の人員（1号店との調理人の取り合い）</td><td>ザンさん・平石</td></tr>
+</table></div>
+
+<h2>9. 未確認事項</h2>
+<ul>
+<li>撮影の実施日（仮9/17）。§4の起点</li>
+<li>食べログ営業担当の見積（月額・日割り・最低契約期間）。§5・§7の金額</li>
+<li>ホットペッパー有料スポットの可否と料金。B2の成立条件</li>
+<li>9月のランチ実績（客数/日）。§6-2の10月目標の妥当性</li>
+</ul>
+<p class="small">元資料: Desktop\山王苑マーケ\山王苑_マーケ施策_スケジュール_KPI.md／申込手順と文面は 山王苑_サイト内広告開始セット.md</p>
+</div>
+</main>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+})();
+</script>
+</body>
+</html>
