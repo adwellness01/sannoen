@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 撮影リスト確定版</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1e1d1a; --muted:#67655e; --rule:#d8d5cd;
+  --accent:#2b4a70; --accent-soft:#e3e9f1; --ember:#b23a2a; --ember-soft:#f4e3df;
+  --ok:#3d6b45; --ok-soft:#e2ecdf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+    --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+    --ok:#8fbf95; --ok-soft:#22342a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+  --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+  --ok:#8fbf95; --ok-soft:#22342a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;padding-block:32px 64px;padding-inline:16px;font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;text-wrap:balance;margin:0}
+h1{font-size:30px;line-height:1.3;letter-spacing:.02em}
+h2{font-size:21px;margin-top:56px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin-top:28px;color:var(--accent)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead{color:var(--muted);margin:12px 0 0;max-width:40em}
+p{margin:12px 0;max-width:42em}
+.head{border-bottom:1px solid var(--rule);padding-bottom:24px}
+.head .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:12px;letter-spacing:.06em;background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap}
+tr.total td{font-weight:700;border-top:2px solid var(--ink)}
+tr.hi td{background:var(--ember-soft)}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:3px;white-space:nowrap}
+.p0{background:var(--ember-soft);color:var(--ember)}
+.p1{background:var(--accent-soft);color:var(--accent)}
+.p2{background:var(--bg);color:var(--muted);border:1px solid var(--rule)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:20px 0}
+.kpi div{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:"Shippori Mincho B1",serif;font-size:24px;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.tl{display:grid;grid-template-columns:96px 1fr;gap:0;margin:16px 0;border-left:2px solid var(--rule)}
+.tl .m{padding:14px 12px 14px 16px;font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:15px;position:relative}
+.tl .m::before{content:"";position:absolute;left:-7px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.tl .m.key::before{background:var(--ember);border-color:var(--ember)}
+.tl .m small{display:block;font-family:"BIZ UDPGothic",sans-serif;font-weight:400;font-size:12px;color:var(--muted)}
+.tl .b{padding:14px 0 14px 8px;border-bottom:1px solid var(--rule);font-size:14px}
+.tl .b:last-child{border-bottom:none}
+.tl .b b{color:var(--ember)}
+.note{background:var(--surface);border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;font-size:14px}
+.note.warn{border-left-color:var(--ember)}
+ul{padding-left:1.3em;max-width:42em}
+li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+@media (max-width:520px){.tl{grid-template-columns:76px 1fr}.tl .m{font-size:13px;padding-left:12px}h1{font-size:24px}}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--accent)}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 撮影リスト確定版</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+<header class="head">
+  <div class="eyebrow">焼肉 山王苑（大森）</div>
+  <h1>山王苑 撮影リスト確定版</h1>
+  <p class="lead">岡崎さん（リトルジャーニー）へ送付済みの撮影希望リストと、キッチン準備リスト第4版を突き合わせた当日用の正本。品名はすべて店頭メニュー表の表記。</p>
+  <div class="meta"><span>9月17日（木）13:30入店・14:15料理開始・16:45撤収</span><span>20カット・48,000円固定</span><span>立会: 畠山さん</span><span>調理: 菅原 or 西村</span></div>
+</header>
+
+<h2>1. 岡崎さん送付版との差分</h2>
+<p>当日冒頭の打ち合わせで口頭で伝える。追伝が未送付なら必須。カット数は20のまま。</p>
+<div class="tw"><table>
+<tr><th>No</th><th>送付版</th><th>確定版</th><th>理由</th></tr>
+<tr class="hi"><td>9</td><td>クッパ</td><td><strong>ユッケ 単品</strong></td><td>クッパはメニュー表に無い。刺し系を撮る方針に変更</td></tr>
+<tr class="hi"><td>10</td><td>代表3点セット（極トロ・極赤身・国産ハラミ）</td><td><strong>上ハラミ・極上サーロイン・カイノミ</strong>（サーロイン無ければ極上バラ）</td><td>送付版の品名がメニュー表に無く、国産ハラミは上ハラミと同一</td></tr>
+<tr class="hi"><td>11</td><td>カレー</td><td><strong>牛すじ煮込みカレー＝A1ポスターのメイン画像</strong>。参考①のアングル、牛すじのごろっと感、角版用に余白、皿幅560mmで250dpi</td><td>デザイン担当の指定</td></tr>
+<tr class="hi"><td>17</td><td>調理カット（仕込み・盛り付けの手元、No.8と連続）</td><td><strong>ユッケの味入れ・盛り付けの手元</strong>。No.8とは別シーン</td><td>刺し系の調理風景を撮るため</td></tr>
+<tr><td>進行</td><td>料理撮影 14:00開始</td><td><strong>14:15開始</strong></td><td>ランチ営業日。13:30まで1階に客が残る</td></tr>
+</table></div>
+
+<h2>2. 確定版20カット</h2>
+<h3>A. 料理（12）</h3>
+<div class="tw"><table>
+<tr><th>No</th><th>カット</th><th>構図・撮り方</th><th>主用途</th><th>準備・注意</th></tr>
+<tr><td>1</td><td>上ハラミ 単品</td><td>皿の引き。断面の厚みとツヤが主役。横長8:3にできる引きも</td><td>サイト名物・食べログトップ</td><td>通常の器・量。並・極上（サガリ）は在庫があれば現場判断で追加</td></tr>
+<tr><td>2</td><td>上ハラミ 持ち上げ</td><td>箸リフト・背景に七輪の網ボケ。シズル最優先</td><td>SNS・チラシ・食べログ</td><td>持ち上げ役＝畠山さん。No.1の皿を使い回す</td></tr>
+<tr><td>3</td><td>厚切りトロ牛タン 単品</td><td>厚みが伝わるローアングル横</td><td>食べログ・GBP</td><td>厚みが見える盛り</td></tr>
+<tr><td>4</td><td>焼きカット（タン）</td><td>網の上・焼き目と炭火。トングの手元入り</td><td>SNS・チラシ</td><td>No.16と同一シーン。焼き用＝タン3枚・カルビ3枚・上ハラミ2枚。<strong>火起こし14:30まで</strong>・綺麗な網</td></tr>
+<tr><td>5</td><td>ホルモン3種盛り合わせ（910円）</td><td>量感が伝わる俯瞰気味。小さめの器・寄りで量感を出す</td><td>チラシ夜面の主役・食べログ</td><td>シマチョウ・マルチョウ・ミノ 各30g。多く盛らない</td></tr>
+<tr><td>6</td><td>肉盛り合わせ5種（250g・2,300円）</td><td>大皿の斜め俯瞰。部位の色と形の違いを見せる</td><td>チラシ・GBP・食べログ</td><td>通常提供と同じ5種・同じ量</td></tr>
+<tr><td>7</td><td>カルビ 単品</td><td>標準の斜め俯瞰</td><td>食べログ・メニュー</td><td>通常盛り</td></tr>
+<tr><td>8</td><td>肉切りの手元</td><td>包丁を入れる手元の寄り。切り分け後は写さない</td><td>サイト「肉」・食べログ</td><td>掃除済みスライス前のハラミ1本（400〜600g）。無ければカルビかサーロインのブロック。顔出しは当日相談</td></tr>
+<tr><td>9</td><td>ユッケ 単品</td><td>単品標準。卵黄を中央に</td><td>食べログ・SNS</td><td>通常の器。No.17の直後に撮る</td></tr>
+<tr><td>10</td><td>代表3点セット</td><td>3皿を並べた俯瞰または斜め45度。看板メニューの顔</td><td>食べログ・サイト・チラシ</td><td>上ハラミ（No.1の皿）＋極上サーロイン＋カイノミを同時出し。サーロイン無ければ極上バラ</td></tr>
+<tr><td>11</td><td>牛すじ煮込みカレー</td><td>参考①と同じアングル。牛すじを大きめに切り上に見せる。<strong>角版用に余白・皿幅560mmで250dpi</strong></td><td><strong>A1ポスターのメイン</strong>・チラシ表・GBP</td><td>呼ばれてから仕上げ</td></tr>
+<tr><td>12</td><td>牛丼</td><td>単品標準</td><td>チラシ表・食べログランチ</td><td>呼ばれてから仕上げ。ミックス定食への差し替えは任意・未決</td></tr>
+</table></div>
+<h3>B. 店内（4）</h3>
+<div class="tw"><table>
+<tr><th>No</th><th>カット</th><th>構図・撮り方</th><th>主用途</th><th>準備・注意</th></tr>
+<tr><td>13</td><td>1階カウンター＋七輪</td><td>年季を風格に見せる寄りと光。横長8:3も</td><td>サイト・食べログ内観</td><td>卓上セット・照明全点灯（13:30まで）</td></tr>
+<tr><td>14</td><td>1階客席全景</td><td>七輪の並び。奥行きで広さを出す</td><td>食べログ・GBP</td><td>1階を空けて整理整頓</td></tr>
+<tr><td>15</td><td>2階フロア</td><td>広角。最大30名の宴会スペースとして</td><td>ホットペッパー宴会・食べログ</td><td>卓のセッティング（14:00まで）</td></tr>
+<tr><td>16</td><td>焼きシーン</td><td>網越しの煙・肉・トング。人の気配を入れる</td><td>サイト・SNS</td><td>No.4と同一シーン。手元役＝畠山さん</td></tr>
+</table></div>
+<h3>C. 人物（1）</h3>
+<div class="tw"><table>
+<tr><th>No</th><th>カット</th><th>構図・撮り方</th><th>主用途</th><th>準備・注意</th></tr>
+<tr><td>17</td><td>ユッケの味入れ・盛り付けの手元</td><td>切って味を入れる直前から呼んで開始。手元中心</td><td>サイト「肉」・食べログ</td><td>顔出しは当日相談。完成品をNo.9として続けて撮る</td></tr>
+</table></div>
+<h3>D. 外観（3）</h3>
+<div class="tw"><table>
+<tr><th>No</th><th>カット</th><th>構図・撮り方</th><th>主用途</th><th>準備・注意</th></tr>
+<tr><td>18</td><td>外観正面</td><td>看板・入口を正面から。<strong>縦位置優先</strong></td><td>チラシ・サイト・食べログ</td><td>店頭清掃・暖簾を整える・看板照明点灯（15:30まで）</td></tr>
+<tr><td>19</td><td>外観引き</td><td>駅からの並びが分かる引き</td><td>GBP・サイトアクセス</td><td>同上</td></tr>
+<tr><td>20</td><td>暖簾・看板ディテール</td><td>寄り。長く続く店の象徴</td><td>サイト・SNS</td><td>同上</td></tr>
+</table></div>
+
+<h2>3. 当日の進行</h2>
+<div class="tl">
+  <div class="m">13:00<small>ランチL.O.</small></div><div class="b">この日だけ30分早める［要確認］。13:30までに1階を空け、卓上整理・照明全点灯・カウンターの七輪と卓上セット（畠山）</div>
+  <div class="m key">13:30<small>入店</small></div><div class="b">岡崎さん入店・機材設営・打ち合わせ。<b>§1の差分を口頭で共有</b>。調理は盛り付けの下準備（皿・薬味・肉の切り出し）。2階の卓セッティングは14:00まで</div>
+  <div class="m">14:15<small>料理</small></div><div class="b">No.1・2（上ハラミ→持ち上げ）→3（タン）→7（カルビ）→5（ホルモン3種）→6（盛り合わせ5種）→10（3点セット）→4・16（焼き。<b>14:30までに火起こし</b>）→17・9（ユッケ手元→単品）→11（カレー）→12（牛丼）。1品ずつ仕上げ、次の品は畠山さんが声をかける</div>
+  <div class="m">15:15<small>店内</small></div><div class="b">No.13〜16（1階カウンター・客席・2階・焼きシーン）、肉切りの手元 No.8</div>
+  <div class="m">15:45<small>外観</small></div><div class="b">No.18〜20。店頭清掃・看板照明点灯は15:30まで</div>
+  <div class="m">16:45<small>撤収</small></div><div class="b">予備・撤収。17:00夜営業</div>
+</div>
+
+<h2>4. 当日朝までに埋める項目</h2>
+<ul>
+<li>調理担当の名前（菅原さん／西村さん）</li>
+<li>ランチのラストオーダーを13:00にする運用の可否</li>
+<li>3点セットの極上サーロインの在庫（無ければ極上バラ）</li>
+<li>極上ハラミ（サガリ）の在庫（無ければ上・並の2段で撮る）</li>
+<li>岡崎さんへの追伝（§1の差分＋カレーの指定）が送付済みか。未送付なら13:30の打ち合わせで口頭共有</li>
+</ul>
+
+<h2>5. 納品後の流れ</h2>
+<div class="tw"><table>
+<tr><th>日</th><th>内容</th><th>担当</th></tr>
+<tr><td>9/18</td><td>セレクト用写真（透かし入り）が届く</td><td>岡崎さん</td></tr>
+<tr><td>9/18〜19</td><td>§6の振り分け表で番号を選んで返信。カット内で縦横の両方を確保</td><td>マーケ</td></tr>
+<tr><td>9/24前後</td><td>本番納品（中2日。9/21〜23が祝日のためずれる）</td><td>岡崎さん</td></tr>
+<tr><td>納品+1〜2日</td><td>食べログ・GBP・公式サイト・IGへ差し込み。半年計画のA2・A3・A4を開始</td><td>管理部・マーケ</td></tr>
+<tr><td>10月上旬</td><td>食べログ営業へ問い合わせ→有料化（11/1開始。前倒し条件は<a href="kpi.html">半年計画</a>§4）</td><td>管理部</td></tr>
+</table></div>
+
+<h2>6. 媒体別の振り分け（セレクト時に使う）</h2>
+<div class="tw"><table>
+<tr><th>媒体</th><th>形状</th><th>使うカット</th></tr>
+<tr><td>公式サイト</td><td>横長8:3</td><td>1（名物）・13（店内）・8（肉）・20（暖簾）・18（外観）</td></tr>
+<tr><td>食べログ</td><td>横4:3中心</td><td>トップ=1／一覧=3・5・6・7・9・10・14・15・18</td></tr>
+<tr><td>Googleマップ</td><td>横</td><td>6・14・15・19・18・11（ランチ）</td></tr>
+<tr><td>チラシ</td><td>縦大判1点＋小カット</td><td>表（ランチ）=11・12／裏（夜）=5・2・6／縦=18</td></tr>
+<tr><td>A1ポスター</td><td>角版可・余白あり</td><td>11</td></tr>
+<tr><td>Instagram</td><td>4:5・1:1</td><td>2・4・16・20・17</td></tr>
+<tr><td>ホットペッパー</td><td>横</td><td>15・6・10</td></tr>
+</table></div>
+<p class="small">元資料: Desktop\山王苑マーケ\山王苑撮影_05_撮影リスト確定版.md／キッチンへ渡す文面は 山王苑撮影_04_キッチン準備リスト.md</p>
+</main>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+})();
+</script>
+</body>
+</html>
