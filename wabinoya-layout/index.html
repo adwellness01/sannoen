@@ -72,6 +72,12 @@ aside h2{font-size:11px; letter-spacing:.14em; color:var(--muted); font-weight:7
 .pal .sw{width:26px; height:20px; border-radius:4px; flex-shrink:0; border:1px solid rgba(0,0,0,.18)}
 .pal .nm{font-weight:500; line-height:1.25}
 .pal .sz{font-size:10.5px; color:var(--muted); font-variant-numeric:tabular-nums}
+.pal{cursor:pointer; user-select:none}
+.pal .lk{margin-top:2px}
+.pal .lk a{font-size:10.5px; color:var(--accent); text-decoration:none; margin-right:8px; font-weight:700}
+.pal .lk a:hover{text-decoration:underline}
+.selbar a.lnk{padding:5px 10px; border-radius:7px; background:var(--accent-soft); color:var(--accent); font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap}
+.selbar a.lnk:hover{text-decoration:underline}
 
 .stage{flex:1; position:relative; min-width:0; background:var(--canvas)}
 canvas{position:absolute; inset:0; width:100%; height:100%; touch-action:none; display:block}
@@ -127,6 +133,7 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
   .pal{flex-direction:column; gap:3px; width:auto; min-width:76px; text-align:center; padding:5px 4px}
   .pal .nm{font-size:11px; line-height:1.2}
   .pal .sz{display:none}
+  .pal .lk{display:none}
   .pal .sw{width:22px; height:16px; margin:0 auto}
   .wordmark{font-size:15px}
   .wordmark small{display:none}
@@ -183,6 +190,7 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
     <div class="hint3d" id="hint" hidden>ドラッグで回転 / ホイール・ピンチで拡大縮小</div>
     <div class="selbar" id="selbar">
       <span class="who" id="selName"></span>
+      <a id="selLink" class="lnk" target="_blank" rel="noopener" hidden>商品ページ</a>
       <button id="rotBtn">回転 45°</button>
       <button id="rot90Btn" hidden>回転 90°</button>
       <button id="dupBtn">複製</button>
@@ -229,20 +237,34 @@ const STONE='#7A756D';
 const CATALOG=[
  /* 国内既製品案（中国工場案はペンディング）。価格は税込・2026-09-28 サイト実測値 */
  {id:'regA', name:'レジカウンター',          w:1000,d:400, kind:'counter',color:COUNTER,note:'1000×400×H800・国内既製品で再選定', hgt:800},
- {id:'tGan', name:'中古テーブル 600×750',     w:600, d:750, kind:'table',  color:WOOD,  note:'テンポス中古 ¥6,600〜11,000・メラミン天板・十字脚'},
- {id:'t65',  name:'中古テーブル 650×750',     w:650, d:750, kind:'table',  color:WOOD,  note:'テンポス中古 ¥8,800〜・3F用'},
- {id:'t120', name:'中古テーブル 1200×600',    w:1200,d:600, kind:'table',  color:WOOD,  note:'テンポス中古 ¥8,800〜18,700'},
- {id:'chDJ', name:'チェア 新品 CDK0383',       w:420, d:460, kind:'chair',  color:WOOD2, note:'楽天BANJO ¥9,180・座面高450・大量注文可'},
- {id:'chU',  name:'チェア 中古',               w:400, d:460, kind:'chair',  color:WOOD2, note:'テンポス中古 ¥6,600〜9,350・板座/PU'},
- {id:'kaza', name:'ベンチ バンD1 W1200',       w:1200,d:560, kind:'bench',  color:BROWN, note:'クレス新品 ¥71,996(本体+台輪)・2週間出荷', hgt:1000},
- {id:'kazaL',name:'ベンチ バンD1 W1800',       w:1800,d:560, kind:'bench',  color:BROWN, note:'クレス新品 ¥103,516(本体+台輪)・間口1800まで10mm単位', hgt:1000},
- {id:'kazaK',name:'ベンチ キープ W1800（背無）',w:1800,d:500, kind:'bench',  color:BROWN, note:'プロシード新品 ¥71,016(座面+台輪)・背は壁クッション造作', hgt:450},
- {id:'kazaU1',name:'中古張替ベンチ W1525',     w:1525,d:570, kind:'bench',  color:BROWN, note:'テンポス立川 ¥55,000・H995/SH450', hgt:995},
- {id:'kazaU2',name:'中古張替ベンチ W1245',     w:1245,d:570, kind:'bench',  color:BROWN, note:'テンポス立川 ¥44,000・同シリーズ', hgt:995},
- {id:'kazaU3',name:'中古張替ベンチ W745',      w:745, d:570, kind:'bench',  color:BROWN, note:'テンポス立川 ¥22,000・同シリーズ（3点で3,515）', hgt:995},
- {id:'tter', name:'テラス卓 φ600 アルミ',     w:600, d:600, kind:'round',  color:TERRA, note:'UTILTY AL-P60RT ¥24,420・H725'},
- {id:'tter75',name:'テラス卓 750角',          w:750, d:750, kind:'table',  color:TERRA, note:'チェリー カフェテーブル55号 ¥42,757・即納'},
- {id:'chT',  name:'テラスチェア',              w:470, d:565, kind:'chair',  color:ALU,   note:'チェリー アバディーン ¥11,440（FUJI PS450 ¥9,240はW560）'},
+ {id:'tGan', name:'中古テーブル 600×750',     w:600, d:750, kind:'table',  color:WOOD,  note:'テンポス中古 ¥6,600〜11,000・メラミン天板・十字脚',
+   links:[{t:'商品例',u:'https://www.tenpos.com/c/outlet-tools/outlet-table/2505400002534'},{t:'同条件の一覧',u:'https://www.tenpos.com/c/outlet-tools/outlet-table?width__from=600&width__to=700&depth__from=700&depth__to=800&limit=80'}]},
+ {id:'t65',  name:'中古テーブル 650×750',     w:650, d:750, kind:'table',  color:WOOD,  note:'テンポス中古 ¥9,900（川口在庫・直接引取可）・3F用',
+   links:[{t:'商品例',u:'https://www.tenpos.com/c/outlet-tools/outlet-table/2500009992583'},{t:'同条件の一覧',u:'https://www.tenpos.com/c/outlet-tools/outlet-table?width__from=600&width__to=700&depth__from=700&depth__to=800&limit=80'}]},
+ {id:'t120', name:'中古テーブル 1200×600',    w:1200,d:600, kind:'table',  color:WOOD,  note:'テンポス中古 ¥8,800〜18,700',
+   links:[{t:'商品例',u:'https://www.tenpos.com/c/outlet-tools/outlet-table/2500009674410'},{t:'同条件の一覧',u:'https://www.tenpos.com/c/outlet-tools/outlet-table?width__from=1100&width__to=1200&depth__from=600&depth__to=600&limit=80'}]},
+ {id:'chDJ', name:'チェア 新品 CDK0383',       w:420, d:460, kind:'chair',  color:WOOD2, note:'楽天BANJO ¥9,180・座面高450・大量注文可',
+   links:[{t:'商品',u:'https://item.rakuten.co.jp/auc-banjo/cdk0383ca-c/'}]},
+ {id:'chU',  name:'チェア 中古',               w:400, d:460, kind:'chair',  color:WOOD2, note:'テンポス中古 ¥6,600〜9,350・板座/PU',
+   links:[{t:'商品例',u:'https://www.tenpos.com/c/outlet-tools/outlet-chair1/2500009404970'},{t:'川口の一覧',u:'https://www.tenpos.com/c/area-all/area-kanto/saitama/hatogaya'}]},
+ {id:'kaza', name:'ベンチ バンD1 W1200',       w:1200,d:560, kind:'bench',  color:BROWN, note:'クレス新品 ¥71,996(本体+台輪)・2週間出荷', hgt:1000,
+   links:[{t:'商品',u:'https://www.tenpokagu.com/system_sofa/sofa/banc_d1.htm'}]},
+ {id:'kazaL',name:'ベンチ バンD1 W1800',       w:1800,d:560, kind:'bench',  color:BROWN, note:'クレス新品 ¥103,516(本体+台輪)・間口1800まで10mm単位', hgt:1000,
+   links:[{t:'商品',u:'https://www.tenpokagu.com/system_sofa/sofa/banc_d1.htm'}]},
+ {id:'kazaK',name:'ベンチ キープ W1800（背無）',w:1800,d:500, kind:'bench',  color:BROWN, note:'プロシード新品 ¥71,016(座面+台輪)・背は壁クッション造作', hgt:450,
+   links:[{t:'商品',u:'https://www.tenpokagu.com/system_sofa/proceed/keep.html'}]},
+ {id:'kazaU1',name:'中古張替ベンチ W1525',     w:1525,d:570, kind:'bench',  color:BROWN, note:'テンポス立川 ¥55,000・H995/SH450', hgt:995,
+   links:[{t:'商品',u:'https://www.tenpos.com/c/outlet-tools/outlet-sofa/2500009779634'}]},
+ {id:'kazaU2',name:'中古張替ベンチ W1245',     w:1245,d:570, kind:'bench',  color:BROWN, note:'テンポス立川 ¥44,000・同シリーズ', hgt:995,
+   links:[{t:'商品',u:'https://www.tenpos.com/c/outlet-tools/outlet-sofa/2500009779641'}]},
+ {id:'kazaU3',name:'中古張替ベンチ W745',      w:745, d:570, kind:'bench',  color:BROWN, note:'テンポス立川 ¥22,000・同シリーズ（3点で3,515）', hgt:995,
+   links:[{t:'商品',u:'https://www.tenpos.com/c/outlet-tools/outlet-sofa/2500009779658'}]},
+ {id:'tter', name:'テラス卓 φ600 アルミ',     w:600, d:600, kind:'round',  color:TERRA, note:'UTILTY AL-P60RT ¥24,420・H725',
+   links:[{t:'商品',u:'https://www.tenpokagu.com/garden/utility/al-p60rt.html'}]},
+ {id:'tter75',name:'テラス卓 750角',          w:750, d:750, kind:'table',  color:TERRA, note:'チェリー カフェテーブル55号 ¥42,757・即納',
+   links:[{t:'商品',u:'https://www.tenpokagu.com/garden/che_garden/cafe_table55.html'}]},
+ {id:'chT',  name:'テラスチェア',              w:470, d:565, kind:'chair',  color:ALU,   note:'チェリー アバディーン ¥11,440（FUJI PS450 ¥9,240はW560）',
+   links:[{t:'商品',u:'https://www.tenpokagu.com/garden/che_garden/abadeen.html'},{t:'PS450',u:'https://www.tenpokagu.com/garden/fuji/plastic/ps450.html'}]},
  /* 既存 */
  {id:'ch',   name:'チェア汎用',               w:400, d:420, kind:'chair',  color:WOOD2, note:'W400×D420・2F既存席'},
  {id:'yk2',  name:'焼肉卓 2名',         w:750, d:750, kind:'roaster',color:DARK,  note:'ロースター付・既存'},
@@ -481,15 +503,22 @@ FLOOR_NAMES.forEach(n=>{
 function syncTabs(){ [...tabsEl.children].forEach((b,i)=>b.setAttribute('aria-pressed', FLOOR_NAMES[i]===cur?'true':'false')); }
 
 const palEl=document.getElementById('palette');
+function linksHtml(c){
+  if(!c.links||!c.links.length)return '';
+  return '<div class="lk">'+c.links.map(l=>'<a href="'+l.u.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">'+l.t+' ↗</a>').join('')+'</div>';
+}
 CATALOG.forEach(c=>{
-  const b=document.createElement('button'); b.className='pal';
-  b.innerHTML='<span class="sw" style="background:'+c.color+'"></span><span><div class="nm">'+c.name+'</div><div class="sz">'+c.note+'</div></span>';
-  b.addEventListener('click',()=>{
+  /* 中にリンクを置くため button ではなく div[role=button] にする */
+  const b=document.createElement('div'); b.className='pal'; b.setAttribute('role','button'); b.tabIndex=0;
+  b.innerHTML='<span class="sw" style="background:'+c.color+'"></span><span><div class="nm">'+c.name+'</div><div class="sz">'+c.note+'</div>'+linksHtml(c)+'</span>';
+  const add=()=>{
     if(editMode!=='furn')setEdit('furn');
     pushUndo();
     const f=fl(), it={uid:newUid(), cat:c.id, x:Math.round(f.w/2/50)*50, y:Math.round(f.d/2/50)*50, rot:0};
     f.items.push(it); selUid=it.uid; save(); render(); renderFoot(); syncSelbar();
-  });
+  };
+  b.addEventListener('click',e=>{ if(e.target.closest('a'))return; add(); });
+  b.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); add(); } });
   palEl.appendChild(b);
 });
 
@@ -700,10 +729,13 @@ function syncSelbar(){
     selbar.classList.add('show'); return;
   }
   rotBtn.textContent='回転 45°';
+  const selLink=document.getElementById('selLink');
   const it=selItem();
-  if(!it){ selbar.classList.remove('show'); return; }
+  if(!it){ selbar.classList.remove('show'); selLink.hidden=true; return; }
   const c=CAT[it.cat];
   selName.innerHTML=c.name+'<small>'+c.w+'×'+c.d+'mm</small>';
+  if(c.links&&c.links.length){ selLink.href=c.links[0].u; selLink.textContent=c.links[0].t+' ↗'; selLink.hidden=false; }
+  else selLink.hidden=true;
   selbar.classList.add('show');
 }
 document.getElementById('rotBtn').addEventListener('click',()=>{
