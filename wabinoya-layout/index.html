@@ -236,7 +236,14 @@ const WOOD='#A97B4F', WOOD2='#8F6238', DARK='#5C4632', TERRA='#9AA49F', ALU='#B9
 const STONE='#7A756D';
 const CATALOG=[
  /* 国内既製品案（中国工場案はペンディング）。価格は税込・2026-09-28 サイト実測値 */
- {id:'regA', name:'レジカウンター',          w:1000,d:400, kind:'counter',color:COUNTER,note:'1000×400×H800・国内既製品で再選定', hgt:800},
+ {id:'regA', name:'レジ台 中古 900×450',       w:900, d:450, kind:'counter',color:COUNTER,note:'テンポス盛岡 ¥16,500・H900・依頼値1000×400に最も近い', hgt:900,
+   links:[{t:'商品',u:'https://www.tenpos.com/c/outle-interior-furniture/outle-register-counter1/2505100023600'},{t:'中古一覧',u:'https://www.tenpos.com/c/outle-interior-furniture/outle-register-counter1'}]},
+ {id:'regB', name:'レジ台 中古 870×500（川口）',w:870, d:500, kind:'counter',color:COUNTER,note:'テンポス川口 ¥16,500・ブラウン・H1210（上段付）・現物確認可', hgt:1210,
+   links:[{t:'商品',u:'https://www.tenpos.com/c/outle-interior-furniture/outle-register-counter1/2500008032372'}]},
+ {id:'regC', name:'レジ台 新品 900×600',       w:900, d:600, kind:'counter',color:COUNTER,note:'テンポス 賜り台（簡易レジ台）¥16,500・無塗装・H910', hgt:910,
+   links:[{t:'商品',u:'https://www.tenpos.com/c/furnishing-equipment/jp1-55847'}]},
+ {id:'regD', name:'レジ台 新品 1000×500',      w:1000,d:500, kind:'counter',color:COUNTER,note:'楽天 ¥17,344・H1000・輸入品（組立）', hgt:1000,
+   links:[{t:'商品',u:'https://item.rakuten.co.jp/toryounosuketto/ly030917021905/'}]},
  {id:'tGan', name:'中古テーブル 600×750',     w:600, d:750, kind:'table',  color:WOOD,  note:'テンポス中古 ¥6,600〜11,000・メラミン天板・十字脚',
    links:[{t:'商品例',u:'https://www.tenpos.com/c/outlet-tools/outlet-table/2505400002534'},{t:'同条件の一覧',u:'https://www.tenpos.com/c/outlet-tools/outlet-table?width__from=600&width__to=700&depth__from=700&depth__to=800&limit=80'}]},
  {id:'t65',  name:'中古テーブル 650×750',     w:650, d:750, kind:'table',  color:WOOD,  note:'テンポス中古 ¥9,900（川口在庫・直接引取可）・3F用',
