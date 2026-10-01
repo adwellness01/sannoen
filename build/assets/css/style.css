@@ -124,6 +124,8 @@ table{border-collapse:collapse;}
 /* ---------- お知らせ ---------- */
 .news-list li{max-width:640px;margin:0 auto;text-align:center;}
 .news-list li + li{margin-top:36px;}
+.news-img{margin:0 0 24px;overflow:hidden;}
+.news-img img{width:100%;aspect-ratio:8/3;object-fit:cover;}
 .news-tag{
   display:inline-block;font-family:var(--mincho);font-size:12px;letter-spacing:var(--ls);
   color:#fff;background:var(--ink);padding:4px 14px;margin-bottom:14px;
