@@ -76,8 +76,8 @@ aside h2{font-size:11px; letter-spacing:.14em; color:var(--muted); font-weight:7
 .pal .lk{margin-top:2px}
 .pal .lk a{font-size:10.5px; color:var(--accent); text-decoration:none; margin-right:8px; font-weight:700}
 .pal .lk a:hover{text-decoration:underline}
-.selbar a.lnk{padding:5px 10px; border-radius:7px; background:var(--accent-soft); color:var(--accent); font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap}
-.selbar a.lnk:hover{text-decoration:underline}
+.selbar .who a{color:var(--accent); text-decoration:none; border-bottom:1px dashed var(--accent)}
+.selbar .who a:hover{text-decoration:none; background:var(--accent-soft)}
 
 .stage{flex:1; position:relative; min-width:0; background:var(--canvas)}
 canvas{position:absolute; inset:0; width:100%; height:100%; touch-action:none; display:block}
@@ -190,7 +190,6 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
     <div class="hint3d" id="hint" hidden>ドラッグで回転 / ホイール・ピンチで拡大縮小</div>
     <div class="selbar" id="selbar">
       <span class="who" id="selName"></span>
-      <a id="selLink" class="lnk" target="_blank" rel="noopener" hidden>商品ページ</a>
       <button id="rotBtn">回転 45°</button>
       <button id="rot90Btn" hidden>回転 90°</button>
       <button id="dupBtn">複製</button>
@@ -736,13 +735,14 @@ function syncSelbar(){
     selbar.classList.add('show'); return;
   }
   rotBtn.textContent='回転 45°';
-  const selLink=document.getElementById('selLink');
   const it=selItem();
-  if(!it){ selbar.classList.remove('show'); selLink.hidden=true; return; }
+  if(!it){ selbar.classList.remove('show'); return; }
   const c=CAT[it.cat];
-  selName.innerHTML=c.name+'<small>'+c.w+'×'+c.d+'mm</small>';
-  if(c.links&&c.links.length){ selLink.href=c.links[0].u; selLink.textContent=c.links[0].t+' ↗'; selLink.hidden=false; }
-  else selLink.hidden=true;
+  /* 家具名そのものを商品ページへのリンクにする（先頭リンク・別タブ） */
+  const nm=(c.links&&c.links.length)
+    ? '<a href="'+c.links[0].u.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener" title="'+c.links[0].t+'">'+c.name+' ↗</a>'
+    : c.name;
+  selName.innerHTML=nm+'<small>'+c.w+'×'+c.d+'mm</small>';
   selbar.classList.add('show');
 }
 document.getElementById('rotBtn').addEventListener('click',()=>{
