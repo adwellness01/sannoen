@@ -157,6 +157,15 @@ table{border-collapse:collapse;}
 .figure{margin:0 0 clamp(40px,4.4vw,56px);}
 .figure img{width:100%;aspect-ratio:8/3;object-fit:cover;}
 .figure-full img{aspect-ratio:3/2;}
+.figure-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:0 0 clamp(40px,4.4vw,56px);}
+.figure-pair figure{margin:0;}
+.figure-pair img{width:100%;aspect-ratio:3/2;object-fit:cover;}
+.figure-pair figcaption{font-family:var(--mincho);font-size:13px;letter-spacing:var(--ls);color:var(--ink-2);text-align:center;margin-top:12px;}
+.menu-img{display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 18px;}
+.menu-img.two{grid-template-columns:1fr 1fr;}
+.menu-img img{width:100%;aspect-ratio:3/2;object-fit:cover;}
+.course-img{margin:0 0 26px;overflow:hidden;}
+.course-img img{width:100%;aspect-ratio:3/2;object-fit:cover;}
 
 /* ---------- harami ---------- */
 .grade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;}
@@ -307,6 +316,7 @@ table{border-collapse:collapse;}
   .grade{background:var(--bg-2);padding:30px 22px 26px;}
   .grade .en{margin-bottom:12px;}
   .grade-desc{min-height:0;}
+  .figure-pair{gap:10px;}
   .grade-price{margin-top:10px;}
   .niku-grid{grid-template-columns:1fr;gap:38px;}
   
