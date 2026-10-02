@@ -162,7 +162,7 @@ table{border-collapse:collapse;}
 .figure-pair img{width:100%;aspect-ratio:3/2;object-fit:cover;}
 .figure-pair figcaption{font-family:var(--mincho);font-size:13px;letter-spacing:var(--ls);color:var(--ink-2);text-align:center;margin-top:12px;}
 .menu-img{display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 18px;position:relative;}
-.img-note{position:absolute;right:12px;bottom:10px;font-size:11px;line-height:1.5;letter-spacing:.04em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.85);}
+.img-note{position:absolute;right:10px;bottom:8px;font-size:9.5px;font-weight:300;line-height:1.5;letter-spacing:.06em;color:rgba(255,255,255,.6);}
 .menu-img.two{grid-template-columns:1fr 1fr;}
 .menu-img img{width:100%;aspect-ratio:3/2;object-fit:cover;}
 .course-img{margin:0 0 26px;overflow:hidden;}
