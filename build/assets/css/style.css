@@ -93,8 +93,14 @@ table{border-collapse:collapse;}
 .hero-mark{
   font-family:var(--mincho);font-weight:400;
   font-size:clamp(34px,5.6vw,62px);letter-spacing:var(--ls);line-height:1.35;
-  color:var(--ink);margin:0 0 clamp(76px,13vh,160px);
+  color:var(--ink);margin:0 0 clamp(22px,3.2vh,34px);
 }
+.hero-lead{
+  font-family:var(--mincho);font-weight:400;
+  font-size:clamp(15px,1.75vw,21px);letter-spacing:var(--ls);line-height:1.9;
+  color:var(--ink);margin:0 0 clamp(60px,11vh,140px);
+}
+.hero-lead span{display:inline-block;}
 .hero-mark i{
   display:block;margin-top:14px;
   font-family:var(--en);font-style:normal;font-weight:300;
@@ -358,7 +364,8 @@ table{border-collapse:collapse;}
   .hero-index a{width:calc(100% - 64px);}
   .section{padding:60px 0;}
   .hero{padding-top:calc(var(--head-h) + 56px);}
-  .hero-mark{margin-bottom:64px;}
+  .hero-mark{margin-bottom:18px;}
+  .hero-lead{margin-bottom:52px;}
   .hero-index a{padding:20px 0;gap:14px;flex-wrap:wrap;}
   .hero-index a i{width:100%;order:3;}
   .hero-index a::after{align-self:center;}
