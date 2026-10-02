@@ -98,7 +98,7 @@ table{border-collapse:collapse;}
 .hero-lead{
   font-family:"Zen Old Mincho","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;font-weight:400;
   font-size:clamp(13.5px,1.35vw,17px);letter-spacing:.2em;line-height:2;
-  color:rgba(0,0,0,.72);margin:0 0 clamp(60px,11vh,140px);
+  color:rgba(0,0,0,.5);margin:0 0 clamp(60px,11vh,140px);
 }
 .hero-lead span{display:inline-block;}
 .hero-mark i{
