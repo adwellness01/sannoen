@@ -302,8 +302,12 @@ table{border-collapse:collapse;}
   .hero-index a{border-top:none;border-bottom:none;}
   .hero-index a::after{display:none;}
 
-  .grade-grid{grid-template-columns:1fr;gap:40px;max-width:460px;margin-inline:auto;}
+  /* 縦積みでは「価格→次の品名」が続いて見えるため、1格ごとに薄い面で囲って区切る */
+  .grade-grid{grid-template-columns:1fr;gap:14px;max-width:460px;margin-inline:auto;}
+  .grade{background:var(--bg-2);padding:30px 22px 26px;}
+  .grade .en{margin-bottom:12px;}
   .grade-desc{min-height:0;}
+  .grade-price{margin-top:10px;}
   .niku-grid{grid-template-columns:1fr;gap:38px;}
   
   
