@@ -163,6 +163,7 @@ table{border-collapse:collapse;}
 .figure{margin:0 0 clamp(40px,4.4vw,56px);}
 .figure img{width:100%;aspect-ratio:8/3;object-fit:cover;}
 .figure-full img{aspect-ratio:3/2;}
+.figure-wide img{aspect-ratio:16/9;}
 .figure-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:0 0 clamp(40px,4.4vw,56px);}
 .figure-pair figure{margin:0;}
 .figure-pair img{width:100%;aspect-ratio:3/2;object-fit:cover;}
