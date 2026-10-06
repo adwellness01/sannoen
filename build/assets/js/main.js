@@ -73,3 +73,10 @@
     io.observe(el);
   });
 })();
+
+/* GA4: 予約リンク（食べログのネット予約フォーム）のクリックをイベント送信 */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href*="yoyaku.tabelog.com"]');
+  if (!a || typeof gtag !== 'function') return;
+  gtag('event', 'reserve_click', { link_text: (a.textContent || '').trim().slice(0, 40), link_url: a.href });
+});
