@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 食べログ作業優先</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1e1d1a; --muted:#67655e; --rule:#d8d5cd;
+  --accent:#2b4a70; --accent-soft:#e3e9f1; --ember:#b23a2a; --ember-soft:#f4e3df;
+  --ok:#3d6b45; --ok-soft:#e2ecdf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+    --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+    --ok:#8fbf95; --ok-soft:#22342a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+  --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+  --ok:#8fbf95; --ok-soft:#22342a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;padding-block:32px 64px;padding-inline:16px;font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3,h4{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;text-wrap:balance;margin:0}
+h1{font-size:30px;line-height:1.3;letter-spacing:.02em}
+h2{font-size:21px;margin-top:56px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin-top:28px;color:var(--accent)}
+h4{font-size:14.5px;margin-top:20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead{color:var(--muted);margin:12px 0 0;max-width:40em}
+p{margin:12px 0;max-width:42em}
+.head{border-bottom:1px solid var(--rule);padding-bottom:24px}
+.head .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:12px;letter-spacing:.06em;background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:3px;white-space:nowrap}
+.p0{background:var(--ember-soft);color:var(--ember)}
+.p1{background:var(--accent-soft);color:var(--accent)}
+.p2{background:var(--bg);color:var(--muted);border:1px solid var(--rule)}
+.ok{background:var(--ok-soft);color:var(--ok)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi div{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:"Shippori Mincho B1",serif;font-size:24px;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.note{background:var(--surface);border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;font-size:14px}
+.note.warn{border-left-color:var(--ember)}
+.note.ok{border-left-color:var(--ok);background:var(--surface);color:var(--ink)}
+.copy{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:10px 0;font-size:14px;white-space:pre-wrap;position:relative}
+.copy .lbl{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.copy button{position:absolute;top:8px;right:8px;font-size:12px;padding:4px 10px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:3px;cursor:pointer}
+ul{padding-left:1.3em;max-width:42em}
+li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+.task{list-style:none;padding:0;margin:14px 0;max-width:none}
+.task li{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:8px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start}
+.task li .t{font-weight:700}
+.task li .d{grid-column:2;font-size:13.5px;color:var(--muted)}
+.task li .d b{color:var(--ink);font-weight:700}
+@media (max-width:520px){h1{font-size:24px}}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--accent)}
+a{color:var(--accent)}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 食べログ作業優先</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+
+<div class="wrap">
+<header class="head">
+  <div class="eyebrow">焼肉 山王苑（大森）</div>
+  <h1>食べログ 再確認と作業優先</h1>
+  <p class="lead">食べログの店舗ページ（トップ・コース・料理・ランチ・写真・口コミ）を目視し、済んでいるもの・残っているズレ・やる順番をまとめた。有料化（11月1日）と忘年会の受付開始（10月末）の前に潰す。</p>
+  <div class="meta"><span>目視: 2026年10月上旬</span><span>店舗ページ: <a href="https://tabelog.com/tokyo/A1315/A131502/13156009/">tabelog.com/…/13156009</a></span><span>半年計画: <a href="kpi.html">kpi.html</a></span></div>
+</header>
+
+<h2>1. 現在地</h2>
+<div class="kpi">
+  <div><div class="l">点数</div><div class="v">3.28</div><div class="s">前回 3.28・横ばい</div></div>
+  <div><div class="l">口コミ</div><div class="v">109件</div><div class="s">前回 106件。2026年訪問が4件</div></div>
+  <div><div class="l">保存</div><div class="v">6,135人</div><div class="s">前回 6,104人。月末目標6,300には届かないペース</div></div>
+  <div><div class="l">写真</div><div class="v">330枚</div><div class="s">公式写真が増えた分</div></div>
+  <div><div class="l">ネット予約</div><div class="v">5組以上</div><div class="s">過去30日。飲み放題1,900円に「人気No.1」表示＝5組以上の実績</div></div>
+</div>
+
+<h3>整備が済んでいるもの</h3>
+<ul>
+  <li><span class="pill ok">済</span> 公式バッジ・ネット予約（1〜9名・17:00〜20:30）・ホームページ欄に machiyakiniku.jp</li>
+  <li><span class="pill ok">済</span> トップ写真が9/17撮影の肉盛り（タン・ハラミ）。公式の料理写真12点も撮影分</li>
+  <li><span class="pill ok">済</span> 営業時間に昼帯が載った: 毎日 11:30〜13:30／17:00〜22:30、定休なし</li>
+  <li><span class="pill ok">済</span> 料理 9/28更新・コース 10/5更新・ランチに数量限定定食（2,000円・2,500円）追加</li>
+  <li><span class="pill ok">済</span> キャッチは「大森で焼肉とホルモンとお酒とランチも」（旧「大森焼肉とワイン」から変更済み）</li>
+  <li><span class="pill ok">済</span> 求人（調理師・正社員・月給30〜40万円）が掲載</li>
+</ul>
+
+<h3>残っているズレ（11点）</h3>
+<div class="tw"><table>
+  <tr><th>#</th><th>場所</th><th>いま</th><th>問題</th></tr>
+  <tr><td>1</td><td>紹介文</td><td>「米沢牛や仙台牛など全国厳選の最高級A5ランク黒毛和牛」</td><td>前オーナー期の文面。公式サイトの「地域最安値の高品質和牛」「国産ハラミ」「国産ホルモン」と別の店に見える</td></tr>
+  <tr><td>2</td><td>こだわり4項目</td><td>A5和牛／名門問屋のホルモン／厳選ワイン／煙対策</td><td>同上。ワイン推しが残っている</td></tr>
+  <tr><td>3</td><td>予算</td><td>夜 ¥3,000〜3,999／昼 〜¥999</td><td>実測の客単価5,600円、口コミ集計¥8,000〜9,999と乖離。安く見せすぎると「コスパが悪い」口コミを誘発</td></tr>
+  <tr><td>4</td><td>ネット予約の人数</td><td>1〜9名のみ。10名以上は×</td><td>備考に「2F 30名迄」とあるのに忘年会の幹事がネット予約できない。電話誘導の文言もない</td></tr>
+  <tr><td>5</td><td>コース</td><td>飲み放題1,900／2,500／4,000／5,500／4,000 の5本・すべて2〜9名</td><td>確定予定の6,600円・8,800円と忘年会プランが未登録。旧5本の残す/消すが未整理</td></tr>
+  <tr><td>6</td><td>ピックアップ口コミ</td><td>2014年7月訪問</td><td>12年前の口コミが先頭。新体制の評価が見えない</td></tr>
+  <tr><td>7</td><td>口コミ返信</td><td>直近12件すべて返信なし</td><td>2.5点の口コミが放置されている</td></tr>
+  <tr><td>8</td><td>利用シーン</td><td>家族・子供と／デート／知人・友人と</td><td>「宴会」「接待」が無く宴会検索に乗らない</td></tr>
+  <tr><td>9</td><td>キーワード</td><td>和牛 肉 激安ランチ フルボトルワイン はらみ</td><td>「フルボトルワイン」が旧期。国産ホルモン・炭火・宴会が無い</td></tr>
+  <tr><td>10</td><td>内観・外観の公式写真</td><td>内観6点は撮影前のもの</td><td>9/17撮影の1F・2F・外観に差し替えられていない</td></tr>
+  <tr><td>11</td><td>営業時間の媒体間一致</td><td>食べログ「毎日ランチ・定休なし」</td><td>計画書は「ランチ月〜金・土日夜のみ・月定休」。実態の確認が1点要る</td></tr>
+</table></div>
+
+<h2>2. 作業優先リスト</h2>
+<p class="small">P0＝有料化と忘年会受付の前に潰す／P1＝10月中／P2＝余力で／申し送り＝マーケの範囲外。担当は「マーケ＝文面・素材の納品」「管理部＝食べログ管理画面の操作」。</p>
+
+<ul class="task">
+  <li><span class="pill p0">P0</span><span class="t">紹介文とこだわり4項目を書き換える</span><span class="d">期限 <b>10/15</b>｜公式サイトと同じ軸（国産ハラミ・国産ホルモン・炭火・1980年頃からの暖簾・安さ）に揃える｜マーケ（原稿は§3）→管理部｜<b>原稿あり</b></span></li>
+  <li><span class="pill p0">P0</span><span class="t">予算表示を 夜 ¥5,000〜5,999 に直す</span><span class="d">期限 <b>10/15</b>｜期待値のズレを無くして低評価を防ぐ。昼は〜¥999のまま｜ザンさん決裁→管理部｜<b>要決裁</b></span></li>
+  <li><span class="pill p0">P0</span><span class="t">ネット予約の上限人数を20名まで広げ、予約可否欄に「10名様以上・2F貸切はお電話で」を追記</span><span class="d">期限 <b>10/20</b>｜忘年会の幹事を取りこぼさない｜管理部｜未</span></li>
+  <li><span class="pill p0">P0</span><span class="t">忘年会プランと確定コース（6,600円／8,800円）を登録し、利用シーンに「宴会」「接待」を追加</span><span class="d">期限 <b>10/20</b>｜12月の売上本体｜現場（確定）→管理部｜コース確定待ち</span></li>
+  <li><span class="pill p0">P0</span><span class="t">ピックアップ口コミを 2026/07訪問（5.0点）に差し替える</span><span class="d">期限 <b>10/10</b>｜新体制の評価を先頭に出す｜管理部｜未</span></li>
+  <li><span class="pill p1">P1</span><span class="t">2026年訪問の口コミ4件と2.5点の1件に返信。以後は新着から1週間以内</span><span class="d">期限 <b>10/15</b>｜返信のある店に見せる｜マーケ（文面は§4）→管理部｜<b>文面あり</b></span></li>
+  <li><span class="pill p1">P1</span><span class="t">営業時間の実態を現場に確認（土日ランチの有無・月曜）</span><span class="d">期限 <b>10/10</b>｜食べログが正ならGBP・計画書を揃える｜マーケ→現場｜確認中</span></li>
+  <li><span class="pill p1">P1</span><span class="t">旧5本のコースを整理。飲み放題1,900と5,500（14品）を軸に残し、2,500／4,000×2は確定コースと入れ替え</span><span class="d">期限 <b>10/20</b>｜コース一覧で迷わせない｜現場→管理部｜コース確定待ち</span></li>
+  <li><span class="pill p1">P1</span><span class="t">内観・外観の公式写真を9/17撮影分（1F・2F・外観）に差し替える</span><span class="d">期限 <b>10/15</b>｜旧店舗の写真を残さない｜マーケ（選定）→管理部｜素材あり</span></li>
+  <li><span class="pill p1">P1</span><span class="t">キーワードを「国産ハラミ 国産ホルモン 炭火 宴会 大森 ランチ」に差し替える</span><span class="d">期限 <b>10/15</b>｜宴会・ホルモン検索に乗せる｜管理部｜未</span></li>
+  <li><span class="pill p2">P2</span><span class="t">ランチのネット予約枠（現状17:00〜のみ）</span><span class="d">11月以降｜昼は手数料100円/人。満席化してから｜保留</span></li>
+  <li><span class="pill p2">P2</span><span class="t">「お店のこだわり」の写真を紹介文の軸に合わせて選び直す</span><span class="d">11月以降｜見た目の整合｜マーケ</span></li>
+</ul>
+
+<h3>KPIの進み（10月末の目標に対して）</h3>
+<div class="tw"><table>
+  <tr><th>指標</th><th class="num">現状</th><th class="num">10月末目標</th><th>見立て</th></tr>
+  <tr><td>口コミ件数</td><td class="num">109</td><td class="num">110</td><td>届く</td></tr>
+  <tr><td>保存数</td><td class="num">6,135</td><td class="num">6,300</td><td>このペースだと6,170前後。有料化前なので許容</td></tr>
+  <tr><td>点数</td><td class="num">3.28</td><td class="num">3.30</td><td>新着口コミの点数次第</td></tr>
+  <tr><td>ネット予約（組/月）</td><td class="num">5以上</td><td class="num">8</td><td>人気No.1表示から逆算。予約人数の上限拡大で宴会が乗れば届く</td></tr>
+</table></div>
+
+<h2>3. 紹介文・こだわりの原稿</h2>
+<p class="small">右上のボタンでコピーできる。管理部が食べログ管理画面に貼る。</p>
+
+<div class="copy"><span class="lbl">紹介文の見出し</span><button type="button">コピー</button>大森駅徒歩3分｜国産ハラミと国産ホルモン。1980年頃から続く町の焼肉屋</div>
+<div class="copy"><span class="lbl">紹介文の本文</span><button type="button">コピー</button>大森駅から徒歩3分。1980年頃から大森で愛されてきた焼肉屋を、2026年に受け継ぎました。名物は国産ハラミ。流通上「内臓」扱いで産地の分かるものが少ないハラミを、国産にこだわって仕入れています。ホルモンも国産のみ。鮮度のよい甘い脂と歯ごたえを、1階は炭火の七輪で、2階はガスロースターでお楽しみください。価格は地域で一番手頃な線を目指しています。ランチは牛すじ煮込みカレー780円から。2階は最大30名の貸切ができ、忘年会・歓送迎会・会社の集まりにお使いいただけます。</div>
+
+<h4>お店のこだわり（4項目）</h4>
+<div class="copy"><span class="lbl">料理①</span><button type="button">コピー</button>国産ハラミが名物
+並・上・極上の3つの格でご用意。産地の分かる国産ハラミを、その日の仕入れで切り分けます</div>
+<div class="copy"><span class="lbl">料理②</span><button type="button">コピー</button>国産ホルモンのみ
+鮮度のよい国産ホルモンだけを仕入れ。甘い脂と歯ごたえが違います</div>
+<div class="copy"><span class="lbl">空間</span><button type="button">コピー</button>1階は炭火、2階は貸切
+1階は七輪の炭火。2階は最大30名の貸切ができるパーティスペース</div>
+<div class="copy"><span class="lbl">その他</span><button type="button">コピー</button>1980年頃から続く暖簾
+大森で40年以上。2026年に2度目の継承。常連さんに愛された味を引き継いでいます</div>
+
+<h4>予約可否欄への追記</h4>
+<div class="copy"><span class="lbl">予約可否</span><button type="button">コピー</button>10名様以上のご予約・2階貸切（最大30名様）はお電話でご相談ください。</div>
+
+<h2>4. 口コミ返信の文面</h2>
+<p class="small">共通ルール: 店名を名乗る／具体的な品名に触れる／言い訳をしない／再来店の一言で締める。1件120〜200字。</p>
+
+<div class="copy"><span class="lbl">2026/09訪問（3.5点・厚切りタンのコスパ）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。厚切りタンを気に入っていただけて嬉しいです。お肉もお酒も楽しんでいただけたようで何よりです。名物の国産ハラミもぜひ一度お試しください。またのご来店をお待ちしております。</div>
+<div class="copy"><span class="lbl">2026/07訪問（5.0点・同僚と飲み放題）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。タン・ハラミ・かめのこ・ゲタカルビ・ホルモンと、幅広くお召し上がりいただきありがとうございます。飲み放題と合わせてお得にお楽しみいただけたようで何よりです。職場のお集まりにもぜひまたお使いください。</div>
+<div class="copy"><span class="lbl">2026/02訪問（3.8点・盛りが多い）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。1人前の量に満足いただけて嬉しいです。お肉の盛りは今後も変えずに続けてまいります。またのご来店をお待ちしております。</div>
+<div class="copy"><span class="lbl">2026/02訪問（4.0点・家族・カルビ半額）</span><button type="button">コピー</button>ご家族でのご来店ありがとうございます。山王苑です。おかわり自由のキャベツはこれからも続けます。カルビ半額は時期により内容が変わりますので、ご来店前にお気軽にお電話ください。またご家族でお越しいただけるのをお待ちしております。</div>
+<div class="copy"><span class="lbl">2025/09訪問（2.5点・コスパ・タン）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。タンがご期待に沿えず申し訳ありません。2026年にお店を受け継ぎ、仕入れと価格を見直しました。国産ハラミと国産ホルモンを名物に据え、価格は地域で一番手頃な線を目指しています。もし機会があれば、もう一度お試しいただけると幸いです。</div>
+
+<h2>5. 申し送り（マーケの範囲外）</h2>
+<div class="tw"><table>
+  <tr><th>内容</th><th>担当</th></tr>
+  <tr><td>食べログ管理画面の操作（紹介文・こだわり・予算・予約人数・コース・ピックアップ口コミ・返信・写真・キーワード）</td><td>管理部</td></tr>
+  <tr><td>予算表示の変更と有料化の決裁</td><td>ザンさん</td></tr>
+  <tr><td>営業時間の実態（土日ランチ・月曜）の回答</td><td>現場</td></tr>
+  <tr><td>コース（6,600円／8,800円）と忘年会プランの確定</td><td>西村・平石</td></tr>
+  <tr><td>店頭ラミネート価格の食べログへの統一（食べログが正）</td><td>現場</td></tr>
+  <tr><td>求人票の勤務時間（10:00〜23:00・実働8h）が実態と合うか</td><td>平石</td></tr>
+</table></div>
+
+<p class="small" style="margin-top:40px">改修履歴 — 初版: 食べログ6ページの目視結果、残っているズレ11点、作業優先リスト、紹介文・こだわり・口コミ返信の原稿を収録。正本は <code>Desktop\山王苑マーケ\山王苑_食べログ_再確認と作業優先.md</code>。</p>
+</div>
+</main>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+  document.querySelectorAll(".copy button").forEach(function(b){
+    b.addEventListener("click",function(){
+      var box=b.parentNode, txt="";
+      box.childNodes.forEach(function(n){ if(n.nodeType===3) txt+=n.textContent; });
+      txt=txt.trim();
+      function done(){ b.textContent="コピーした"; setTimeout(function(){b.textContent="コピー";},1500); }
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done,function(){ b.textContent="失敗"; }); }
+      else{ var r=document.createRange(); r.selectNodeContents(box); var s=getSelection(); s.removeAllRanges(); s.addRange(r); try{document.execCommand("copy");done();}catch(e){} s.removeAllRanges(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
