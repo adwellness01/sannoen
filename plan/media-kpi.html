@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 媒体KPI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1e1d1a; --muted:#67655e; --rule:#d8d5cd;
+  --accent:#2b4a70; --accent-soft:#e3e9f1; --ember:#b23a2a; --ember-soft:#f4e3df;
+  --ok:#3d6b45; --ok-soft:#e2ecdf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+    --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+    --ok:#8fbf95; --ok-soft:#22342a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+  --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+  --ok:#8fbf95; --ok-soft:#22342a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;padding-block:32px 64px;padding-inline:16px;font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3,h4{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;text-wrap:balance;margin:0}
+h1{font-size:30px;line-height:1.3;letter-spacing:.02em}
+h2{font-size:21px;margin-top:56px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin-top:28px;color:var(--accent)}
+h4{font-size:14.5px;margin-top:20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead{color:var(--muted);margin:12px 0 0;max-width:40em}
+p{margin:12px 0;max-width:42em}
+.head{border-bottom:1px solid var(--rule);padding-bottom:24px}
+.head .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:12px;letter-spacing:.06em;background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:3px;white-space:nowrap}
+.p0{background:var(--ember-soft);color:var(--ember)}
+.p1{background:var(--accent-soft);color:var(--accent)}
+.p2{background:var(--bg);color:var(--muted);border:1px solid var(--rule)}
+.ok{background:var(--ok-soft);color:var(--ok)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi div{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:"Shippori Mincho B1",serif;font-size:24px;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.note{background:var(--surface);border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;font-size:14px}
+.note.warn{border-left-color:var(--ember)}
+.note.ok{border-left-color:var(--ok);background:var(--surface);color:var(--ink)}
+.copy{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:10px 0;font-size:14px;white-space:pre-wrap;position:relative}
+.copy .lbl{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.copy button{position:absolute;top:8px;right:8px;font-size:12px;padding:4px 10px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:3px;cursor:pointer}
+ul{padding-left:1.3em;max-width:42em}
+li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+.task{list-style:none;padding:0;margin:14px 0;max-width:none}
+.task li{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:8px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start}
+.task li .t{font-weight:700}
+.task li .d{grid-column:2;font-size:13.5px;color:var(--muted)}
+.task li .d b{color:var(--ink);font-weight:700}
+@media (max-width:520px){h1{font-size:24px}}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--accent)}
+a{color:var(--accent)}
+td.m{white-space:nowrap}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 媒体KPI</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+
+<div class="wrap">
+<header class="head">
+  <div class="eyebrow">焼肉 山王苑（大森）</div>
+  <h1>媒体KPI　食べログ・Googleマップ</h1>
+  <p class="lead">表示数・予約数・予約率・単価の実測を洗い出し、施策ごとの効果を仮定して月次のKPIを置いた。食べログの次はGoogleマップの整備に入る。</p>
+  <div class="meta"><span>実測: 2026年10月7日取得</span><span>食べログ作業: <a href="tabelog.html">tabelog.html</a></span><span>半年計画: <a href="kpi.html">kpi.html</a></span></div>
+</header>
+
+<div class="note warn"><b>Googleマップの地図ピンが新宿に立っている。</b>住所は品川区南大井なのに、ピンは新宿中央公園の付近（Plus Codeも新宿区）。ルートを押した客は新宿へ案内され、大森周辺の「焼肉」「ランチ」検索にも出にくい。9月の検索数が前年比-21%に落ちた有力な要因。<b>Googleマップ整備の最優先</b>。</div>
+
+<h2>0. データの出どころ</h2>
+<div class="tw"><table>
+  <tr><th>媒体</th><th>取得元</th><th>状態</th></tr>
+  <tr><td>Googleマップ</td><td>GBP「パフォーマンス」</td><td><span class="pill ok">取得済み</span> 5〜9月の月別・前年比つき</td></tr>
+  <tr><td>食べログ（公開値）</td><td>店舗ページ</td><td><span class="pill ok">取得済み</span> 点数・口コミ・保存・予約バッジ</td></tr>
+  <tr><td>食べログ（管理画面）</td><td>owner.tabelog.com</td><td><span class="pill p0">未取得</span> ログイン切れ。PV・予約数・電話数は仮置き</td></tr>
+  <tr><td>売上・客単価</td><td>Airメイト</td><td><span class="pill p0">未取得</span> ログイン切れ。8月と9/1〜9/9の記録を使用</td></tr>
+</table></div>
+
+<h2>1. 店の単価</h2>
+<div class="kpi">
+  <div><div class="l">夜の客単価（8月）</div><div class="v">5,600円</div><div class="s">フード4,656＋ドリンク1,081</div></div>
+  <div><div class="l">夜の組単価（8月）</div><div class="v">約16,400円</div><div class="s">2.9人/組</div></div>
+  <div><div class="l">8月売上</div><div class="v">164.1万円</div><div class="s">夜のみ・293人・100組</div></div>
+  <div><div class="l">口コミ集計の夜予算</div><div class="v">8〜10千円</div><div class="s">食べログ表示は¥3,000〜3,999</div></div>
+</div>
+<p class="small">KPIの計算に使う単価（仮定）: 通常予約1組＝2.5名×6,000円＝<b>15,000円</b>／宴会予約1組＝8名×5,500円＝<b>44,000円</b>。</p>
+
+<h2>2. 食べログ</h2>
+<h3>2-1. 公開値の推移</h3>
+<div class="tw"><table>
+  <tr><th>項目</th><th class="num">9/10</th><th class="num">10/7</th><th class="num">1か月</th></tr>
+  <tr><td>点数</td><td class="num">3.28</td><td class="num">3.28</td><td class="num">±0</td></tr>
+  <tr><td>口コミ件数</td><td class="num">106</td><td class="num">109</td><td class="num">+3</td></tr>
+  <tr><td>保存数</td><td class="num">6,104</td><td class="num">6,135</td><td class="num">+31</td></tr>
+  <tr><td>写真</td><td class="num">317</td><td class="num">330</td><td class="num">+13</td></tr>
+  <tr><td>ネット予約（直近30日）</td><td class="num">—</td><td class="num">5組以上</td><td>「人気No.1」バッジから</td></tr>
+</table></div>
+<p class="small">ネット予約は1〜9名・17:00〜20:30のみ。10名以上とランチは受けていない。</p>
+
+<h3>2-2. 管理画面で取る値（取得待ち）</h3>
+<div class="tw"><table>
+  <tr><th>指標</th><th>意味</th><th>8月</th><th>9月</th></tr>
+  <tr><td>店舗ページPV</td><td>表示数</td><td>取得待ち</td><td>取得待ち</td></tr>
+  <tr><td>ネット予約 組数・人数</td><td>予約数</td><td>取得待ち</td><td>取得待ち（5組以上は確定）</td></tr>
+  <tr><td>電話予約 件数</td><td>050番号への発信</td><td>取得待ち</td><td>取得待ち</td></tr>
+  <tr><td>予約率</td><td>ネット予約組数÷PV</td><td>—</td><td>—</td></tr>
+</table></div>
+
+<h3>2-3. 施策と効果の仮定</h3>
+<p class="small">計算式: <b>ネット予約組数＝PV×予約率</b>。起点の9月PV 3,000・予約率0.17%は仮置き。管理画面の実数が取れたら起点だけ差し替え、伸び率はそのまま掛ける。</p>
+<div class="tw"><table>
+  <tr><th>施策</th><th>効く指標</th><th>仮定した効果</th><th>時期</th></tr>
+  <tr><td>紹介文・こだわり・予算・写真の差し替え</td><td>予約率</td><td>×1.5</td><td>10月中旬〜</td></tr>
+  <tr><td>ピックアップ口コミ差し替え・口コミ返信</td><td>予約率</td><td>×1.1</td><td>10月中旬〜</td></tr>
+  <tr><td>予約上限20名・宴会コース・利用シーン「宴会」</td><td>宴会予約</td><td>11月4組・12月8組・3月8組</td><td>10月下旬〜</td></tr>
+  <tr><td>有料ベーシック（11/1開始）</td><td>PV</td><td>×2.0</td><td>11月〜</td></tr>
+  <tr><td>有料枠の上位表示</td><td>予約率</td><td>×1.2</td><td>11月〜</td></tr>
+  <tr><td>季節要因（忘年会・歓送迎会）</td><td>PV・予約率</td><td>PVは12月×1.15・1月×0.9・3月×1.15。予約率は12月・3月×1.3</td><td>—</td></tr>
+</table></div>
+
+<h3>2-4. 食べログKPI</h3>
+<div class="tw"><table>
+  <tr><th>指標</th><th class="num">9月（起点）</th><th class="num">10月</th><th class="num">11月</th><th class="num">12月</th><th class="num">1月</th><th class="num">3月</th></tr>
+  <tr><td>PV</td><td class="num">3,000（仮）</td><td class="num">3,200</td><td class="num">6,000</td><td class="num">7,000</td><td class="num">5,500</td><td class="num">7,000</td></tr>
+  <tr><td>予約率</td><td class="num">0.17%（仮）</td><td class="num">0.25%</td><td class="num">0.33%</td><td class="num">0.45%</td><td class="num">0.35%</td><td class="num">0.45%</td></tr>
+  <tr><td>ネット予約（通常）</td><td class="num">5組</td><td class="num">8組</td><td class="num">20組</td><td class="num">32組</td><td class="num">19組</td><td class="num">32組</td></tr>
+  <tr><td>ネット予約（宴会）</td><td class="num">0組</td><td class="num">0組</td><td class="num">4組</td><td class="num">8組</td><td class="num">3組</td><td class="num">8組</td></tr>
+  <tr><td><b>ネット予約 合計</b></td><td class="num">5組</td><td class="num">8組</td><td class="num">24組</td><td class="num">40組</td><td class="num">22組</td><td class="num">40組</td></tr>
+  <tr><td><b>経由売上</b></td><td class="num">7.5万円</td><td class="num">12万円</td><td class="num">47.6万円</td><td class="num">83.2万円</td><td class="num">41.7万円</td><td class="num">83.2万円</td></tr>
+  <tr><td>保存数（月末）</td><td class="num">6,135</td><td class="num">6,170</td><td class="num">6,300</td><td class="num">6,500</td><td class="num">6,600</td><td class="num">6,900</td></tr>
+  <tr><td>口コミ件数（月末）</td><td class="num">109</td><td class="num">111</td><td class="num">114</td><td class="num">118</td><td class="num">121</td><td class="num">127</td></tr>
+  <tr><td>点数</td><td class="num">3.28</td><td class="num">3.28</td><td class="num">3.29</td><td class="num">3.30</td><td class="num">3.31</td><td class="num">3.33</td></tr>
+  <tr><td>店舗返信率（新着）</td><td class="num">0%</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td></tr>
+</table></div>
+<div class="note">有料化の継続基準は「3か月平均でネット予約20組/月以上、または経由売上35万円/月以上」。上の線では11〜1月平均が28.7組・57.5万円で継続側に入る。</div>
+
+<h2>3. Googleマップ</h2>
+<h3>3-1. 月別の実測</h3>
+<div class="kpi">
+  <div><div class="l">閲覧ユーザー（9月）</div><div class="v">4,175</div><div class="s">前年比 -11.9%</div></div>
+  <div><div class="l">表示につながった検索（9月）</div><div class="v">2,458</div><div class="s">前年比 -21.3%</div></div>
+  <div><div class="l">操作率（9月）</div><div class="v">5.8%</div><div class="s">5月3.9%から上昇</div></div>
+  <div><div class="l">新着口コミ</div><div class="v">0件</div><div class="s">最新は49週間前</div></div>
+</div>
+<div class="tw"><table>
+  <tr><th>月</th><th class="num">閲覧</th><th class="num">前年比</th><th class="num">検索</th><th class="num">前年比</th><th class="num">操作</th><th class="num">通話</th><th class="num">ルート</th><th class="num">サイト</th><th class="num">その他</th></tr>
+  <tr><td class="m">5月</td><td class="num">6,476</td><td class="num">-1.1%</td><td class="num">4,354</td><td class="num">-5.1%</td><td class="num">252</td><td class="num">53</td><td class="num">76</td><td class="num">78</td><td class="num">45</td></tr>
+  <tr><td class="m">6月</td><td class="num">6,111</td><td class="num">-5.6%</td><td class="num">4,089</td><td class="num">-10.5%</td><td class="num">281</td><td class="num">62</td><td class="num">108</td><td class="num">84</td><td class="num">27</td></tr>
+  <tr><td class="m">7月</td><td class="num">5,815</td><td class="num">-5.8%</td><td class="num">3,832</td><td class="num">-7.8%</td><td class="num">313</td><td class="num">50</td><td class="num">97</td><td class="num">141</td><td class="num">25</td></tr>
+  <tr><td class="m">8月</td><td class="num">5,653</td><td class="num">-3.9%</td><td class="num">3,701</td><td class="num">-7.1%</td><td class="num">274</td><td class="num">35</td><td class="num">94</td><td class="num">82</td><td class="num">63</td></tr>
+  <tr><td class="m">9月</td><td class="num">4,175</td><td class="num"><b>-11.9%</b></td><td class="num">2,458</td><td class="num"><b>-21.3%</b></td><td class="num">241</td><td class="num">24</td><td class="num">109</td><td class="num">52</td><td class="num">56</td></tr>
+</table></div>
+<ul>
+  <li>「その他」は操作から通話・ルート・サイトを引いた残り（メニュー閲覧など）。GBP経由の予約は5か月とも0件</li>
+  <li>端末はGoogleマップのスマホが79%。検索語の上位は レストラン／焼肉／ランチ／大森 焼肉／飲食店 で、店名ではなくカテゴリ検索で見つけられている</li>
+  <li>操作率は上がっている。<b>見た人の反応は悪くない。見られる回数が減っている</b></li>
+</ul>
+
+<h3>3-2. プロフィールの状態</h3>
+<div class="tw"><table>
+  <tr><th>優先</th><th>項目</th><th>いま</th><th>問題</th></tr>
+  <tr><td><span class="pill p0">P0</span></td><td>地図のピン</td><td>新宿中央公園の付近（西新宿）</td><td>ルートで新宿へ案内される。大森で表示されにくい</td></tr>
+  <tr><td><span class="pill p0">P0</span></td><td>住所</td><td>「南大井８ ６丁目25番12号」</td><td>「８」が混入</td></tr>
+  <tr><td><span class="pill p0">P0</span></td><td>ウェブサイト</td><td>ホットペッパー</td><td>公式サイトに向いていない。GA4で計測できない</td></tr>
+  <tr><td><span class="pill p0">P0</span></td><td>口コミ</td><td>★4.0・112件。最新は49週間前</td><td>買収後の新着が0件</td></tr>
+  <tr><td><span class="pill p1">P1</span></td><td>口コミ返信</td><td>★1の2件（2025年7月・9月）を含めほぼ未返信</td><td>低評価が放置に見える</td></tr>
+  <tr><td><span class="pill p1">P1</span></td><td>説明文</td><td>「厳選和牛と絶品ホルモンを大衆価格で満喫！」の1行</td><td>国産ハラミ・国産ホルモン・炭火・2F貸切が無い</td></tr>
+  <tr><td><span class="pill p1">P1</span></td><td>投稿</td><td>なし</td><td>週1の更新がない</td></tr>
+  <tr><td><span class="pill p1">P1</span></td><td>予約リンク</td><td>ホットペッパー・食べログ・Retty</td><td>GBP経由の予約0件。手数料なしの食べログ予約フォームが無い</td></tr>
+  <tr><td><span class="pill p2">確認</span></td><td>営業時間</td><td>毎日 11:30〜13:30／17:00〜22:30</td><td>食べログと一致。実態の確認だけ残る</td></tr>
+  <tr><td><span class="pill p2">確認</span></td><td>管理グループ</td><td>「リクルートGMB」がある</td><td>ホットペッパー連携がウェブサイト欄を上書きしている可能性</td></tr>
+</table></div>
+<p class="small">公式サイトの「地図で見る」はこのプレイスを開くため、ピンが直るまでサイトからも新宿が表示される。</p>
+
+<h3>3-3. 施策と効果の仮定</h3>
+<p class="small">計算式: <b>閲覧×操作率＝操作数</b>。来店換算は <b>通話×0.3＋ルート×0.2 組</b>（仮定。レジの経路ヒアリングで補正する）。</p>
+<div class="tw"><table>
+  <tr><th>施策</th><th>効く指標</th><th>仮定した効果</th><th>時期</th></tr>
+  <tr><td>ピンと住所の修正</td><td>閲覧・検索</td><td>9月比+15%（前年水準へ）</td><td>修正の翌月から</td></tr>
+  <tr><td>写真・口コミの蓄積</td><td>閲覧</td><td>毎月+5%</td><td>11月〜</td></tr>
+  <tr><td>季節要因</td><td>閲覧</td><td>11月+10%・12月+25%・3月+15%</td><td>—</td></tr>
+  <tr><td>写真20点・説明文・週1投稿</td><td>操作率</td><td>5.8%→7〜8%</td><td>10月〜</td></tr>
+  <tr><td>ウェブサイトを公式サイトへ（UTM付き）</td><td>計測</td><td>GA4でGBP経由の流入と予約クリックが見える</td><td>即日</td></tr>
+  <tr><td>口コミQRカード（会計時）</td><td>新着口コミ</td><td>月8〜10件</td><td>10月中旬〜</td></tr>
+  <tr><td>返信の運用（新着7日以内）</td><td>評価</td><td>★4.0→4.1</td><td>10月〜</td></tr>
+</table></div>
+
+<h3>3-4. GoogleマップKPI</h3>
+<div class="tw"><table>
+  <tr><th>指標</th><th class="num">9月（実測）</th><th class="num">10月</th><th class="num">11月</th><th class="num">12月</th><th class="num">1月</th><th class="num">3月</th></tr>
+  <tr><td>閲覧ユーザー</td><td class="num">4,175</td><td class="num">4,400</td><td class="num">5,500</td><td class="num">6,500</td><td class="num">5,500</td><td class="num">7,000</td></tr>
+  <tr><td>表示につながった検索</td><td class="num">2,458</td><td class="num">2,700</td><td class="num">3,500</td><td class="num">4,200</td><td class="num">3,600</td><td class="num">4,400</td></tr>
+  <tr><td>操作率</td><td class="num">5.8%</td><td class="num">6.5%</td><td class="num">7.0%</td><td class="num">8.0%</td><td class="num">8.0%</td><td class="num">8.0%</td></tr>
+  <tr><td>操作合計</td><td class="num">241</td><td class="num">286</td><td class="num">385</td><td class="num">520</td><td class="num">440</td><td class="num">560</td></tr>
+  <tr><td>通話</td><td class="num">24</td><td class="num">30</td><td class="num">40</td><td class="num">60</td><td class="num">45</td><td class="num">60</td></tr>
+  <tr><td>ルート</td><td class="num">109</td><td class="num">120</td><td class="num">150</td><td class="num">190</td><td class="num">160</td><td class="num">210</td></tr>
+  <tr><td>サイトクリック</td><td class="num">52</td><td class="num">60</td><td class="num">90</td><td class="num">130</td><td class="num">110</td><td class="num">150</td></tr>
+  <tr><td><b>来店換算（組）</b></td><td class="num">29</td><td class="num">33</td><td class="num">42</td><td class="num">56</td><td class="num">46</td><td class="num">60</td></tr>
+  <tr><td>新着口コミ（件/月）</td><td class="num">0</td><td class="num">3</td><td class="num">8</td><td class="num">10</td><td class="num">8</td><td class="num">10</td></tr>
+  <tr><td>口コミ件数（月末）</td><td class="num">112</td><td class="num">115</td><td class="num">123</td><td class="num">133</td><td class="num">141</td><td class="num">159</td></tr>
+  <tr><td>評価</td><td class="num">4.0</td><td class="num">4.0</td><td class="num">4.0</td><td class="num">4.1</td><td class="num">4.1</td><td class="num">4.1</td></tr>
+  <tr><td>返信率（新着）</td><td class="num">0%</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td></tr>
+  <tr><td>投稿（本/月）</td><td class="num">0</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">4</td></tr>
+</table></div>
+
+<h2>4. Googleマップの作業優先</h2>
+<ul class="task">
+  <li><span class="pill p0">P0</span><span class="t">ピンを南大井6-25-12（大森駅東口・西友の裏）へ移し、住所の「８」を消す</span><span class="d">期限 <b>10/10</b>｜変更後にGoogleの再確認が入る場合がある｜管理部（和火焼アカウント）</span></li>
+  <li><span class="pill p0">P0</span><span class="t">ウェブサイトを公式サイト（UTM付き）に変更</span><span class="d">期限 <b>10/10</b>｜下のURLを貼る｜管理部</span></li>
+  <li><span class="pill p0">P0</span><span class="t">口コミQRカードを会計時に渡す</span><span class="d">期限 <b>10/15</b>｜GBPの「クチコミを増やす」のリンクをQR化｜マーケ（制作）・現場（配布）</span></li>
+  <li><span class="pill p1">P1</span><span class="t">9/17撮影の写真20点を追加（外観・1F・2F・料理）</span><span class="d">期限 <b>10/15</b>｜マーケ（選定）→管理部</span></li>
+  <li><span class="pill p1">P1</span><span class="t">説明文を食べログの紹介文と同じ軸に差し替える</span><span class="d">期限 <b>10/15</b>｜食べログ原稿を流用（<a href="tabelog.html">tabelog.html</a> §3）</span></li>
+  <li><span class="pill p1">P1</span><span class="t">★1の2件へ返信し、以後は新着7日以内に返信</span><span class="d">期限 <b>10/20</b>｜マーケ（文面）→管理部</span></li>
+  <li><span class="pill p1">P1</span><span class="t">投稿を週1で開始（ホルモン500円・平日コース・忘年会）</span><span class="d">期限 <b>10/20</b>｜マーケ</span></li>
+  <li><span class="pill p1">P1</span><span class="t">予約リンクに食べログの予約フォーム（手数料なし）を追加</span><span class="d">期限 <b>10/31</b>｜管理部</span></li>
+  <li><span class="pill p2">確認</span><span class="t">「リクルートGMB」連携がウェブサイト欄を上書きしていないか</span><span class="d">期限 <b>10/10</b>｜管理部→ホットペッパー担当</span></li>
+</ul>
+<div class="copy"><span class="lbl">ウェブサイト欄に貼るURL</span><button type="button">コピー</button>https://machiyakiniku.jp/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gbp</div>
+
+<h2>5. 半年計画からの変更点</h2>
+<div class="tw"><table>
+  <tr><th>指標</th><th>旧</th><th>新</th><th>理由</th></tr>
+  <tr><td>Googleマップ口コミ件数</td><td>10月末125／12月末150／3月末180</td><td>115／133／159</td><td>新着が0件。導線を作ってから月8〜10件で積む</td></tr>
+  <tr><td>GBP 経路案内・通話数</td><td>基準取得</td><td>9月 ルート109・通話24</td><td>実数が取れた</td></tr>
+  <tr><td>食べログPV</td><td>基準取得</td><td>仮置き3,000</td><td>管理画面で差し替え</td></tr>
+  <tr><td>食べログ ネット予約</td><td>10月末8／12月末40／3月末40</td><td>同じ</td><td>PVと予約率に分解して根拠を付けた</td></tr>
+</table></div>
+
+<h2>6. 月次で見る場所（毎月5日）</h2>
+<div class="tw"><table>
+  <tr><th>数字</th><th>場所</th></tr>
+  <tr><td>閲覧・検索・通話・ルート・サイト</td><td>GBP「パフォーマンス」→期間を前月1か月に指定</td></tr>
+  <tr><td>口コミ件数・評価・返信</td><td>GBP「クチコミ」→新規順</td></tr>
+  <tr><td>PV・ネット予約・電話予約・人数</td><td>食べログ店舗管理画面</td></tr>
+  <tr><td>GBP経由のサイト流入・予約クリック</td><td>GA4（G-MQD67GCHY2）の reserve_click とUTM</td></tr>
+  <tr><td>売上・客数・客単価</td><td>Airメイト</td></tr>
+  <tr><td>来店経路</td><td>レジの経路ヒアリング</td></tr>
+</table></div>
+
+<p class="small" style="margin-top:40px">改修履歴 — 初版: GBPの月別実測（5〜9月）と食べログ公開値から現状を整理し、施策ごとの効果を仮定して月次KPIを設定。食べログ管理画面とAirメイトは未取得。正本は <code>Desktop\山王苑マーケ\山王苑_媒体KPI_食べログ_Googleマップ.md</code>。</p>
+</div>
+</main>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+  document.querySelectorAll(".copy button").forEach(function(b){
+    b.addEventListener("click",function(){
+      var box=b.parentNode, txt="";
+      box.childNodes.forEach(function(n){ if(n.nodeType===3) txt+=n.textContent; });
+      txt=txt.trim();
+      function done(){ b.textContent="コピーした"; setTimeout(function(){b.textContent="コピー";},1500); }
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done,function(){ b.textContent="失敗"; }); }
+      else{ var r=document.createRange(); r.selectNodeContents(box); var s=getSelection(); s.removeAllRanges(); s.addRange(r); try{document.execCommand("copy");done();}catch(e){} s.removeAllRanges(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
