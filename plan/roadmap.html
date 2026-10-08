@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 施策とロードマップ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1e1d1a; --muted:#67655e; --rule:#d8d5cd;
+  --accent:#2b4a70; --accent-soft:#e3e9f1; --ember:#b23a2a; --ember-soft:#f4e3df;
+  --ok:#3d6b45; --ok-soft:#e2ecdf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+    --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+    --ok:#8fbf95; --ok-soft:#22342a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+  --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+  --ok:#8fbf95; --ok-soft:#22342a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;padding-block:32px 64px;padding-inline:16px;font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3,h4{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;text-wrap:balance;margin:0}
+h1{font-size:30px;line-height:1.3;letter-spacing:.02em}
+h2{font-size:21px;margin-top:56px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin-top:28px;color:var(--accent)}
+h4{font-size:14.5px;margin-top:20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead{color:var(--muted);margin:12px 0 0;max-width:40em}
+p{margin:12px 0;max-width:42em}
+.head{border-bottom:1px solid var(--rule);padding-bottom:24px}
+.head .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:12px;letter-spacing:.06em;background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:3px;white-space:nowrap}
+.p0{background:var(--ember-soft);color:var(--ember)}
+.p1{background:var(--accent-soft);color:var(--accent)}
+.p2{background:var(--bg);color:var(--muted);border:1px solid var(--rule)}
+.ok{background:var(--ok-soft);color:var(--ok)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi div{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:"Shippori Mincho B1",serif;font-size:24px;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.note{background:var(--surface);border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;font-size:14px}
+.note.warn{border-left-color:var(--ember)}
+.note.ok{border-left-color:var(--ok);background:var(--surface);color:var(--ink)}
+.copy{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:10px 0;font-size:14px;white-space:pre-wrap;position:relative}
+.copy .lbl{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.copy button{position:absolute;top:8px;right:8px;font-size:12px;padding:4px 10px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:3px;cursor:pointer}
+ul{padding-left:1.3em;max-width:42em}
+li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+.task{list-style:none;padding:0;margin:14px 0;max-width:none}
+.task li{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:8px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start}
+.task li .t{font-weight:700}
+.task li .d{grid-column:2;font-size:13.5px;color:var(--muted)}
+.task li .d b{color:var(--ink);font-weight:700}
+@media (max-width:520px){h1{font-size:24px}}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--accent)}
+a{color:var(--accent)}
+.formula{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:12px 0;font-size:13.5px;white-space:pre-wrap;font-family:ui-monospace,Consolas,"BIZ UDPGothic",monospace}
+tr.total td{font-weight:700;border-top:2px solid var(--ink)}
+code{font-size:12.5px;background:var(--bg);padding:1px 4px;border-radius:3px}
+.chart{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:14px 14px 8px;margin:16px 0}
+.chart .row{display:grid;grid-template-columns:40px 1fr 74px;gap:8px;align-items:center;margin:0 0 9px;font-size:12.5px}
+.chart .m{color:var(--muted)}
+.chart .bar{position:relative;height:20px;background:var(--bg);border-radius:2px}
+.chart .seg{position:absolute;top:0;bottom:0}
+.chart .l{background:var(--ember);opacity:.55}
+.chart .d{background:var(--accent)}
+.chart .plan{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.chart .v{text-align:right;white-space:nowrap;font-weight:700;font-variant-numeric:tabular-nums}
+.chart .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin:6px 0 4px}
+.chart .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.statement{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--ember);padding:14px 16px;margin:20px 0}
+.statement .big{font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:clamp(18px,5vw,22px);line-height:1.45;margin:0 0 6px}
+.statement .small{margin:0;font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 施策とロードマップ</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+
+<div class="wrap">
+<header class="head">
+  <div class="eyebrow">焼肉 山王苑（大森）</div>
+  <h1>包括マーケティング施策と売上ロードマップ</h1>
+  <p class="lead">媒体（食べログ・Googleマップ・ホットペッパー）、店頭・入口導線、リピート、口コミ、ランチ、宴会・法人を1本の優先順位に並べ、9月実績から積み上げた売上の線を添えた。</p>
+  <div class="meta"><span>起点: 2026年9月実績</span><span>今やるべきこと: <a href="todo.html">todo.html</a></span><span>媒体KPI: <a href="media-kpi.html">media-kpi.html</a></span></div>
+</header>
+
+<div class="statement"><p class="big">9月200.5万円 → 12月425万円 → 3月436万円</p><p class="small">施策ごとの上積みを9月実績に足した基本線。9月作成の半年計画（12月540万円・3月550万円）は挑戦線として残す。</p></div>
+<h2>1. 現在地（9月実績）</h2>
+<div class="tw"><table>
+<tr><th>項目</th><th>値</th><th>出典</th></tr>
+<tr><td>売上</td><td>200.5万円</td><td>Airメイト</td></tr>
+<tr><td>ランチ</td><td>40.1万円・19営業日・452人（23人/日）・客単価887円</td><td>Airメイト</td></tr>
+<tr><td>ディナー</td><td>160.3万円・25営業日・313人・117組・客単価5,124円</td><td>Airメイト</td></tr>
+<tr><td>ディナーのコース売上</td><td>22.1万円・38人</td><td>Airメイト</td></tr>
+<tr><td>食べログ</td><td>PV6,849・ネット予約39組・来店108人＝ディナー客の35%</td><td>食べログ管理画面</td></tr>
+<tr><td>Googleマップ</td><td>閲覧4,175（前年比-11.9%）・通話24・ルート109・新着口コミ0件</td><td>GBP</td></tr>
+<tr><td>ホットペッパー</td><td>写真1枚・口コミ0件・予算表示3,001〜4,000円・クーポンなし。「大森 焼肉」の検索で211件中1件目に表示（10/8）</td><td>ホットペッパー店舗ページ</td></tr>
+<tr><td>店頭</td><td>西友裏の路地の角。暖簾に「焼肉」の文字なし。A型看板は牛の絵だけで文字・価格なし。のぼりなし</td><td>9/17撮影の外観写真</td></tr>
+<tr><td>LINE公式</td><td>友だち95人（8月時点）・未配信</td><td>8月の聴取</td></tr>
+<tr><td>リピート施策</td><td>会計時15%オフクーポン。回収を数えていない</td><td>8月の聴取</td></tr>
+</table></div>
+<p>ランチの営業日19日は、9月の平日22日から祝日3日を引いた数と一致する。ランチは実質平日のみと読める。</p>
+<h3>売上の構造</h3>
+<div class="formula">売上 ＝ ランチ（客数×客単価） ＋ ディナー（客数×客単価）
+ディナー客数 ＝ 新規（食べログ・Googleマップ・ホットペッパー・通りがかり） ＋ 再来店（常連・LINE・クーポン）</div>
+<div class="tw"><table>
+<tr><th>経路（9月ディナー117組）</th><th>組数</th><th>割合</th></tr>
+<tr><td>食べログ ネット予約</td><td>35組</td><td>30%</td></tr>
+<tr><td>食べログ 電話</td><td>最大12組</td><td>最大10%</td></tr>
+<tr><td>Googleマップ（換算）</td><td>約29組</td><td>約25%（ランチを含む可能性）</td></tr>
+<tr><td>ホットペッパー</td><td>不明</td><td>管理画面で確認</td></tr>
+<tr><td>その他（通りがかり・常連）</td><td>残り</td><td>レジの経路ヒアリングで分ける</td></tr>
+</table></div>
+<h3>課題の要約</h3>
+<ol>
+<li><b>Googleマップの地図ピンが新宿に立っている</b>。閲覧と検索が前年割れしている</li>
+<li><b>食べログはPVが前オーナー期の2倍だが、予約率が半分</b>（1.0〜1.2%→0.57%）</li>
+<li><b>店の前を通っても「焼肉屋」で「いくらか」が分からない</b>。路地の奥で、看板が何も語っていない</li>
+<li><b>口コミが増えていない</b>。Googleは買収後0件、食べログは月3件</li>
+<li><b>再来店を数えていない</b>。LINEは未配信、15%クーポンは回収を数えていない</li>
+<li><b>ランチ客の夜への転換が見えない</b>。ランチ客は月452人いる</li>
+<li><b>平日の夜が空いている</b>。月4.2万／火6.3万／水3.1万／木3.9万円（9月のディナー曜日平均）</li>
+</ol>
+<h2>2. 施策の優先順位（全体）</h2>
+<p>優先度: P0＝10月前半に必ずやる（土台・漏れ止め）／P1＝10月後半〜11月（忘年会と再来店）／P2＝12月以降（上乗せ）。</p>
+<p>「12月の上積み」は9月比の月間売上の見立て（§7-1の積み上げ表と対応）。</p>
+<div class="tw"><table>
+<tr><th>#</th><th>優先</th><th>期限</th><th>施策</th><th>区分</th><th>12月の上積み</th><th>担当</th><th>費用</th></tr>
+<tr><td>1</td><td><span class="pill p0">P0</span></td><td>10/10</td><td>Googleマップのピン・住所・ウェブサイトを直す</td><td>Googleマップ</td><td>#4と合算で+20万円</td><td>管理部</td><td>0</td></tr>
+<tr><td>2</td><td><span class="pill p0">P0</span></td><td>10/15</td><td>食べログの紹介文・予算表示・予約上限20名・ピックアップ口コミ</td><td>食べログ</td><td>#12と合算で+69万円</td><td>管理部・ザンさん承認</td><td>0</td></tr>
+<tr><td>3</td><td><span class="pill p0">P0</span></td><td>10/15</td><td>A型看板の面を差し替える（昼＝ランチ価格、夜＝焼肉・価格・2F貸切）</td><td>店頭</td><td>#10と合算で+8万円</td><td>マーケ（原稿）・新井さん（制作）</td><td>1.4万円</td></tr>
+<tr><td>4</td><td><span class="pill p0">P0</span></td><td>10/15</td><td>Google口コミQRカードを会計時に渡す</td><td>口コミ</td><td>#1と合算</td><td>現場</td><td>0.5万円</td></tr>
+<tr><td>5</td><td><span class="pill p0">P0</span></td><td>10/15</td><td>口コミ返信を両媒体で始め、以後7日以内に返す</td><td>口コミ</td><td>点数・予約率の下支え</td><td>管理部</td><td>0</td></tr>
+<tr><td>6</td><td><span class="pill p0">P0</span></td><td>10/15</td><td>レジで来店経路と「初めて／2回目以上」を聞いて記録する</td><td>計測</td><td>—</td><td>現場</td><td>0</td></tr>
+<tr><td>7</td><td><span class="pill p0">P0</span></td><td>10/15</td><td>ホットペッパーの契約状況を確認し、写真20枚・予算表示・クーポン3枚を整える</td><td>ホットペッパー</td><td>#13と合算で+35万円</td><td>管理部</td><td>0</td></tr>
+<tr><td>8</td><td><span class="pill p0">P0</span></td><td>10/20</td><td>食べログ有料（ベーシック・11/1開始）とホットペッパー忘年会スポットの決裁</td><td>決裁</td><td>—</td><td>ザンさん</td><td>月2.5万円＋α</td></tr>
+<tr><td>9</td><td><span class="pill p1">P1</span></td><td>10/31</td><td>忘年会プラン（2F貸切最大30名・幹事特典）を全媒体と店頭に載せる</td><td>宴会</td><td>#12・#13と合算</td><td>マーケ・管理部</td><td>0</td></tr>
+<tr><td>10</td><td><span class="pill p1">P1</span></td><td>10/31</td><td>のぼり3本と入口の価格表示（盛り合わせ・ハラミ3格・平日コース）</td><td>店頭</td><td>#3と合算</td><td>マーケ（文言）・現場（設置）</td><td>1.5万円</td></tr>
+<tr><td>11</td><td><span class="pill p1">P1</span></td><td>10/31</td><td>LINE公式を起動する（友だち追加特典・月2配信）</td><td>リピート</td><td>+15万円</td><td>マーケ・現場</td><td>0〜0.5万円/月</td></tr>
+<tr><td>12</td><td><span class="pill p1">P1</span></td><td>11/1</td><td>食べログ有料ベーシック開始</td><td>食べログ</td><td>+69万円</td><td>管理部</td><td>月2.5万円＋手数料</td></tr>
+<tr><td>13</td><td><span class="pill p1">P1</span></td><td>11/1</td><td>ホットペッパー忘年会スポット（11〜1月）</td><td>ホットペッパー</td><td>+35万円</td><td>管理部</td><td>要見積</td></tr>
+<tr><td>14</td><td><span class="pill p1">P1</span></td><td>11/1</td><td>再来店カード（15%クーポンに通し番号・期限・次回予約の一言）</td><td>リピート</td><td>#11と合算</td><td>現場</td><td>0.3万円</td></tr>
+<tr><td>15</td><td><span class="pill p1">P1</span></td><td>11/1</td><td>ランチ→夜の転換カード（平日2,500円コース・当日OK）</td><td>転換</td><td>+14万円</td><td>マーケ・現場</td><td>0.3万円</td></tr>
+<tr><td>16</td><td><span class="pill p1">P1</span></td><td>11/10</td><td>南大井の企業へ宴会案内（ランチ客経由・チラシ流用）</td><td>法人宴会</td><td>+20万円</td><td>マーケ・現場</td><td>0</td></tr>
+<tr><td>17</td><td><span class="pill p1">P1</span></td><td>11/15</td><td>駅からの誘導（西友の角・北口ルートの電柱広告など）を見積もって決める</td><td>店頭</td><td>#3と合算</td><td>マーケ（調査）・ザンさん（決裁）</td><td>月0.5万円前後（要見積）</td></tr>
+<tr><td>18</td><td><span class="pill p1">P1</span></td><td>10/20〜</td><td>Googleマップの週1投稿と写真追加</td><td>Googleマップ</td><td>#1と合算</td><td>管理部</td><td>0</td></tr>
+<tr><td>19</td><td><span class="pill p1">P1</span></td><td>11月</td><td>ランチの単価を上げる（数量限定定食・ドリンク200円・平日の盛り合わせ）</td><td>ランチ</td><td>+11万円</td><td>現場</td><td>0</td></tr>
+<tr><td>20</td><td><span class="pill p1">P1</span></td><td>11月</td><td>客単価を上げる（コース比率・ドリンク提案・予算表示の是正）</td><td>単価</td><td>+8万円</td><td>現場</td><td>0</td></tr>
+<tr><td>21</td><td><span class="pill p2">P2</span></td><td>12/1</td><td>12月だけ食べログをプレミアムへ一時格上げするか判断（11月末の宴会予約で決める）</td><td>食べログ</td><td>判断次第</td><td>ザンさん</td><td>+2.5万円</td></tr>
+<tr><td>22</td><td><span class="pill p2">P2</span></td><td>12月</td><td>暖簾か袖看板に「焼肉」を入れる（暖簾は歴史資産なので替えずに足す）</td><td>店頭</td><td>認知の下支え</td><td>ザンさん</td><td>要見積</td></tr>
+<tr><td>23</td><td><span class="pill p2">P2</span></td><td>2月</td><td>ホットペッパー歓送迎会スポット（2〜4月）</td><td>ホットペッパー</td><td>3月+35万円</td><td>管理部</td><td>要見積</td></tr>
+<tr><td>24</td><td><span class="pill p2">P2</span></td><td>2月</td><td>Google広告「大森 焼肉」「大森 ランチ」少額テスト</td><td>広告</td><td>判断次第</td><td>マーケ</td><td>3〜5万円/月</td></tr>
+<tr><td>25</td><td><span class="pill p2">P2</span></td><td>2月</td><td>弁当・テイクアウト（ランチの天井を上げる）</td><td>ランチ</td><td>判断次第</td><td>現場</td><td>0</td></tr>
+<tr><td>26</td><td><span class="pill p2">P2</span></td><td>3月</td><td>Instagram（撮影写真の使い回しで週2）</td><td>SNS</td><td>認知の下支え</td><td>マーケ</td><td>0</td></tr>
+</table></div>
+<h2>3. ホットペッパー攻略</h2>
+<h3>3-1. 現状</h3>
+<div class="tw"><table>
+<tr><th>項目</th><th>いま</th></tr>
+<tr><td>検索順位</td><td>「大森 焼肉」で211件中1件目（10/8）</td></tr>
+<tr><td>ネット予約</td><td>即予約可。当日20時まで</td></tr>
+<tr><td>コース</td><td>8本（飲み放題1,900円・平日2,500円・飲み放題付4,000円・14品4,000円・飲み放題付5,500円ほか）</td></tr>
+<tr><td>写真</td><td>1枚</td></tr>
+<tr><td>口コミ</td><td>0件（2026年1月以降に5件集まると評点が出る）</td></tr>
+<tr><td>予算表示</td><td>ランチ780円〜、ディナーの表示は3,001〜4,000円</td></tr>
+<tr><td>クーポン</td><td>なし</td></tr>
+<tr><td>席の表記</td><td>47席・最大宴会50人・貸切可</td></tr>
+<tr><td>Googleマップとの関係</td><td>GBPの管理グループに「リクルートGMB」があり、GBPのウェブサイト欄がホットペッパーを指している</td></tr>
+</table></div>
+<p>1件目に出ているのは、すでに有料の掲載プランに入っているか、ホットペッパー側の表示ロジックによる可能性がある。<b>契約プランと月額をまず確かめる</b>。</p>
+<h3>3-2. 位置づけ</h3>
+<ul>
+<li>食べログは「焼肉を食べに行く店を探す人」、ホットペッパーは「宴会・飲み会の幹事とポイントを貯める人」が主な客層</li>
+<li>山王苑の<b>平日の飲み放題1,900円・2,500円コース・2F貸切30名</b>は、ホットペッパーの客層に合う</li>
+<li>ホットペッパーは<b>平日の夜と宴会を埋める道具</b>として使う。通常の夜の単価帯は食べログで取る</li>
+</ul>
+<h3>3-3. やること</h3>
+<div class="tw"><table>
+<tr><th>順</th><th>時期</th><th>やること</th><th>KPI</th></tr>
+<tr><td>1</td><td>10/10</td><td>契約プラン・月額・最低契約期間・手数料を営業担当に確認する。「リクルートGMB」の連携内容も聞く</td><td>—</td></tr>
+<tr><td>2</td><td>10/15</td><td>写真を1枚→20枚（料理・肉盛り・ホルモン・1F炭火・2F貸切・外観）</td><td>写真20枚</td></tr>
+<tr><td>3</td><td>10/15</td><td>ディナーの予算表示を5,001〜6,000円に</td><td>—</td></tr>
+<tr><td>4</td><td>10/15</td><td>クーポン3枚（下記）を載せる</td><td>クーポン利用数</td></tr>
+<tr><td>5</td><td>10/20</td><td>忘年会コース（2F貸切・10名以上）を追加し、コース名の先頭に【忘年会】を付ける</td><td>宴会予約組数</td></tr>
+<tr><td>6</td><td>11/1〜1/31</td><td>有料スポット（金額を見て決裁）</td><td>ネット予約組数・宴会組数</td></tr>
+<tr><td>7</td><td>継続</td><td>ホットペッパー予約の来店客に口コミを依頼し、5件で評点を出す</td><td>口コミ5件（11月末）</td></tr>
+<tr><td>8</td><td>2/1〜4/30</td><td>歓送迎会スポット</td><td>同上</td></tr>
+</table></div>
+<p>クーポン案（無料掲載でも3枚まで載せられる）:</p>
+<div class="tw"><table>
+<tr><th>#</th><th>名前</th><th>条件</th><th>狙い</th></tr>
+<tr><td>1</td><td>【平日限定】2時間飲み放題1,900円</td><td>月〜金・2名以上</td><td>平日の夜を埋める</td></tr>
+<tr><td>2</td><td>【10名以上の宴会】幹事様1名分のコース無料</td><td>2F貸切・コース利用</td><td>幹事を取る</td></tr>
+<tr><td>3</td><td>【国産ホルモン盛り合わせ500円】</td><td>全日・1卓1皿</td><td>初回のきっかけ。期間未定の注記つき</td></tr>
+</table></div>
+<h3>3-4. KPI</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th>9月</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>3月</th></tr>
+<tr><td>ネット予約</td><td>不明</td><td>3組</td><td>8組</td><td>20組</td><td>6組</td><td>20組</td></tr>
+<tr><td>うち宴会（10名以上）</td><td>0組</td><td>0組</td><td>2組</td><td>8組</td><td>1組</td><td>8組</td></tr>
+<tr><td>経由売上</td><td>不明</td><td>3万円</td><td>10万円</td><td>35万円</td><td>10万円</td><td>35万円</td></tr>
+<tr><td>口コミ</td><td>0件</td><td>1件</td><td>5件</td><td>9件</td><td>12件</td><td>18件</td></tr>
+<tr><td>写真</td><td>1枚</td><td>20枚</td><td>20枚</td><td>25枚</td><td>25枚</td><td>30枚</td></tr>
+</table></div>
+<h2>4. 店頭・入口導線（看板・のぼり・誘導）</h2>
+<h3>4-1. 現状（9/17撮影の外観写真）</h3>
+<div class="tw"><table>
+<tr><th>項目</th><th>いま</th><th>問題</th></tr>
+<tr><td>立地</td><td>西友大森店の裏手、路地の角。東口からはフレッシュネスバーガーと西友の間を抜けて来る</td><td>駅前の人の流れから店が見えない</td></tr>
+<tr><td>暖簾</td><td>白地に小さく「大森 山王苑」</td><td>「焼肉」の文字がない。遠目に何の店か分からない</td></tr>
+<tr><td>木札</td><td>「肉 あります 山王苑」（照明あり）</td><td>雰囲気は良いが、価格と業態が伝わらない</td></tr>
+<tr><td>A型看板</td><td>牛のイラストだけ。文字・価格・営業時間なし</td><td>店頭で最も目に入る面が何も伝えていない</td></tr>
+<tr><td>営業中の札</td><td>小さな木札</td><td>開いているか分かりにくい</td></tr>
+<tr><td>のぼり</td><td>なし</td><td>路地の奥まで人を引き込む目印がない</td></tr>
+<tr><td>価格の掲示</td><td>店外になし</td><td>隣の居酒屋は「ハイボール290円」などを大きく出している。山王苑は「高そう」と判断されやすい</td></tr>
+<tr><td>2階</td><td>店外の案内なし</td><td>2F貸切30名の存在が通行人に伝わらない</td></tr>
+<tr><td>入口の扉</td><td>濃い色で中が見えにくい</td><td>初めての客が入りにくい</td></tr>
+</table></div>
+<h3>4-2. 考え方</h3>
+<ol>
+<li><b>1秒で「焼肉屋」と分かる</b>: のぼりとA型看板で「焼肉」「ホルモン」を大きく出す</li>
+<li><b>3秒で「入れる値段」と分かる</b>: 盛り合わせ・ハラミ3格・平日コースの価格を出す。「地域最安値の高品質和牛」の主張を店頭でも言う</li>
+<li><b>路地の手前で呼ぶ</b>: 西友の角と北口ルートで「この先」を示す</li>
+<li><b>暖簾と木札は残す</b>: 45年の暖簾は物語資産。替えずに足す</li>
+</ol>
+<h3>4-3. やること</h3>
+<div class="tw"><table>
+<tr><th>順</th><th>時期</th><th>やること</th><th>担当</th><th>費用</th></tr>
+<tr><td>1</td><td>10/15</td><td>A型看板の両面を差し替える。昼面＝ランチ（既存のカレーA1ポスターを流用）、夜面＝下の原稿。昼夜は裏返すだけ</td><td>マーケ（原稿）・新井さん（制作）・現場（裏返し）</td><td>夜面の制作0.7万円</td></tr>
+<tr><td>2</td><td>10/15</td><td>A型看板にQRを入れる（食べログ予約フォーム）</td><td>マーケ</td><td>0</td></tr>
+<tr><td>3</td><td>10/31</td><td>のぼり3本（「焼肉・ホルモン」「国産ホルモン盛り合わせ500円」「ランチ営業中」）を自店の敷地内に立てる。夜は「ランチ営業中」を下げる</td><td>マーケ（文言）・現場</td><td>1本0.3万円＋ポール・注水台0.2万円</td></tr>
+<tr><td>4</td><td>10/31</td><td>入口横に価格表を貼る（ハラミ3格・盛り合わせ・平日コース・飲み放題）</td><td>マーケ（原稿）・現場</td><td>0.2万円</td></tr>
+<tr><td>5</td><td>10/31</td><td>「営業中」を大きくし、夜は照らす（既存のスポットライトをA型看板とのぼりに向ける）</td><td>現場</td><td>0</td></tr>
+<tr><td>6</td><td>10/31</td><td>忘年会の告知（2F貸切最大30名・10名以上は電話）をA型看板の下段かポスターで出す</td><td>マーケ・現場</td><td>0.2万円</td></tr>
+<tr><td>7</td><td>11/15</td><td>駅からの誘導を決める。西友の角や北口ルートの電柱広告、近隣ビルの壁面の借用を見積もる</td><td>マーケ（調査）・ザンさん（決裁）</td><td>月0.5万円前後（要見積）</td></tr>
+<tr><td>8</td><td>12月</td><td>暖簾の横か袖看板に「焼肉 ホルモン」を足す</td><td>ザンさん</td><td>要見積</td></tr>
+<tr><td>9</td><td>10/15〜</td><td>媒体の道順文に目印を書く（「西友の裏、肉の木札が目印」）。Googleマップに外観写真を入れる</td><td>管理部</td><td>0</td></tr>
+</table></div>
+<p>置き場所の注意: のぼりとA型看板は<b>自店の敷地内に置き、歩道や道路にはみ出さない</b>（道路にはみ出すと道路占用の許可が要る）。ビルの壁面や共用部に付ける物は、ビル管理会社の承諾を取る。屋外広告物の扱いは品川区の窓口で確かめる。</p>
+<h3>4-4. 原稿（コピペ用）</h3>
+<p>A型看板・夜面:</p>
+<div class="copy"><span class="lbl">A型看板・夜面</span><button type="button">コピー</button>焼肉・ホルモン
+山王苑（大森で40年以上）
+
+国産ハラミ　並 800円／上 2,000円／極上 2,550円
+国産ホルモン盛り合わせ 500円
+平日限定コース 2,500円（全7品）
+2時間飲み放題 1,900円（月〜金）
+
+お一人様もどうぞ／2階は貸切最大30名
+［QR］ネット予約はこちら</div>
+<p>A型看板・忘年会の下段:</p>
+<div class="copy"><span class="lbl">A型看板・忘年会の下段</span><button type="button">コピー</button>忘年会のご予約受付中
+2階貸切 最大30名様／10名様以上はお電話で 03-3763-4129</div>
+<p>のぼり（3本）:</p>
+<div class="copy"><span class="lbl">のぼり（3本）</span><button type="button">コピー</button>焼肉・ホルモン 山王苑
+国産ホルモン盛り合わせ 500円
+ランチ営業中 11:30〜13:30</div>
+<p>価格の数字は店頭メニュー（ラミネート版）と食べログの最新値で必ず突き合わせてから刷る。食べログが正。</p>
+<h3>4-5. KPI</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th>9月</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>3月</th></tr>
+<tr><td>「通りがかり」の来店（組/月・ディナー）</td><td>未計測</td><td>計測開始</td><td>12組</td><td>15組</td><td>12組</td><td>18組</td></tr>
+<tr><td>ランチ客数（人/日）</td><td>23</td><td>24</td><td>27</td><td>28</td><td>27</td><td>31</td></tr>
+<tr><td>店頭の上積み（万円）</td><td>—</td><td>0</td><td>5</td><td>8</td><td>6</td><td>10</td></tr>
+</table></div>
+<p>「通りがかり」はレジの経路ヒアリングで数える。A型看板とのぼりを替えた前後の2週間で、通りがかりの組数とランチ客数を比べる。</p>
+<h2>5. リピート施策</h2>
+<h3>5-1. 現状</h3>
+<ul>
+<li>会計時の15%オフクーポンは配っているが、何枚戻ってきたか数えていない</li>
+<li>LINE公式の友だちは95人（8月時点）で、配信はしていない</li>
+<li>Airメイトのリピーター分析は、顧客情報がある会計が2割しかなく使えない</li>
+<li>9月のランチ客は452人。この人たちが夜に来ているかは分からない</li>
+</ul>
+<h3>5-2. 考え方</h3>
+<ol>
+<li><b>数える</b>: レジで「初めて／2回目以上」を聞き、15%クーポンに通し番号を付けて戻りを数える</li>
+<li><b>つなぐ</b>: 会計時にLINEの友だち追加を勧める。特典は次回のドリンク1杯</li>
+<li><b>呼び戻す</b>: LINEで月2回配信する（ホルモン500円・平日コース・忘年会・新年会）</li>
+<li><b>夜へ移す</b>: ランチ客に平日2,500円コースの案内カードを渡す</li>
+</ol>
+<h3>5-3. やること</h3>
+<div class="tw"><table>
+<tr><th>順</th><th>時期</th><th>やること</th><th>担当</th></tr>
+<tr><td>1</td><td>10/15</td><td>レジで「初めて／2回目以上」と来店経路を聞き、Airレジの会計メモに残す</td><td>現場</td></tr>
+<tr><td>2</td><td>10/20</td><td>15%オフクーポンに通し番号と有効期限（発行から60日）を印字し、回収枚数を週1で数える</td><td>現場</td></tr>
+<tr><td>3</td><td>10/31</td><td>LINE友だち追加のPOPを卓上とレジに置く。特典は次回ドリンク1杯</td><td>マーケ（制作）・現場</td></tr>
+<tr><td>4</td><td>11/1</td><td>LINE初回配信（忘年会受付開始・ホルモン500円）</td><td>マーケ</td></tr>
+<tr><td>5</td><td>11/1</td><td>ランチ会計時に夜の案内カード（平日2,500円コース・当日OK・カード持参でドリンク1杯）を渡し、夜に回収枚数を数える</td><td>マーケ（制作）・現場</td></tr>
+<tr><td>6</td><td>12月</td><td>忘年会の幹事にLINE登録を頼み、新年会・歓送迎会の案内を1月と2月に送る</td><td>現場・マーケ</td></tr>
+<tr><td>7</td><td>1月</td><td>友だち300人を超えたら、LINEの有料プラン（月0.5万円程度）を検討する</td><td>マーケ</td></tr>
+</table></div>
+<h3>5-4. KPI</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th>9月</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>3月</th></tr>
+<tr><td>LINE友だち</td><td>95</td><td>150</td><td>220</td><td>300</td><td>360</td><td>450</td></tr>
+<tr><td>LINE配信</td><td>0</td><td>0</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td>15%クーポン回収率</td><td>未計測</td><td>計測開始</td><td>10%</td><td>15%</td><td>15%</td><td>20%</td></tr>
+<tr><td>ランチ→夜の転換カード回収</td><td>0</td><td>制作</td><td>5組</td><td>10組</td><td>8組</td><td>15組</td></tr>
+<tr><td>2回目以上の客の割合（ディナー）</td><td>未計測</td><td>計測開始</td><td>25%</td><td>25%</td><td>30%</td><td>35%</td></tr>
+<tr><td>リピート経由の上積み</td><td>—</td><td>2万円</td><td>8万円</td><td>15万円</td><td>15万円</td><td>22万円</td></tr>
+</table></div>
+<h2>6. 口コミ改善</h2>
+<h3>6-1. 現状</h3>
+<div class="tw"><table>
+<tr><th>媒体</th><th>件数</th><th>点数</th><th>新着</th><th>返信</th></tr>
+<tr><td>Googleマップ</td><td>112件</td><td>★4.0</td><td>買収後0件（最新は49週間前）</td><td>ほぼなし。★1が2件放置</td></tr>
+<tr><td>食べログ</td><td>109件</td><td>3.28</td><td>月3件程度</td><td>なし</td></tr>
+<tr><td>ホットペッパー</td><td>0件</td><td>表示なし</td><td>—</td><td>—</td></tr>
+</table></div>
+<p>口コミの中身（直近の傾向）:</p>
+<div class="tw"><table>
+<tr><th>良い声</th><th>悪い声</th></tr>
+<tr><td>肉質が良い。この辺りでいちばん</td><td>安いお肉は値段なり。普通のタンはチェーン以下</td></tr>
+<tr><td>1人前の量が多い</td><td>店主の態度がぶっきらぼう。年配スタッフの接客に疑問</td></tr>
+<tr><td>キャベツのおかわり無料</td><td>コスパが良くない。脂っぽい</td></tr>
+<tr><td>カルビ半額がお得</td><td>鉄板がなかなか熱くならない（昼）</td></tr>
+<tr><td>厚切りタンのコスパが最高</td><td></td></tr>
+</table></div>
+<h3>6-2. やること</h3>
+<div class="tw"><table>
+<tr><th>順</th><th>時期</th><th>やること</th><th>担当</th></tr>
+<tr><td>1</td><td>10/15</td><td>Googleの口コミQRカードを会計時に渡す（特典と引き換えにしない）</td><td>現場</td></tr>
+<tr><td>2</td><td>10/15</td><td>未返信の口コミに返信する（Google★1が2件・食べログ5件。文面は「今やるべきこと」7番）</td><td>管理部</td></tr>
+<tr><td>3</td><td>10/15〜</td><td>新着は7日以内に返信する。悪い声は「受け継いで見直した点」で返す</td><td>管理部</td></tr>
+<tr><td>4</td><td>11月</td><td>ホットペッパー予約客に口コミを頼み、5件で評点を出す</td><td>現場</td></tr>
+<tr><td>5</td><td>11月</td><td>悪い声の多い3点を現場に申し送る（並タンの品質・接客の言葉づかい・昼の火力）</td><td>マーケ→現場</td></tr>
+<tr><td>6</td><td>毎月</td><td>口コミの良い声を販促の文面に使う（肉質・量・キャベツ・厚切りタン）</td><td>マーケ</td></tr>
+</table></div>
+<p>食べログは店から口コミを頼まず、返信と料理・接客で積む。点数の操作につながる依頼は避ける。</p>
+<h3>6-3. KPI</h3>
+<div class="tw"><table>
+<tr><th>指標</th><th>9月</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>3月</th></tr>
+<tr><td>Google 新着（件/月）</td><td>0</td><td>3</td><td>8</td><td>10</td><td>8</td><td>10</td></tr>
+<tr><td>Google 件数（月末）</td><td>112</td><td>115</td><td>123</td><td>133</td><td>141</td><td>159</td></tr>
+<tr><td>Google 評価</td><td>4.0</td><td>4.0</td><td>4.0</td><td>4.1</td><td>4.1</td><td>4.1</td></tr>
+<tr><td>食べログ 件数（月末）</td><td>109</td><td>111</td><td>114</td><td>118</td><td>121</td><td>127</td></tr>
+<tr><td>食べログ 点数</td><td>3.28</td><td>3.28</td><td>3.29</td><td>3.30</td><td>3.31</td><td>3.33</td></tr>
+<tr><td>ホットペッパー 件数</td><td>0</td><td>1</td><td>5</td><td>9</td><td>12</td><td>18</td></tr>
+<tr><td>返信率（新着・全媒体）</td><td>0%</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr>
+</table></div>
+<h2>7. 売上ロードマップ</h2>
+<h3>7-1. 積み上げ（9月実績200.5万円からの上積み）</h3>
+<p>各施策の上積みは月間売上（万円）。季節要因は9月のディナー160.3万円に対する増減（12月+15%・1月-10%・3月+5%）。</p>
+<div class="tw"><table>
+<tr><th>項目</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th></tr>
+<tr><td>9月実績（起点）</td><td>200.5</td><td>200.5</td><td>200.5</td><td>200.5</td><td>200.5</td><td>200.5</td></tr>
+<tr><td>食べログ（整備＋有料）</td><td>+7</td><td>+39</td><td>+69</td><td>+28</td><td>+40</td><td>+69</td></tr>
+<tr><td>Googleマップ（ピン修正・口コミ・投稿）</td><td>+3</td><td>+10</td><td>+20</td><td>+13</td><td>+17</td><td>+23</td></tr>
+<tr><td>ホットペッパー（整備＋スポット）</td><td>+3</td><td>+10</td><td>+35</td><td>+10</td><td>+15</td><td>+35</td></tr>
+<tr><td>店頭・入口導線（看板・のぼり・誘導）</td><td>0</td><td>+5</td><td>+8</td><td>+6</td><td>+7</td><td>+10</td></tr>
+<tr><td>リピート（LINE・再来店カード）</td><td>+2</td><td>+8</td><td>+15</td><td>+15</td><td>+18</td><td>+22</td></tr>
+<tr><td>ランチ強化（客数・単価）</td><td>+5</td><td>+8</td><td>+11</td><td>+7</td><td>+12</td><td>+20</td></tr>
+<tr><td>ランチ→夜の転換</td><td>0</td><td>+7</td><td>+14</td><td>+11</td><td>+14</td><td>+20</td></tr>
+<tr><td>法人宴会（南大井）</td><td>0</td><td>+5</td><td>+20</td><td>+5</td><td>+8</td><td>+20</td></tr>
+<tr><td>客単価の改善</td><td>0</td><td>+8</td><td>+8</td><td>+8</td><td>+8</td><td>+8</td></tr>
+<tr><td>季節要因</td><td>0</td><td>0</td><td>+24</td><td>-16</td><td>0</td><td>+8</td></tr>
+<tr class="total"><td><b>合計（万円）</b></td><td><b>221</b></td><td><b>301</b></td><td><b>425</b></td><td><b>288</b></td><td><b>340</b></td><td><b>436</b></td></tr>
+</table></div>
+<div class="chart"><div class="legend"><span><i style="background:var(--ember);opacity:.55"></i>ランチ</span><span><i style="background:var(--accent)"></i>ディナー</span><span><i style="background:var(--ink);width:2px"></i>9月作成の半年計画（挑戦線）</span></div><div class="row"><span class="m">9月</span><span class="bar"><span class="seg l" style="left:0;width:7.16%"></span><span class="seg d" style="left:7.16%;width:28.62%"></span></span><span class="v">200.5万円</span></div><div class="row"><span class="m">10月</span><span class="bar"><span class="seg l" style="left:0;width:8.04%"></span><span class="seg d" style="left:8.04%;width:31.43%"></span><span class="plan" style="left:46.43%" title="半年計画 260万円"></span></span><span class="v">221万円</span></div><div class="row"><span class="m">11月</span><span class="bar"><span class="seg l" style="left:0;width:8.93%"></span><span class="seg d" style="left:8.93%;width:44.82%"></span><span class="plan" style="left:64.29%" title="半年計画 360万円"></span></span><span class="v">301万円</span></div><div class="row"><span class="m">12月</span><span class="bar"><span class="seg l" style="left:0;width:9.64%"></span><span class="seg d" style="left:9.64%;width:66.25%"></span><span class="plan" style="left:96.43%" title="半年計画 540万円"></span></span><span class="v">425万円</span></div><div class="row"><span class="m">1月</span><span class="bar"><span class="seg l" style="left:0;width:8.93%"></span><span class="seg d" style="left:8.93%;width:42.50%"></span><span class="plan" style="left:64.29%" title="半年計画 360万円"></span></span><span class="v">288万円</span></div><div class="row"><span class="m">2月</span><span class="bar"><span class="seg l" style="left:0;width:9.82%"></span><span class="seg d" style="left:9.82%;width:50.89%"></span><span class="plan" style="left:75.00%" title="半年計画 420万円"></span></span><span class="v">340万円</span></div><div class="row"><span class="m">3月</span><span class="bar"><span class="seg l" style="left:0;width:11.43%"></span><span class="seg d" style="left:11.43%;width:66.43%"></span><span class="plan" style="left:98.21%" title="半年計画 550万円"></span></span><span class="v">436万円</span></div></div>
+<h3>7-2. ランチ・ディナー別</h3>
+<div class="tw"><table>
+<tr><th>月</th><th>ランチ</th><th>ディナー</th><th>合計</th><th>ディナー1日平均</th><th>主な打ち手</th></tr>
+<tr><td>9月（実績）</td><td>40.1万円</td><td>160.3万円</td><td>200.5万円</td><td>6.4万円</td><td>撮影写真の反映・食べログ予約再開</td></tr>
+<tr><td>10月</td><td>45万円</td><td>176万円</td><td>221万円</td><td>6.8万円</td><td>Googleマップ修正・食べログ整備・A型看板・QRカード・経路ヒアリング</td></tr>
+<tr><td>11月</td><td>50万円</td><td>251万円</td><td>301万円</td><td>9.7万円</td><td>食べログ有料・ホットペッパー宴会・のぼり・LINE起動・転換カード</td></tr>
+<tr><td>12月</td><td>54万円</td><td>371万円</td><td>425万円</td><td>14.3万円</td><td>忘年会ピーク（2F貸切）・法人宴会</td></tr>
+<tr><td>1月</td><td>50万円</td><td>238万円</td><td>288万円</td><td>9.5万円</td><td>新年会・LINE呼び戻し・有料3か月評価</td></tr>
+<tr><td>2月</td><td>55万円</td><td>285万円</td><td>340万円</td><td>11.9万円</td><td>歓送迎会受付・ホットペッパー再開</td></tr>
+<tr><td>3月</td><td>64万円</td><td>372万円</td><td>436万円</td><td>14.3万円</td><td>歓送迎会ピーク・半年レビュー</td></tr>
+</table></div>
+<p>ランチは9月実績に「ランチ強化」と店頭の上積みのうちランチ分（11月以降2〜4万円）を足した値。ディナーは合計からランチを引いた値。ディナーの営業日は月24〜26日で置いた。</p>
+<h3>7-3. 9月作成の半年計画との差</h3>
+<div class="tw"><table>
+<tr><th>月</th><th>半年計画（9月作成）</th><th>本書（基本線）</th><th>差</th></tr>
+<tr><td>10月</td><td>260万円</td><td>221万円</td><td>-39万円</td></tr>
+<tr><td>11月</td><td>360万円</td><td>301万円</td><td>-59万円</td></tr>
+<tr><td>12月</td><td>540万円</td><td>425万円</td><td>-115万円</td></tr>
+<tr><td>1月</td><td>360万円</td><td>288万円</td><td>-72万円</td></tr>
+<tr><td>2月</td><td>420万円</td><td>340万円</td><td>-80万円</td></tr>
+<tr><td>3月</td><td>550万円</td><td>436万円</td><td>-114万円</td></tr>
+</table></div>
+<p>本書は9月の実績から施策ごとに積み上げた基本線で、半年計画の線より2割ほど低い。<b>半年計画の線は挑戦線として残す</b>。差を埋める手段は次の3つ。</p>
+<ol>
+<li>12月だけ食べログをプレミアムへ格上げ（忘年会の上位表示）</li>
+<li>法人宴会の営業量を増やす（南大井の昼間人口3.3万人）</li>
+<li>ランチの形態を変える（弁当・テイクアウト・14:30までの延長）</li>
+</ol>
+<h3>7-4. 800万円（ランチ200万円＋ディナー600万円）までの見立て</h3>
+<ul>
+<li>ディナー600万円は1夜23人×5,500円×26日の水準。3月の372万円から月+8〜10%で伸ばすと<b>2027年秋</b></li>
+<li>ランチ200万円は今の形態の天井（110〜130万円）を超える。弁当・テイクアウト・営業時間の延長のどれかが要る。形態の判断は人員次第なので、2月の時点で案を出す</li>
+</ul>
+<h2>8. 月次の見方（毎月5日）</h2>
+<div class="tw"><table>
+<tr><th>見るもの</th><th>場所</th><th>判断</th></tr>
+<tr><td>売上・ランチ/ディナー・客単価</td><td>Airメイト 月次</td><td>7-2の線との差</td></tr>
+<tr><td>食べログ PV・予約・予約率・来店人数</td><td>食べログ管理画面</td><td>予約率0.75%に届いているか</td></tr>
+<tr><td>Googleマップ 閲覧・通話・ルート・口コミ</td><td>GBP</td><td>閲覧が前年水準に戻ったか</td></tr>
+<tr><td>ホットペッパー 予約・宴会・口コミ</td><td>ホットペッパー管理画面</td><td>宴会組数と手数料</td></tr>
+<tr><td>通りがかり・再来店・経路</td><td>レジ記録・クーポン回収</td><td>看板替え前後の差・2回目以上の割合</td></tr>
+<tr><td>LINE 友だち・配信後の来店</td><td>LINE管理画面・レジ記録</td><td>友だち数と配信翌週の来店</td></tr>
+</table></div>
+<p>判定のルール:</p>
+<ul>
+<li>売上が線を下回っても、先行指標（予約数・口コミ・LINE友だち）が乗っていれば施策は続ける</li>
+<li>両方が下回ったときは、その月の打ち手を入れ替える</li>
+<li>有料媒体の評価は3か月単位（11〜1月・2〜4月）で行い、1か月目の数字では動かさない</li>
+</ul>
+<h2>9. 確認が要ること</h2>
+<div class="tw"><table>
+<tr><th>内容</th><th>誰に</th></tr>
+<tr><td>ホットペッパーの契約プラン・月額・最低契約期間・「リクルートGMB」の連携内容</td><td>管理部→ホットペッパー営業担当</td></tr>
+<tr><td>LINE公式の現在の友だち数</td><td>管理部</td></tr>
+<tr><td>土日のランチ営業の有無（9月のランチ営業日は平日の数と一致）</td><td>現場</td></tr>
+<tr><td>A型看板・のぼりを置ける範囲（自店の敷地・ビル管理会社の承諾）</td><td>現場→ビル管理会社</td></tr>
+<tr><td>店頭メニューの最新価格（ハラミ3格・盛り合わせ）と食べログの一致</td><td>現場</td></tr>
+<tr><td>忘年会コースの内容と2F貸切の最低人数</td><td>西村・平石</td></tr>
+<tr><td>弁当・テイクアウトの人員面の可否</td><td>平石</td></tr>
+</table></div>
+<p class="small" style="margin-top:40px">改修履歴 — 第2版: 店頭・入口導線（A型看板・のぼり・価格掲示・駅からの誘導・暖簾への「焼肉」追加）の章を追加し、優先順位と売上の積み上げに反映。／初版: 9月実績を基に、媒体・ホットペッパー・リピート・口コミ・ランチ・宴会の施策を1本の優先順位に並べ、積み上げ式の売上ロードマップを作成。正本は <code>Desktop\山王苑マーケ\山王苑_包括マーケ施策と売上ロードマップ.md</code>。</p>
+</div>
+</main>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+  document.querySelectorAll(".copy button").forEach(function(b){
+    b.addEventListener("click",function(){
+      var box=b.parentNode, txt="";
+      box.childNodes.forEach(function(n){ if(n.nodeType===3) txt+=n.textContent; });
+      txt=txt.trim();
+      function done(){ b.textContent="コピーした"; setTimeout(function(){b.textContent="コピー";},1500); }
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done,function(){ b.textContent="失敗"; }); }
+      else{ var r=document.createRange(); r.selectNodeContents(box); var s=getSelection(); s.removeAllRanges(); s.addRange(r); try{document.execCommand("copy");done();}catch(e){} s.removeAllRanges(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
