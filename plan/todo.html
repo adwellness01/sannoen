@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 今やるべきこと</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1e1d1a; --muted:#67655e; --rule:#d8d5cd;
+  --accent:#2b4a70; --accent-soft:#e3e9f1; --ember:#b23a2a; --ember-soft:#f4e3df;
+  --ok:#3d6b45; --ok-soft:#e2ecdf;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+    --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+    --ok:#8fbf95; --ok-soft:#22342a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17181b; --surface:#1f2125; --ink:#ebe9e3; --muted:#a19e95; --rule:#34373d;
+  --accent:#8fb0da; --accent-soft:#25334a; --ember:#e0705e; --ember-soft:#3d2622;
+  --ok:#8fbf95; --ok-soft:#22342a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;padding-block:32px 64px;padding-inline:16px;font-variant-numeric:tabular-nums}
+.wrap{max-width:880px;margin:0 auto}
+h1,h2,h3,h4{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;text-wrap:balance;margin:0}
+h1{font-size:30px;line-height:1.3;letter-spacing:.02em}
+h2{font-size:21px;margin-top:56px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin-top:28px;color:var(--accent)}
+h4{font-size:14.5px;margin-top:20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lead{color:var(--muted);margin:12px 0 0;max-width:40em}
+p{margin:12px 0;max-width:42em}
+.head{border-bottom:1px solid var(--rule);padding-bottom:24px}
+.head .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:12px;letter-spacing:.06em;background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:3px;white-space:nowrap}
+.p0{background:var(--ember-soft);color:var(--ember)}
+.p1{background:var(--accent-soft);color:var(--accent)}
+.p2{background:var(--bg);color:var(--muted);border:1px solid var(--rule)}
+.ok{background:var(--ok-soft);color:var(--ok)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi div{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:"Shippori Mincho B1",serif;font-size:24px;font-weight:700;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.note{background:var(--surface);border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;font-size:14px}
+.note.warn{border-left-color:var(--ember)}
+.note.ok{border-left-color:var(--ok);background:var(--surface);color:var(--ink)}
+.copy{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:10px 0;font-size:14px;white-space:pre-wrap;position:relative}
+.copy .lbl{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.copy button{position:absolute;top:8px;right:8px;font-size:12px;padding:4px 10px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:3px;cursor:pointer}
+ul{padding-left:1.3em;max-width:42em}
+li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+.task{list-style:none;padding:0;margin:14px 0;max-width:none}
+.task li{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:8px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start}
+.task li .t{font-weight:700}
+.task li .d{grid-column:2;font-size:13.5px;color:var(--muted)}
+.task li .d b{color:var(--ink);font-weight:700}
+@media (max-width:520px){h1{font-size:24px}}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--accent)}
+a{color:var(--accent)}
+.card{width:91mm;height:55mm;max-width:100%;margin:16px 0;background:#fff;color:#1e1d1a;border:1px solid #c9c4b8;border-radius:4px;padding:10px 14px;display:grid;grid-template-columns:1fr auto;grid-template-rows:1fr auto;gap:4px 12px;align-items:center;font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif}
+.card-msg{margin:0;font-size:12.5px;line-height:1.7;grid-column:1;grid-row:1}
+#qr{grid-column:2;grid-row:1 / span 2}
+#qr img,#qr canvas{display:block;width:120px;height:120px}
+.card-name{margin:0;font-size:15px;font-weight:700;letter-spacing:.12em;grid-column:1;grid-row:2}
+.task a{color:inherit;text-decoration:none}
+ol{padding-left:1.4em;max-width:42em}
+@media print{body{background:#fff;padding:0}body *{visibility:hidden}#card,#card *{visibility:visible}#card{position:absolute;left:0;top:0;margin:0;border:1px dashed #999}}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 今やるべきこと</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+
+<div class="wrap">
+<header class="head">
+  <div class="eyebrow">焼肉 山王苑（大森）</div>
+  <h1>今やるべきこと</h1>
+  <p class="lead">10/8〜10/20にやることを上から順に並べた。依頼文・原稿・設定値はすべて右上の「コピー」で貼れる。</p>
+  <div class="meta"><span>根拠: <a href="media-kpi.html">媒体KPI</a>／<a href="tabelog.html">食べログ作業優先</a></span></div>
+</header>
+
+<h2>一覧</h2>
+<ul class="task">
+  <li><span class="pill p1">今日</span><span class="t"><a href="#s0">0. 管理部・ザンさん・現場へ依頼文を送る</a></span><span class="d">マーケ</span></li>
+  <li><span class="pill p0">P0</span><span class="t"><a href="#s1">1. Googleマップのピンと住所を直す</a></span><span class="d">期限 <b>10/10</b>｜管理部</span></li>
+  <li><span class="pill p0">P0</span><span class="t"><a href="#s2">2. Googleマップのウェブサイト欄を公式サイトに変える</a></span><span class="d">期限 <b>10/10</b>｜管理部</span></li>
+  <li><span class="pill p0">P0</span><span class="t"><a href="#s3">3. 食べログの紹介文・こだわりを差し替える</a></span><span class="d">期限 <b>10/15</b>｜管理部</span></li>
+  <li><span class="pill p0">P0</span><span class="t"><a href="#s4">4. 食べログのネット予約上限を20名にし、予約可否欄に追記</a></span><span class="d">期限 <b>10/15</b>｜管理部</span></li>
+  <li><span class="pill p0">P0</span><span class="t"><a href="#s5">5. 食べログの予算表示を変える</a></span><span class="d">期限 <b>10/15</b>｜ザンさん承認→管理部</span></li>
+  <li><span class="pill p0">P0</span><span class="t"><a href="#s6">6. 口コミQRカードを会計時に渡す</a></span><span class="d">期限 <b>10/15</b>から｜現場</span></li>
+  <li><span class="pill p1">P1</span><span class="t"><a href="#s7">7. 口コミに返信（Google 2件・食べログ5件）</a></span><span class="d">期限 <b>10/15</b>｜管理部</span></li>
+  <li><span class="pill p1">P1</span><span class="t"><a href="#s8">8. Googleマップの説明文を差し替える</a></span><span class="d">期限 <b>10/15</b>｜管理部</span></li>
+  <li><span class="pill p1">P1</span><span class="t"><a href="#s9">9. Googleマップに投稿（3本を週1で）</a></span><span class="d"><b>10/20</b>から｜管理部</span></li>
+  <li><span class="pill p1">P1</span><span class="t"><a href="#s10">10. 食べログのピックアップ口コミ・利用シーン・キーワード</a></span><span class="d">期限 <b>10/15</b>｜管理部</span></li>
+</ul>
+
+<h2 id="s0">0. 依頼文</h2>
+<div class="copy"><span class="lbl">管理部へ</span><button type="button">コピー</button>お疲れさまです。山王苑のGoogleマップと食べログの修正をお願いします。
+手順と貼り付ける文面は以下にまとめています。
+https://adwellness01.github.io/sannoen/plan/todo.html
+（パスコードはマーケプランと同じです）
+
+【10/10まで】
+・Googleマップの地図ピンが新宿に立っています。ルート検索したお客様が新宿へ案内される状態です。ピンと住所の修正をお願いします（ページの1番）
+・Googleマップのウェブサイト欄をホットペッパーから公式サイトに変更してください（2番）
+
+【10/15まで】
+・食べログの紹介文・こだわり・予約可否欄・ネット予約の上限人数（3・4番）
+・口コミへの返信（Google 2件・食べログ5件）とGoogleマップの説明文（7・8番）
+・食べログのピックアップ口コミ・利用シーン・キーワード（10番）
+
+【10/20から】
+・Googleマップへの投稿を週1回（9番に3本用意しています）
+
+ご不明点があれば聞いてください。よろしくお願いします。</div>
+
+<div class="copy"><span class="lbl">ザンさんへ（予算表示の承認）</span><button type="button">コピー</button>ザンさん、お疲れさまです。食べログの予算表示を変えたく、承認をお願いします。
+
+いま食べログの夜の予算が「3,000〜3,999円」と表示されています。
+9月の実際のディナー客単価は5,124円です（Airメイト）。
+安く見せたまま来店されると「思ったより高い」という口コミにつながるため、実態に合わせて「5,000〜5,999円」に変えます。ランチは「〜999円」のままです。
+
+参考までに、9月はディナー客の35%（108人）が食べログのネット予約経由で、売上は約55万円でした。
+よろしければ管理部に変更を依頼します。</div>
+
+<div class="copy"><span class="lbl">現場へ（確認2点と口コミカード）</span><button type="button">コピー</button>お疲れさまです。2点確認と1点お願いです。
+
+【確認】
+1. 土日もランチ営業していますか（食べログとGoogleマップは「毎日11:30〜13:30」と表示中です）
+2. 月曜日は昼夜とも営業していますか
+
+【お願い】
+10/15から、お会計のときに口コミカードを1枚お渡しください。
+Googleの口コミが1年近く増えておらず、新しいお店の評価が出てこない状態です。
+カードはこちらで用意します。</div>
+
+<h2 id="s1">1. Googleマップのピンと住所を直す</h2>
+<div class="note warn">いま地図のピンが新宿中央公園の付近に立っている。住所欄にも「南大井８ ６丁目」と余計な「８」が入っている。</div>
+<ol>
+  <li>Googleで「山王苑」を検索する（和火焼のGoogleアカウントでログインした状態）</li>
+  <li>「プロフィールを編集」→「所在地」→ 住所の鉛筆マーク</li>
+  <li>住所を下の内容に直す</li>
+  <li>「地図上のマーカーを調整」でピンを大森駅東口・西友大森店の裏手（南大井6-25-12）に動かす</li>
+  <li>保存する。Googleの確認が入り、反映まで数日かかることがある</li>
+  <li>反映後、Googleマップで「山王苑」を開き、ピンが大森にあることを確かめる</li>
+</ol>
+<div class="copy"><span class="lbl">住所</span><button type="button">コピー</button>〒140-0013
+東京都品川区南大井6丁目25-12 日建ビル1・2F</div>
+
+<h2 id="s2">2. Googleマップのウェブサイト欄を変える</h2>
+<p>「プロフィールを編集」→「連絡先」→「ウェブサイト」を下のURLに置き換えて保存。末尾の記号は、Googleマップから来た人数をGA4で数えるための目印。</p>
+<div class="copy"><span class="lbl">ウェブサイト</span><button type="button">コピー</button>https://machiyakiniku.jp/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gbp</div>
+<p class="small">保存してもホットペッパーのURLに戻る場合は、ホットペッパー側の連携（管理画面の「リクルートGMB」）が上書きしている。ホットペッパーの担当者に連携の解除か変更を相談する。</p>
+
+<h2 id="s3">3. 食べログの紹介文・こだわり</h2>
+<p class="small">場所: 食べログ店舗管理画面 → 店舗情報の編集 → PR文／こだわり</p>
+<div class="copy"><span class="lbl">紹介文の見出し</span><button type="button">コピー</button>大森駅徒歩3分｜国産ハラミと国産ホルモン。1980年頃から続く町の焼肉屋</div>
+<div class="copy"><span class="lbl">紹介文の本文</span><button type="button">コピー</button>大森駅から徒歩3分。1980年頃から大森で愛されてきた焼肉屋を、2026年に受け継ぎました。名物は国産ハラミ。流通上「内臓」扱いで産地の分かるものが少ないハラミを、国産にこだわって仕入れています。ホルモンも国産のみ。鮮度のよい甘い脂と歯ごたえを、1階は炭火の七輪で、2階はガスロースターでお楽しみください。価格は地域で一番手頃な線を目指しています。ランチは牛すじ煮込みカレー780円から。2階は最大30名の貸切ができ、忘年会・歓送迎会・会社の集まりにお使いいただけます。</div>
+<div class="copy"><span class="lbl">こだわり① 料理</span><button type="button">コピー</button>国産ハラミが名物
+並・上・極上の3つの格でご用意。産地の分かる国産ハラミを、その日の仕入れで切り分けます</div>
+<div class="copy"><span class="lbl">こだわり② 料理</span><button type="button">コピー</button>国産ホルモンのみ
+鮮度のよい国産ホルモンだけを仕入れ。甘い脂と歯ごたえが違います</div>
+<div class="copy"><span class="lbl">こだわり③ 空間</span><button type="button">コピー</button>1階は炭火、2階は貸切
+1階は七輪の炭火。2階は最大30名の貸切ができるパーティスペース</div>
+<div class="copy"><span class="lbl">こだわり④ その他</span><button type="button">コピー</button>1980年頃から続く暖簾
+大森で40年以上。2026年に2度目の継承。常連さんに愛された味を引き継いでいます</div>
+
+<h2 id="s4">4. 食べログのネット予約上限と予約可否欄</h2>
+<ul>
+  <li>ネット予約の上限人数: 9名 → <b>20名</b>（食べログノート → 設定 → 予約受付の人数）</li>
+  <li>予約可否欄の先頭に下の1文を追記</li>
+</ul>
+<div class="copy"><span class="lbl">予約可否欄</span><button type="button">コピー</button>10名様以上のご予約・2階貸切（最大30名様）はお電話でご相談ください。</div>
+
+<h2 id="s5">5. 食べログの予算表示（ザンさん承認後）</h2>
+<div class="tw"><table>
+  <tr><th></th><th>いま</th><th>変更後</th></tr>
+  <tr><td>夜</td><td>¥3,000〜¥3,999</td><td><b>¥5,000〜¥5,999</b></td></tr>
+  <tr><td>昼</td><td>〜¥999</td><td>〜¥999（変えない）</td></tr>
+</table></div>
+
+<h2 id="s6">6. 口コミQRカード</h2>
+<p>会計時に「よろしければ」と1枚添えるだけでよい。<b>値引きや特典と引き換えにしない</b>（Googleの規約で禁止）。</p>
+<div class="copy"><span class="lbl">Googleの口コミ投稿ページ（山王苑に直接つながる）</span><button type="button">コピー</button>https://g.page/r/CSe_RyaBdf0mEAI/review</div>
+<div class="card" id="card">
+  <p class="card-msg">本日はご来店ありがとうございました。<br>よろしければ、Googleマップに<br>ご感想をお寄せください。</p>
+  <div id="qr"></div>
+  <p class="card-name">焼肉 山王苑</p>
+</div>
+<p class="small">上が名刺サイズのカード見本。ブラウザの印刷でそのまま刷れる。QRを読むと上のリンクが開く。</p>
+
+<h2 id="s7">7. 口コミへの返信</h2>
+<p class="small">共通ルール: 店名を名乗る／具体的な品名に触れる／言い訳をしない／再来店の一言で締める。以後は新着から7日以内に返信する。</p>
+<h3>Google（★1・2件）</h3>
+<div class="copy"><span class="lbl">kenta miyao さん（2025/09/03・コースのお肉と店主の態度）</span><button type="button">コピー</button>ご来店ありがとうございました。山王苑です。コースのお肉とスタッフの対応で、ご不快な思いをおかけし申し訳ありません。2026年にお店を受け継ぎ、仕入れとコースの内容、接客を見直しました。いまは国産ハラミと国産ホルモンを名物に据えています。もし機会がありましたら、もう一度お試しいただけると幸いです。</div>
+<div class="copy"><span class="lbl">みやまん さん（2025/07/30・お肉が脂っぽい）</span><button type="button">コピー</button>ご来店ありがとうございました。山王苑です。脂の多さで最後までお楽しみいただけず、申し訳ありません。2026年にお店を受け継ぎ、仕入れを見直しました。いまは脂の軽い国産ハラミや赤身もご用意しています。もし機会がありましたら、赤身中心でもう一度お試しいただけると幸いです。</div>
+<h3>食べログ（5件）</h3>
+<div class="copy"><span class="lbl">2026/09訪問（3.5点・厚切りタンのコスパ）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。厚切りタンを気に入っていただけて嬉しいです。お肉もお酒も楽しんでいただけたようで何よりです。名物の国産ハラミもぜひ一度お試しください。またのご来店をお待ちしております。</div>
+<div class="copy"><span class="lbl">2026/07訪問（5.0点・同僚と飲み放題）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。タン・ハラミ・かめのこ・ゲタカルビ・ホルモンと、幅広くお召し上がりいただきありがとうございます。飲み放題と合わせてお得にお楽しみいただけたようで何よりです。職場のお集まりにもぜひまたお使いください。</div>
+<div class="copy"><span class="lbl">2026/02訪問（3.8点・盛りが多い）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。1人前の量に満足いただけて嬉しいです。お肉の盛りは今後も変えずに続けてまいります。またのご来店をお待ちしております。</div>
+<div class="copy"><span class="lbl">2026/02訪問（4.0点・家族・カルビ半額）</span><button type="button">コピー</button>ご家族でのご来店ありがとうございます。山王苑です。おかわり自由のキャベツはこれからも続けます。カルビ半額は時期により内容が変わりますので、ご来店前にお気軽にお電話ください。またご家族でお越しいただけるのをお待ちしております。</div>
+<div class="copy"><span class="lbl">2025/09訪問（2.5点・コスパ・タン）</span><button type="button">コピー</button>ご来店ありがとうございます。山王苑です。タンがご期待に沿えず申し訳ありません。2026年にお店を受け継ぎ、仕入れと価格を見直しました。国産ハラミと国産ホルモンを名物に据え、価格は地域で一番手頃な線を目指しています。もし機会があれば、もう一度お試しいただけると幸いです。</div>
+
+<h2 id="s8">8. Googleマップの説明文</h2>
+<p class="small">場所: 「プロフィールを編集」→「概要」→「説明」。750字以内。現場の確認で土日のランチが無いと分かったら「ランチは毎日」を「ランチは平日」に直してから貼る。</p>
+<div class="copy"><span class="lbl">説明</span><button type="button">コピー</button>大森駅から徒歩3分、西友大森店の裏手にある焼肉店です。1980年頃から大森で愛されてきた「山王苑」の暖簾を、2026年に受け継ぎました。
+
+名物は国産ハラミ。流通上「内臓」扱いで産地の分かるものが少ないハラミを、国産にこだわって仕入れ、並・上・極上の3つの格でご用意しています。ホルモンも国産のみ。鮮度のよい甘い脂と歯ごたえをお楽しみください。
+
+1階は炭火の七輪、2階はガスロースターです。2階は最大30名の貸切ができ、忘年会・歓送迎会・会社の集まりにお使いいただけます。平日は2時間のコースと飲み放題もご用意しています。
+
+ランチは毎日11:30〜13:30。牛すじ煮込みカレー780円から、焼肉定食まで。夜は17:00〜22:30です。ご予約は食べログまたはお電話（03-3763-4129）で承ります。</div>
+
+<h2 id="s9">9. Googleマップの投稿（週1）</h2>
+<p class="small">場所: Googleで「山王苑」を検索 →「投稿を追加」→「最新情報」。写真を1枚つけ、ボタンは「予約」または「電話」。</p>
+<div class="copy"><span class="lbl">1本目（10/20）国産ホルモン盛り合わせ500円｜写真: ホルモン3種盛り</span><button type="button">コピー</button>【国産ホルモン盛り合わせ 500円】
+リニューアルを記念して、国産ホルモンの盛り合わせを500円でご用意しています。鮮度のよい国産ならではの甘い脂と歯ごたえを、1階は炭火の七輪で。
+期間は未定です。予告なく終了する場合がございます。
+大森駅徒歩3分・焼肉 山王苑</div>
+<div class="copy"><span class="lbl">2本目（10/27）平日の2,500円コース｜写真: 肉盛り合わせ</span><button type="button">コピー</button>【平日限定 2,500円コース】
+月〜金曜の夜限定。山王苑の定番のお肉とホルモンをバランスよく揃えた全7品です。飲み放題付きは4,000円。
+2〜5名様は当日のご注文も承ります。仕事帰りの一杯にどうぞ。
+大森駅徒歩3分・焼肉 山王苑</div>
+<div class="copy"><span class="lbl">3本目（11/3）忘年会・2階貸切｜写真: 2F</span><button type="button">コピー</button>【忘年会のご予約受付中】
+2階は最大30名様まで貸切できるパーティスペースです。
+牛タンと国産ハラミを味わう全14品のコースは4,000円、月〜金曜は飲み放題付き5,500円。
+10名様以上・貸切のご相談はお電話（03-3763-4129）で承ります。
+大森駅徒歩3分・焼肉 山王苑</div>
+
+<h2 id="s10">10. 食べログの細かい設定</h2>
+<div class="tw"><table>
+  <tr><th>項目</th><th>いま</th><th>変更後</th></tr>
+  <tr><td>ピックアップ口コミ</td><td>2014年7月訪問の口コミ</td><td>dashi_egg さんの2026年7月訪問（5.0点・同僚と飲み放題）</td></tr>
+  <tr><td>利用シーン</td><td>家族・子供と／デート／知人・友人と</td><td>「宴会・飲み会」「接待」を追加</td></tr>
+  <tr><td>お店のキーワード</td><td>和牛 肉 激安ランチ フルボトルワイン はらみ</td><td>下の6語に差し替え</td></tr>
+</table></div>
+<div class="copy"><span class="lbl">キーワード</span><button type="button">コピー</button>国産ハラミ 国産ホルモン 炭火 宴会 大森 ランチ</div>
+
+<p class="small" style="margin-top:40px">改修履歴 — 初版: 媒体KPI第2版と食べログ作業優先リストから、10/8〜10/20にやることを並べ、依頼文・原稿・設定値をまとめた。正本は <code>Desktop\山王苑マーケ\山王苑_今やるべきこと_コピペ文面.md</code>。</p>
+</div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+try{ new QRCode(document.getElementById("qr"),{text:"https://g.page/r/CSe_RyaBdf0mEAI/review",width:120,height:120,correctLevel:QRCode.CorrectLevel.M}); }catch(e){ document.getElementById("qr").textContent="QRの読み込みに失敗しました。上のリンクからQRを作ってください。"; }
+</script>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+  document.querySelectorAll(".copy button").forEach(function(b){
+    b.addEventListener("click",function(){
+      var box=b.parentNode, txt="";
+      box.childNodes.forEach(function(n){ if(n.nodeType===3) txt+=n.textContent; });
+      txt=txt.trim();
+      function done(){ b.textContent="コピーした"; setTimeout(function(){b.textContent="コピー";},1500); }
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done,function(){ b.textContent="失敗"; }); }
+      else{ var r=document.createRange(); r.selectNodeContents(box); var s=getSelection(); s.removeAllRanges(); s.addRange(r); try{document.execCommand("copy");done();}catch(e){} s.removeAllRanges(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
