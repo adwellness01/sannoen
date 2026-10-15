@@ -1,8 +1,8 @@
 /* 山王苑 理解テスト 画面ロジック
  * - 問題・正解・採点はサーバー（Google Apps Script のウェブアプリ）側にあり、このページには置かない
- * - 受験者は ID と PIN で入る。受験日時（受験枠）の外ではサーバーが問題を返さない
+ * - 受験者は PIN だけで入る（サーバーがPINで本人を判別。IDは通し番号を自動採番）。受験日時（受験枠）の外ではサーバーが問題を返さない
  * - 受験中に正解は表示しない。提出するとサーバーで採点し、得点・合否・間違えた問題（正解と解説）を表示する
- * - ID「admin」＋管理パスワードで管理モード（受験者の受験日時の設定・結果の確認／設問の確認と修正点の記入）
+ * - PIN欄に管理パスワードを入れると管理モード（受験者の受験日時の設定・結果の確認／設問の確認と修正点の記入）
  */
 (function () {
   "use strict";
@@ -127,26 +127,26 @@
   }
 
   // ---------- ログイン ----------
-  let ログイン = null; // { id, pin }
+  /* PINだけで入る。管理パスワードを入れた場合はサーバーが「管理者」と返すので管理モードに入る */
+  let ログイン = null; // { pin }
   function ログイン保存(v) { ログイン = v; try { if (v) sessionStorage.setItem(保存キー_ログイン, JSON.stringify(v)); else sessionStorage.removeItem(保存キー_ログイン); } catch (e) {} }
+  function ログイン結果表示(r) { if (r.管理者) 管理モード開始(r); else 開始画面表示(r); }
   async function ログイン実行() {
-    const id = $("ログイン_ID").value.trim(), pin = $("ログイン_PIN").value.trim();
+    const pin = $("ログイン_PIN").value.trim();
     $("ログインエラー").textContent = "";
-    if (!id || !pin) { $("ログインエラー").textContent = "IDとPINを入力してください。"; return; }
+    if (!pin) { $("ログインエラー").textContent = "PINを入力してください。"; return; }
     try {
       await 実行($("btn_ログイン"), async () => {
-        if (id.toLowerCase() === "admin") { const r = await API("admin_list", { pin }); ログイン保存({ id: "admin", pin }); 管理モード開始(r); }
-        else { const r = await API("login", { id, pin }); ログイン保存({ id, pin }); 開始画面表示(r); }
+        const r = await API("login", { pin }); ログイン保存({ pin }); ログイン結果表示(r);
         $("ログイン_PIN").value = "";
       });
     } catch (e) { $("ログインエラー").textContent = e.message; }
   }
   $("btn_ログイン").addEventListener("click", ログイン実行);
   $("ログイン_PIN").addEventListener("keydown", (e) => { if (e.key === "Enter") ログイン実行(); });
-  $("ログイン_ID").addEventListener("keydown", (e) => { if (e.key === "Enter") $("ログイン_PIN").focus(); });
   function ログアウト() {
     ログイン保存(null); try { sessionStorage.removeItem(保存キー_回答); } catch (e) {}
-    $("ログイン_ID").value = ""; $("ログイン_PIN").value = ""; $("ログインエラー").textContent = ""; ルビ設定($("段階バッジ"), "");
+    $("ログイン_PIN").value = ""; $("ログインエラー").textContent = ""; ルビ設定($("段階バッジ"), "");
     画面切替("画面_ログイン"); トースト("ログアウトしました");
   }
   $("btn_ログアウト").addEventListener("click", ログアウト);
@@ -247,7 +247,8 @@
     const 状態表示 = { "": "受験日時の設定待ち", 未受験: "受験日時を設定済み（まだ受けていない）", 受験中: "受験中", 提出済: "提出済み（次の受験日時の設定待ち）", 未提出: "受験日時内に提出されなかった" };
     $("受験者_一覧").innerHTML = r.受験者.length ? r.受験者.map((p, k) => `
       <div class="person" data-k="${k}">
-        <h3>${ふりがな(p.氏名 || "（氏名未入力）")} <span class="sub">（ID: ${esc(p.ID)}）</span></h3>
+        <h3>${ふりがな(p.氏名 || "（氏名未入力）")} <span class="sub">（No.${esc(p.ID)}）</span></h3>
+        ${(p.警告 || []).map((w) => `<p class="msg" style="color:var(--ng);margin:6px 0">${ふりがな(w)}</p>`).join("")}
         <dl class="info">
           <dt>${ふりがな("段階")}</dt><dd>${ふりがな(p.段階 > r.段階一覧.length ? "全段階合格" : `第${p.段階}段階：${p.範囲名}`)}${p.受験回数 ? ふりがな(`（この段階の受験 ${p.受験回数}回）`) : ""}</dd>
           <dt>${ふりがな("受験日時")}</dt><dd>${ふりがな(p.受験枠)}</dd>
@@ -354,8 +355,7 @@
     try { ログイン = JSON.parse(sessionStorage.getItem(保存キー_ログイン) || "null"); } catch (e) { ログイン = null; }
     if (!ログイン) { 画面切替("画面_ログイン"); return; }
     try {
-      if (ログイン.id === "admin") 管理モード開始(await API("admin_list", { pin: ログイン.pin }));
-      else 開始画面表示(await API("login", ログイン));
+      ログイン結果表示(await API("login", { pin: ログイン.pin }));
     } catch (e) { ログイン保存(null); 画面切替("画面_ログイン"); $("ログインエラー").textContent = e.message; }
   })();
 })();

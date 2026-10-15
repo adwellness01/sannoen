@@ -97,10 +97,8 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
   <!-- 入口: ID と PIN -->
   <section class="card" id="画面_ログイン">
     <h1>スタッフ確認</h1>
-    <p class="sub">店長から伝えられたIDとPINを入力してください。</p>
-    <label for="ログイン_ID">ID</label>
-    <input type="text" id="ログイン_ID" autocomplete="username" autocapitalize="off" spellcheck="false">
-    <label for="ログイン_PIN" style="margin-top:12px">PIN</label>
+    <p class="sub">店長から伝えられたPIN（番号）を入力してください。</p>
+    <label for="ログイン_PIN">PIN</label>
     <input type="password" id="ログイン_PIN" autocomplete="current-password" inputmode="numeric">
     <p class="sub" id="ログインエラー" style="color:var(--ng);margin-top:8px"></p>
     <button class="btn" id="btn_ログイン" style="margin-top:12px">次へ</button>
@@ -172,7 +170,7 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
     <div id="受験者_一覧"></div>
     <h2 style="margin-top:20px">最近の受験記録</h2>
     <ul class="keylist" id="受験者_記録"></ul>
-    <p class="note">受験者の追加・ID・PINの変更は、スプレッドシート「山王苑 理解テスト管理」の受験者シートで行います。</p>
+    <p class="note">受験者の追加・PINの変更は、スプレッドシート「山王苑 理解テスト管理」の受験者シートで行います（PINを入れるとIDの通し番号が自動で付きます）。</p>
   </section>
 
   <!-- 管理: 設問の確認と修正点の記入 -->
