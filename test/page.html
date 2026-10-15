@@ -110,13 +110,14 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
   <section class="card hidden" id="画面_開始">
     <h1 id="開始_見出し"></h1>
     <dl class="info">
-      <dt>氏名</dt><dd id="開始_氏名"></dd>
       <dt>受験日時</dt><dd id="開始_受験枠"></dd>
     </dl>
     <div class="msg" id="開始_メッセージ"></div>
     <div id="開始_受験可">
       <p class="sub" style="margin-top:14px">全50問・4択です。時間の制限はありません（受験日時の終わりまでに提出してください）。テストは1回だけ受けられます。50問中40問（8割）以上正解で合格です。</p>
-      <button class="btn" id="btn_開始" style="margin-top:6px">テストを始める</button>
+      <label for="開始_氏名">氏名（フルネーム）</label>
+      <input type="text" id="開始_氏名" placeholder="例：山田 太郎" autocomplete="name" maxlength="30">
+      <button class="btn" id="btn_開始" style="margin-top:14px" disabled>テストを始める</button>
     </div>
     <button class="btn ghost" id="btn_再読込" style="margin-top:14px">最新の状態を確認する</button>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);text-align:center">

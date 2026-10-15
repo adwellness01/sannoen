@@ -159,7 +159,7 @@
     const 段階 = r.状態 === "完了" ? "全段階合格" : `第${r.段階}段階：${r.範囲名}`;
     ルビ設定($("段階バッジ"), r.状態 === "完了" ? "" : `第${r.段階}段階 / 全${r.全段階数}段階`);
     ルビ設定($("開始_見出し"), 段階);
-    ルビ設定($("開始_氏名"), r.氏名);
+    $("開始_氏名").value = r.氏名 || ""; $("btn_開始").disabled = !$("開始_氏名").value.trim();
     ルビ設定($("開始_受験枠"), r.受験枠 || "未設定");
     const 受験できる = r.状態 === "受験可" || r.状態 === "受験中";
     const msg = r.状態 === "受験中" ? "受験の途中です。下のボタンで続きから再開できます。" : r.状態 === "受験可" ? "今、受験できます。" : r.メッセージ;
@@ -169,8 +169,11 @@
     画面切替("画面_開始");
   }
   $("btn_再読込").addEventListener("click", () => 実行($("btn_再読込"), async () => 開始画面表示(await API("login", ログイン))).catch(() => {}));
+  /* 氏名は受験者が入力する。開始時にサーバーへ送り、受験者シートに書き込まれる */
+  $("開始_氏名").addEventListener("input", () => { $("btn_開始").disabled = !$("開始_氏名").value.trim(); });
   $("btn_開始").addEventListener("click", () => 実行($("btn_開始"), async () => {
-    const r = await API("start", ログイン);
+    const 氏名 = $("開始_氏名").value.trim(); if (!氏名) throw new Error("氏名を入力してください");
+    const r = await API("start", Object.assign({ 氏名 }, ログイン));
     受験 = { 番号: r.受験番号, 問題: r.問題, 段階: r.段階, 範囲名: r.範囲名 };
     回答 = 回答読込(受験.番号); 現在 = Math.min(回答.filter((a) => a !== null && a !== undefined).length, 受験.問題.length - 1);
     出題表示(); 画面切替("画面_出題");
@@ -244,7 +247,7 @@
     const 状態表示 = { "": "受験日時の設定待ち", 未受験: "受験日時を設定済み（まだ受けていない）", 受験中: "受験中", 提出済: "提出済み（次の受験日時の設定待ち）", 未提出: "受験日時内に提出されなかった" };
     $("受験者_一覧").innerHTML = r.受験者.length ? r.受験者.map((p, k) => `
       <div class="person" data-k="${k}">
-        <h3>${ふりがな(p.氏名)} <span class="sub">（ID: ${esc(p.ID)}）</span></h3>
+        <h3>${ふりがな(p.氏名 || "（氏名未入力）")} <span class="sub">（ID: ${esc(p.ID)}）</span></h3>
         <dl class="info">
           <dt>${ふりがな("段階")}</dt><dd>${ふりがな(p.段階 > r.段階一覧.length ? "全段階合格" : `第${p.段階}段階：${p.範囲名}`)}${p.受験回数 ? ふりがな(`（この段階の受験 ${p.受験回数}回）`) : ""}</dd>
           <dt>${ふりがな("受験日時")}</dt><dd>${ふりがな(p.受験枠)}</dd>
@@ -261,12 +264,12 @@
       </div>`).join("") : `<p class="msg">${ふりがな("受験者が登録されていません。スプレッドシートの受験者シートに追加してください。")}</p>`;
     $("受験者_記録").innerHTML = r.記録.length ? r.記録.map((x) => `<li><span class="k">${esc(x.合否)}</span><span>${ふりがな(`${x.日時}　${x.氏名}　第${x.段階}段階（${x.回数}回目）　${x.得点 === "" ? "" : `${x.得点}/${x.問数}問`}`)}</span></li>`).join("") : `<li>${ふりがな("まだ記録はありません")}</li>`;
     $("受験者_一覧").querySelectorAll(".person").forEach((el) => {
-      const p = r.受験者[Number(el.dataset.k)];
+      const p = r.受験者[Number(el.dataset.k)]; const 名 = p.氏名 || p.ID;
       el.querySelector(".e_保存").addEventListener("click", (ev) => {
         const 開始 = el.querySelector(".e_開始").value, 終了 = el.querySelector(".e_終了").value, 段階 = el.querySelector(".e_段階").value;
         if (!開始 || !終了) { トースト("開始と終了の日時を入れてください"); return; }
-        if (p.枠の状態 === "受験中" && !confirm(`${p.氏名}さんは受験中です。設定し直すと途中の回答は無効になります。よろしいですか？`)) return;
-        実行(ev.currentTarget, async () => { 受験者一覧表示(await API("admin_set", { pin: ログイン.pin, id: p.ID, 開始, 終了, 段階 })); トースト(`${p.氏名}さんの受験日時を設定しました`); }).catch(() => {});
+        if (p.枠の状態 === "受験中" && !confirm(`${名}さんは受験中です。設定し直すと途中の回答は無効になります。よろしいですか？`)) return;
+        実行(ev.currentTarget, async () => { 受験者一覧表示(await API("admin_set", { pin: ログイン.pin, id: p.ID, 開始, 終了, 段階 })); トースト(`${名}さんの受験日時を設定しました`); }).catch(() => {});
       });
     });
   }
