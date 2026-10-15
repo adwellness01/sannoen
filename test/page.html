@@ -63,6 +63,24 @@ textarea.memo{background:#fff;font-size:15px;min-height:96px}
 .keylist li{display:flex;gap:8px;border-top:1px solid var(--line);padding:6px 0}
 .keylist .k{flex:0 0 4.5em;font-weight:700}
 .keylist .id{flex:0 0 3.2em;color:var(--sub);font-size:12px}
+.pass.ng{background:var(--ng-bg);color:var(--ng)}
+.score{font-family:var(--mincho);font-size:40px;font-weight:600;line-height:1.2;margin:6px 0}
+.score small{font-size:16px;color:var(--sub);font-family:var(--gothic);font-weight:400}
+.info{display:grid;grid-template-columns:5.5em 1fr;gap:4px 10px;font-size:15px;margin:10px 0 0}
+.info dt{color:var(--sub)}
+.info dd{margin:0}
+.msg{padding:12px 14px;border-radius:10px;background:#f3f1ec;font-size:15px;margin:12px 0 0}
+.wrong{border-top:1px solid var(--line);padding:14px 0}
+.wrong .qnum{margin-bottom:2px}
+.wrong .qtext{font-size:16px;margin:2px 0 8px}
+.wrong .ans{font-size:15px;margin:2px 0}
+.wrong .ans b{display:inline-block;min-width:6.5em;font-weight:500;color:var(--sub)}
+.wrong .ans.ng span{color:var(--ng)}
+.wrong .ans.ok span{color:var(--ok);font-weight:700}
+.person{border-top:1px solid var(--line);padding:14px 0}
+.person h3{font-size:16px;margin:0 0 4px}
+.person .edit{display:grid;gap:8px;margin-top:10px}
+.person input[type=datetime-local]{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
 footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
@@ -71,40 +89,38 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
   <header>
     <div class="brand">焼肉 山王苑<small>メニュー・調理方法 理解テスト</small></div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-      <div class="badge" id="週バッジ"></div>
+      <div class="badge" id="段階バッジ"></div>
       <button class="btn ghost small" id="btn_ふりがな" type="button" style="padding:4px 10px;font-size:12px">ふりがな：あり</button>
     </div>
   </header>
 
-  <!-- 入口: パスコード -->
-  <section class="card" id="画面_パスコード">
+  <!-- 入口: ID と PIN -->
+  <section class="card" id="画面_ログイン">
     <h1>スタッフ確認</h1>
-    <p class="sub">店舗から案内されたパスコードを入力してください。</p>
-    <label for="パスコード">パスコード</label>
-    <input type="password" id="パスコード" autocomplete="off">
-    <p class="sub" id="パスコードエラー" style="color:var(--ng);margin-top:8px"></p>
-    <button class="btn" id="btn_パスコード" style="margin-top:12px">次へ</button>
+    <p class="sub">店長から伝えられたIDとPINを入力してください。</p>
+    <label for="ログイン_ID">ID</label>
+    <input type="text" id="ログイン_ID" autocomplete="username" autocapitalize="off" spellcheck="false">
+    <label for="ログイン_PIN" style="margin-top:12px">PIN</label>
+    <input type="password" id="ログイン_PIN" autocomplete="current-password" inputmode="numeric">
+    <p class="sub" id="ログインエラー" style="color:var(--ng);margin-top:8px"></p>
+    <button class="btn" id="btn_ログイン" style="margin-top:12px">次へ</button>
   </section>
 
   <!-- 受験前 -->
   <section class="card hidden" id="画面_開始">
-    <label for="週選択">受けるテスト（何週目・どの範囲か）</label>
-    <select id="週選択"></select>
-    <h1 id="開始_見出し" style="margin-top:14px"></h1>
-    <p class="sub" id="開始_範囲"></p>
-    <p class="sub">全<span id="開始_問数"></span>問・4択。答え合わせは店舗で行うため、回答中に正解は表示されません。最後に回答一覧が出るので、コピーして報告してください。</p>
-    <label for="氏名">氏名</label>
-    <input type="text" id="氏名" placeholder="例：山田 太郎" autocomplete="name">
-    <button class="btn" id="btn_開始" style="margin-top:14px" disabled>テストを始める</button>
-    <div id="履歴" class="hist" style="margin-top:16px"></div>
-    <details style="margin-top:16px">
-      <summary class="sub">週ごとの出題範囲（<span id="開始_週数"></span>週で一巡）</summary>
-      <ul class="setlist" id="セット一覧"></ul>
-      <p class="note">その週の範囲の問題を中心に、他の範囲からも出題されます。同じ週に受けた人は全員同じ問題・同じ順番です。</p>
-    </details>
+    <h1 id="開始_見出し"></h1>
+    <dl class="info">
+      <dt>氏名</dt><dd id="開始_氏名"></dd>
+      <dt>受験日時</dt><dd id="開始_受験枠"></dd>
+    </dl>
+    <div class="msg" id="開始_メッセージ"></div>
+    <div id="開始_受験可">
+      <p class="sub" style="margin-top:14px">全50問・4択です。時間の制限はありません（受験日時の終わりまでに提出してください）。テストは1回だけ受けられます。50問中40問（8割）以上正解で合格です。</p>
+      <button class="btn" id="btn_開始" style="margin-top:6px">テストを始める</button>
+    </div>
+    <button class="btn ghost" id="btn_再読込" style="margin-top:14px">最新の状態を確認する</button>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);text-align:center">
-      <button class="btn ghost small" id="btn_ログアウト">別のパスコードで入る（ログアウト）</button>
-      <p class="note" style="margin:8px 0 0">この端末に記憶したパスコードを消して、パスコード入力画面に戻ります。</p>
+      <button class="btn ghost small" id="btn_ログアウト">ログアウト</button>
     </div>
   </section>
 
@@ -118,32 +134,28 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
       <button class="btn ghost" id="btn_前へ">← 前へ</button>
       <button class="btn" id="btn_次へ" disabled>次へ →</button>
     </div>
+    <p class="note" id="出題_注意">途中で画面を閉じても、受験日時の間なら同じ問題の続きから再開できます。</p>
   </section>
 
-  <!-- 回答完了 -->
+  <!-- 結果 -->
   <section class="card hidden" id="画面_結果">
-    <h2>回答完了</h2>
-    <p><span class="pass ok">おつかれさまでした</span></p>
-    <p class="sub" id="結果_氏名"></p>
-    <label for="結果テキスト" style="margin-top:14px">回答一覧（コピーしてLINE／チャットワークで報告）</label>
-    <textarea id="結果テキスト" readonly></textarea>
-    <div class="row" style="margin-top:10px">
-      <button class="btn" id="btn_コピー">コピー</button>
-      <button class="btn ghost" id="btn_共有">共有</button>
-    </div>
-    <p class="note">採点は店舗で行います。この画面を閉じる前に、必ずコピーまたは共有で送ってください。</p>
-    <button class="btn ghost" id="btn_もう一度" style="margin-top:8px">最初に戻る</button>
+    <h2 id="結果_見出し"></h2>
+    <p><span class="pass" id="結果_合否"></span></p>
+    <div class="score" id="結果_得点"></div>
+    <p class="sub" id="結果_説明"></p>
+    <div id="結果_不正解"></div>
+    <button class="btn ghost" id="btn_結果_戻る" style="margin-top:12px">最初の画面に戻る</button>
   </section>
 
   <!-- 管理: 入口メニュー -->
   <section class="card hidden" id="画面_管理メニュー">
     <h2>管理メニュー</h2>
     <p class="sub">使う機能を選んでください。</p>
-    <button class="btn" id="btn_メニュー_正解" style="margin-top:6px">採点用の正解一覧</button>
-    <p class="sub" style="margin:6px 0 14px">受験者の回答一覧と突き合わせて採点する</p>
+    <button class="btn" id="btn_メニュー_受験者" style="margin-top:6px">受験者の管理（受験日時・結果）</button>
+    <p class="sub" style="margin:6px 0 14px">受験日時の設定、進み具合と合否の確認</p>
     <button class="btn" id="btn_メニュー_設問">設問の確認・修正点の記入</button>
     <p class="sub" style="margin:6px 0 14px">全設問を1問ずつ見て修正点を書き、まとめて共有する</p>
-    <button class="btn ghost" id="btn_メニュー_戻る">受験画面に戻る</button>
+    <button class="btn ghost" id="btn_メニュー_ログアウト">ログアウト</button>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line)">
       <button class="btn ghost small" id="btn_メニュー_ふりがな" type="button">ふりがな未登録の漢字を確認</button>
       <p class="note" style="margin:8px 0 0">設問・選択肢・画面の文言のうち、ふりがな辞書（furigana.js）に無い漢字を一覧します。問題を追加したら確認して辞書に足してください。</p>
@@ -151,27 +163,24 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
     </div>
   </section>
 
-  <!-- 管理: 採点用の正解一覧 -->
-  <section class="card hidden" id="画面_管理_正解">
-    <button class="btn ghost small" id="btn_正解_メニュー" style="margin-bottom:12px">← 管理メニュー</button>
-    <h2>採点用の正解一覧</h2>
-    <p class="sub">受験者と同じ週を選ぶと、その週の出題順どおりの正解が出ます。回答一覧と突き合わせて採点してください。</p>
-    <label for="正解_週">週</label>
-    <select id="正解_週"></select>
-    <p class="sub" id="正解_見出し" style="margin-top:10px"></p>
-    <ul class="keylist" id="正解_一覧"></ul>
-    <label for="正解_テキスト" style="margin-top:14px">コピー用</label>
-    <textarea id="正解_テキスト" readonly style="min-height:90px"></textarea>
-    <button class="btn small" id="btn_正解_コピー" style="margin-top:8px">正解一覧をコピー</button>
+  <!-- 管理: 受験者 -->
+  <section class="card hidden" id="画面_管理_受験者">
+    <button class="btn ghost small" id="btn_受験者_メニュー" style="margin-bottom:12px">← 管理メニュー</button>
+    <h2>受験者の管理</h2>
+    <p class="sub">受験日時を設定すると、その時間内だけテストを受けられます。1回の受験日時で受けられるのは1回です。不合格のときは、ここで次の受験日時を設定し直してください。</p>
+    <div id="受験者_一覧"></div>
+    <h2 style="margin-top:20px">最近の受験記録</h2>
+    <ul class="keylist" id="受験者_記録"></ul>
+    <p class="note">受験者の追加・ID・PINの変更は、スプレッドシート「山王苑 理解テスト管理」の受験者シートで行います。</p>
   </section>
 
   <!-- 管理: 設問の確認と修正点の記入 -->
   <section class="card hidden" id="画面_管理">
     <button class="btn ghost small" id="btn_管理_メニュー" style="margin-bottom:12px">← 管理メニュー</button>
     <h2>設問の確認・修正点の記入</h2>
-    <p class="sub">週を選ぶと、その週に受験者に出る50問が出題順に並びます（末尾の「範囲別：全問」で登録済みの全問題も確認できます）。1問ずつ確認して修正点を書き込んでください。書き込みは端末に自動保存されます。</p>
-    <label for="管理_週">週（出題順）／範囲別</label>
-    <select id="管理_週"></select>
+    <p class="sub">範囲を選ぶと、登録済みの問題が並びます（受験では、その段階の範囲の全問＋他の範囲からの補充で50問が毎回ランダムに出ます）。1問ずつ確認して修正点を書き込んでください。書き込みは端末に自動保存されます。</p>
+    <label for="管理_範囲">範囲</label>
+    <select id="管理_範囲"></select>
     <label for="管理_設問" style="margin-top:10px">設問</label>
     <select id="管理_設問"></select>
     <div class="row" style="margin-top:10px">
