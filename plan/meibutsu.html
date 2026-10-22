@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>山王苑 名物メニュー採点表</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* レイアウト: 1カラムの会議資料。上から「関門の注意 → 重み → 採点表 → 叩き台の推奨 → 次の進め方」 */
+:root{
+  --bg:#f6f7f5; --surface:#ffffff; --ink:#1f2622; --muted:#5d6a63; --line:#d9dfdb;
+  --accent:#2f6b4f; --accent-soft:#e3efe8;
+  --ok:#2f6b4f; --ok-bg:#e3efe8; --warn:#8a5a00; --warn-bg:#fbf0d9; --ng:#a33a2c; --ng-bg:#f8e3df;
+  --display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --ink:#e6ebe8; --muted:#9fada6; --line:#2f3934;
+  --accent:#7fc4a0; --accent-soft:#22342b;
+  --ok:#7fc4a0; --ok-bg:#22342b; --warn:#e9b860; --warn-bg:#3a2f1a; --ng:#f08b7c; --ng-bg:#3d2420; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --ink:#e6ebe8; --muted:#9fada6; --line:#2f3934;
+  --accent:#7fc4a0; --accent-soft:#22342b;
+  --ok:#7fc4a0; --ok-bg:#22342b; --warn:#e9b860; --warn-bg:#3a2f1a; --ng:#f08b7c; --ng-bg:#3d2420; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75}
+.wrap{max-width:1100px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:36px}
+header{display:grid;gap:6px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.5vw,36px);line-height:1.3;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:21px;margin:0 0 10px;text-wrap:balance}
+p{margin:0;max-width:68ch}
+.lead{color:var(--muted)}
+section{display:grid;gap:12px;min-width:0}
+ul{margin:0;padding-left:1.2em;display:grid;gap:4px;max-width:72ch}
+.gate{border:1px solid var(--line);border-left:4px solid var(--ng);background:var(--surface);padding:16px 18px;border-radius:6px;display:grid;gap:8px}
+.weights{display:flex;flex-wrap:wrap;gap:8px 14px}
+.weights label{display:flex;align-items:center;gap:6px;font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:2px 4px}
+select:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px}
+button{font:inherit;font-size:13px;color:var(--accent);background:transparent;border:1px solid var(--accent);border-radius:4px;padding:4px 12px;cursor:pointer}
+button:hover{background:var(--accent-soft)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:1040px;font-size:13px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+th{font-weight:700;font-size:12px;color:var(--muted);background:var(--bg);position:sticky;top:0}
+td.name{text-align:left;min-width:170px}
+td.name b{display:block;font-weight:700}
+td.name small{color:var(--muted)}
+td.memo{text-align:left;color:var(--muted);font-size:12px;min-width:220px;line-height:1.55}
+td.total{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}
+td.rank{font-variant-numeric:tabular-nums;color:var(--muted)}
+tr.top td.total{color:var(--accent)}
+tr.dim{opacity:.45}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.c-ok{color:var(--ok);background:var(--ok-bg)} .c-warn{color:var(--warn);background:var(--warn-bg)} .c-ng{color:var(--ng);background:var(--ng-bg)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.legend div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px;min-width:0}
+.legend b{display:block}
+.legend span{color:var(--muted)}
+.rec{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.rec div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:4px;min-width:0}
+.rec .role{font-size:12px;letter-spacing:.08em;color:var(--accent);font-weight:700}
+.rec .item{font-family:var(--display);font-weight:600;font-size:18px}
+.rec p{font-size:13px;color:var(--muted)}
+ol{margin:0;padding-left:1.4em;display:grid;gap:4px;max-width:72ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+*{box-sizing:border-box}
+body{margin:0}
+#gate{position:fixed;inset:0;background:#2a2825;color:#f2efe8;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+#gate form{width:100%;max-width:340px;text-align:center}
+#gate h1{font-size:20px;margin:0 0 6px;color:#f7f4ee}
+#gate p{font-size:13px;opacity:.7;margin:0 0 18px;color:#f2efe8}
+#gate input{width:100%;font-size:20px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #6b665e;border-radius:6px;background:#1f1d1a;color:#fff}
+#gate button{margin-top:12px;width:100%;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px;background:#c8bfae;color:#1b1a17}
+#gate .err{color:#f0a89c;font-size:13px;min-height:1.4em;margin-top:8px}
+body.locked #main{display:none}
+.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--accent)}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form id="gateform">
+    <h1>山王苑 名物メニュー採点表</h1>
+    <p>社内限り。パスコードを入力</p>
+    <input id="pc" type="password" inputmode="numeric" autocomplete="off" placeholder="••••">
+    <button type="submit">開く</button>
+    <div class="err" id="gateerr"></div>
+  </form>
+</div>
+<main id="main">
+<div class="wrap">
+<a class="back" href="./">← マーケプラン（本編）へ</a>
+<header>
+  <span class="eyebrow">焼肉 山王苑 ／ 名物メニュー策定MTG</span>
+  <h1>名物メニュー採点表</h1>
+  <p class="lead">畠山案・高橋案の15案（重複2組をまとめて13案）を9つの基準で1〜3点で採点した叩き台である。点数はMTGでその場で変えられ、合計と順位はすぐ計算し直される。</p>
+</header>
+
+<section class="gate">
+  <h2>先に通す関門：生の肉</h2>
+  <ul>
+    <li><b>ハラミ・タン・レバーは内臓の扱いで、生で出せる基準の対象外。</b>生でも「炙り」でも出せない。レバーの生食は禁止されている。</li>
+    <li>生で出せるのは内臓を除く牛肉だけ。加工済みの肉を仕入れても、店で切る・形を整えるなら店側にも調理の基準（専用の器具と場所、器具の消毒、店内での注意表示）がかかる。<b>保健所への相談は必須</b>で、届出が要るかどうかもその場で確認する。</li>
+    <li>中心まで火を入れる低温調理で作れば、見た目を近づけたまま生の基準に乗らない作り方ができる可能性がある。「生の基準」の案は、この方向で作り直す前提で採点した。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>基準の重み</h2>
+  <p class="lead">MTGで重視する基準は重みを上げる。0にすると、その基準を合計から外す。</p>
+  <div class="weights" id="weights"></div>
+</section>
+
+<section>
+  <h2>採点表</h2>
+  <div class="tools">
+    <label><input type="checkbox" id="hideGate"> 関門が「生の基準」「要見直し」の案を薄く表示</label>
+    <button type="button" id="sortBtn">合計の高い順に並べ替え</button>
+    <button type="button" id="resetBtn">叩き台の点数に戻す</button>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr id="thead"></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>基準の見方（3点＝強い／1点＝弱い）</h2>
+  <div class="legend" id="legend"></div>
+</section>
+
+<section>
+  <h2>叩き台の推奨：主役1品＋脇役2品</h2>
+  <div class="rec">
+    <div><span class="role">主役（名物）</span><span class="item">すだれハラミ（壺なし版）</span>
+      <p>確定済みの「名物、厳選ハラミ」につながる唯一のハラミ案。壺をやめて皿盛りにすれば、壺の洗浄・割れ・焼肉きんぐとの重なりが外れる。オペと大森での差別化がそれぞれ1点ずつ上がり、合計21点で首位になる。</p></div>
+    <div><span class="role">脇役（タンの口コミ資産）</span><span class="item">ネギ包みタン塩</span>
+      <p>口コミで一番名前が挙がる厚切りタンの延長。2Fのガス台でもネギが落ちない。叙々苑・大同苑が先にあるが、大森の競合では見当たらない。</p></div>
+    <div><span class="role">脇役（ランチから夜へ）</span><span class="item">包める和牛サーロイン</span>
+      <p>ランチのご飯ものとつながり、夜に来てもらう理由を作れる。少人数でも回しやすい。和牛トロフレーク丼は生の基準を確認してから比べる。</p></div>
+  </div>
+  <p class="lead">はみ出る大判カルビは、ふたご大森店（駅前）がすでに看板にしているため脇役に回した。生の基準の案（肉寿司・月見炙り刺し・ユッケ・たたき）は保健所の回答が出るまで保留し、加熱版で作り直せるかを並行して試す。</p>
+</section>
+
+<section>
+  <h2>決めたあとの進め方</h2>
+  <ol>
+    <li>試作して原価を出す（店全体の原価率35%前後が目安）。仕込み時間を1日何分か、1日の数量上限、品切れ時の扱いも決める</li>
+    <li>メニューの最上段に置いて2週間テスト販売する。注文率・客単価（Airメイト）・口コミでの言及・写真の投稿数を見る</li>
+    <li>平石さん経由でザンさんの決裁に上げる</li>
+    <li>名物の写真を撮影し、食べログ・Googleマップ・公式サイト・メニューブック・店頭看板に反映する</li>
+  </ol>
+</section>
+</div>
+
+<script>
+const CRIT=[
+ {k:"pic",n:"写真・集客",d:"看板に載せたとき、見た目で人を呼べるか"},
+ {k:"ops",n:"少人数オペ",d:"仕込みと提供が今の人数で回るか（調理人1人をわびのやと取り合っている）"},
+ {k:"price",n:"単価と原価",d:"原価を抑えつつ単価を上げられるか"},
+ {k:"fit",n:"名物との一貫性",d:"「名物、厳選ハラミ」と厚切りタンの口コミ資産につながるか。45年の老舗の格に合うか"},
+ {k:"diff",n:"大森での差別化",d:"大森の競合や有名チェーンと重ならないか"},
+ {k:"repeat",n:"リピート",d:"見た目だけでなく、また頼まれる味か"},
+ {k:"supply",n:"仕入れ・歩留まり",d:"部位を選ばずまとめて仕入れる前提で、安定して数を出せるか"},
+ {k:"equip",n:"設備適合",d:"1Fの炭火七輪と2Fのガス台の両方でうまく焼けるか"},
+ {k:"lunch",n:"ランチ→夜",d:"ランチのお客さんを夜に呼ぶきっかけになるか"}
+];
+const GATE={ok:["可","c-ok"],cond:["条件付","c-warn"],raw:["生の基準","c-ng"],review:["要見直し","c-ng"]};
+const ITEMS=[
+ {id:"A1",name:"はみ出る大判カルビ",by:"畠山 A-①",gate:"ok",s:[3,2,2,2,1,2,3,1,3],memo:"ランチの黄金たれカルビとつながる。ふたご大森店の「はみ出るカルビ」と正面から重なり、七輪の網からはみ出す"},
+ {id:"A2",name:"壺漬けすだれハラミ",by:"畠山 A-② ／ 高橋 B-④",gate:"ok",s:[3,1,2,3,1,3,2,2,2],memo:"名物ハラミにつながる唯一の案。壺は洗浄・割れの手間があり、焼肉きんぐの名物と重なる。壺なしの皿盛りなら弱点が減る"},
+ {id:"A3",name:"和牛ミルフィーユロース",by:"畠山 A-③ ／ 高橋 B-⑥",gate:"cond",s:[2,1,2,1,2,2,3,2,1],memo:"重ねた肉は中まで焼く案内が必須。切れ端を使えるが、成形の手間がかかり焼いている途中で崩れやすい"},
+ {id:"A4",name:"ザブトンの焼きすき",by:"畠山 A-④",gate:"ok",s:[2,1,3,1,1,2,1,2,1],memo:"1頭から少ししか取れず数を出せない。スタッフが焼く形は今の人数と合わない"},
+ {id:"A5",name:"ネギ包みタン塩",by:"畠山 A-⑤",gate:"ok",s:[2,2,2,3,2,3,2,3,1],memo:"厚切りタンの口コミ資産の延長。2Fのガス台でもネギが落ちない。包む仕込みの手間だけが課題"},
+ {id:"B1",name:"肉寿司（握り・軍艦）",by:"高橋 B-①",gate:"raw",s:[3,1,3,1,2,2,1,3,1],memo:"炙っても中が生なら生の基準。うに・いくらは廃棄が出やすい。焼肉と別の作業が増える"},
+ {id:"B2",name:"レバしゃぶ",by:"高橋 B-②",gate:"review",s:[2,1,1,2,3,2,2,1,1],memo:"レバーの生食は禁止。客が半生で食べれば店の責任になる。卓上で油を熱するのは火事の危険がある"},
+ {id:"B3",name:"サーロイン月見炙り刺し",by:"高橋 B-③",gate:"raw",s:[3,1,3,1,2,2,2,3,1],memo:"炙り刺しは生の基準。基準を満たせなければ出せない。低温調理の加熱版なら検討の余地がある"},
+ {id:"B5",name:"包める和牛サーロイン",by:"高橋 B-⑤",gate:"ok",s:[2,3,2,1,2,2,2,2,3],memo:"ランチのご飯ものとつながる。薄切りなので焼きすぎの案内が要る"},
+ {id:"B7",name:"和牛トロフレーク丼",by:"高橋 B-⑦",gate:"raw",s:[2,3,2,1,1,2,3,3,3],memo:"生のフレークなら生の基準。既製品は他店でも出せる。ランチから夜へのきっかけとしては強い"},
+ {id:"B8",name:"特選和牛ユッケ 3種",by:"高橋 B-⑧",gate:"raw",s:[3,1,3,1,1,2,2,3,1],memo:"生の基準。既製品は他店でも出せる。型での成形と具を3種類用意する手間がかかる"},
+ {id:"B9",name:"薬味まみれ和牛ロースたたき",by:"高橋 B-⑨",gate:"raw",s:[3,2,2,1,2,2,3,3,1],memo:"表面しか焼かないので生の基準。ローストビーフのように中まで加熱すれば宴会の大皿として使える"},
+ {id:"B10",name:"イタリアンネギタン",by:"高橋 B-⑩",gate:"ok",s:[2,2,2,2,3,1,2,2,1],memo:"意外性はあるが、45年の老舗の格とずれる。味を再現できるかも未確認"}
+];
+const KEY="sannoen-meibutsu-v1";
+let state=load();
+function defaults(){return{w:CRIT.map(()=>1),s:Object.fromEntries(ITEMS.map(i=>[i.id,i.s.slice()])),hide:false,sorted:true}}
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.w&&v.s)return v}catch(e){}return defaults()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function total(id){return state.s[id].reduce((a,v,i)=>a+v*state.w[i],0)}
+function opt(vals,cur){return vals.map(v=>`<option value="${v}"${v==cur?" selected":""}>${v}</option>`).join("")}
+function renderWeights(){
+  document.getElementById("weights").innerHTML=CRIT.map((c,i)=>`<label for="w-${c.k}">${c.n}<select id="w-${c.k}" data-w="${i}">${opt([0,1,2,3],state.w[i])}</select></label>`).join("");
+}
+function renderLegend(){document.getElementById("legend").innerHTML=CRIT.map(c=>`<div><b>${c.n}</b><span>${c.d}</span></div>`).join("")}
+function renderHead(){
+  document.getElementById("thead").innerHTML=`<th>順位</th><th style="text-align:left">案</th><th>関門</th>`+CRIT.map(c=>`<th>${c.n}</th>`).join("")+`<th>合計</th><th style="text-align:left">メモ</th>`;
+}
+function renderBody(){
+  let rows=ITEMS.slice();
+  const ranked=ITEMS.slice().sort((a,b)=>total(b.id)-total(a.id));
+  const rankOf={};ranked.forEach((r,i)=>{rankOf[r.id]=i===0||total(r.id)!==total(ranked[i-1].id)?i+1:rankOf[ranked[i-1].id]});
+  if(state.sorted)rows=ranked;
+  document.getElementById("tbody").innerHTML=rows.map(it=>{
+    const g=GATE[it.gate];const dim=state.hide&&(it.gate==="raw"||it.gate==="review");
+    return `<tr class="${rankOf[it.id]<=3?"top":""}${dim?" dim":""}">
+      <td class="rank">${rankOf[it.id]}</td>
+      <td class="name"><b>${it.name}</b><small>${it.by}</small></td>
+      <td><span class="chip ${g[1]}">${g[0]}</span></td>`+
+      state.s[it.id].map((v,i)=>`<td><select id="s-${it.id}-${i}" aria-label="${it.name} ${CRIT[i].n}" data-id="${it.id}" data-i="${i}">${opt([1,2,3],v)}</select></td>`).join("")+
+      `<td class="total">${total(it.id)}</td><td class="memo">${it.memo}</td></tr>`;
+  }).join("");
+}
+function renderAll(){renderWeights();renderHead();renderBody();document.getElementById("hideGate").checked=state.hide}
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.dataset.w!==undefined){state.w[+t.dataset.w]=+t.value;save();renderBody()}
+  else if(t.dataset.id){state.s[t.dataset.id][+t.dataset.i]=+t.value;save();renderBody()}
+  else if(t.id==="hideGate"){state.hide=t.checked;save();renderBody()}
+});
+document.getElementById("sortBtn").addEventListener("click",()=>{state.sorted=true;save();renderBody()});
+document.getElementById("resetBtn").addEventListener("click",()=>{state=defaults();save();renderAll()});
+renderLegend();renderAll();
+</script>
+<script>
+(function(){
+  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
+  var KEY="sannoen_plan_auth";
+  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
+  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
+  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+  document.getElementById("gateform").addEventListener("submit",async function(ev){
+    ev.preventDefault();
+    var v=document.getElementById("pc").value.trim(),ok=false;
+    try{ ok=(await sha256(v))===HASH; }catch(e){ ok=(v==="0903"); }
+    if(ok){ try{localStorage.setItem(KEY,"1");}catch(e){} unlock(); }
+    else{ document.getElementById("gateerr").textContent="パスコードが違う"; }
+  });
+})();
+</script>
+</main>
+</body>
+</html>
