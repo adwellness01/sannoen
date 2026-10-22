@@ -44,6 +44,20 @@ button rt{display:none}
 .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
 .choice.correct .mark{background:var(--ok);color:#fff;border-color:var(--ok)}
 .choice.locked{cursor:default}
+.choice.ng{border-color:var(--ng);background:var(--ng-bg)}
+.choice.ng .mark{background:var(--ng);color:#fff;border-color:var(--ng)}
+.choice .tag{margin-left:auto;flex:0 0 auto;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;align-self:center}
+.choice.correct .tag{background:var(--ok);color:#fff}
+.choice.ng .tag{background:var(--ng);color:#fff}
+.rec{border-top:1px solid var(--line);padding:14px 0}
+.rec .head{display:flex;gap:8px;align-items:baseline;margin-bottom:4px}
+.rec .ox{font-weight:700;font-size:18px}
+.rec .ox.o{color:var(--ok)}
+.rec .ox.x{color:var(--ng)}
+.rec .qtext{font-size:16px;margin:2px 0 10px}
+.rec .choices{gap:6px}
+.rec .choice{padding:10px 12px;font-size:15px}
+.keylist .btn.small{flex:0 0 auto;margin-left:auto;padding:4px 10px;font-size:12px}
 .explain{margin-top:14px;padding:12px 14px;border-radius:10px;background:#f3f1ec;font-size:14px;line-height:1.7}
 .explain b{display:block;margin-bottom:2px}
 .explain .src{color:var(--sub);font-size:12px;margin-top:4px}
@@ -171,6 +185,15 @@ footer{margin-top:24px;text-align:center;font-size:12px;color:var(--sub)}
     <h2 style="margin-top:20px">最近の受験記録</h2>
     <ul class="keylist" id="受験者_記録"></ul>
     <p class="note">受験者の追加・PINの変更は、スプレッドシート「山王苑 理解テスト管理」の受験者シートで行います（PINを入れるとIDの通し番号が自動で付きます）。</p>
+  </section>
+
+  <!-- 管理: 受験記録の中身（出題された問題と回答） -->
+  <section class="card hidden" id="画面_管理_記録">
+    <button class="btn ghost small" id="btn_記録_戻る" style="margin-bottom:12px">← 受験者の管理</button>
+    <h2 id="記録_見出し"></h2>
+    <p class="sub" id="記録_概要"></p>
+    <label style="display:flex;gap:8px;align-items:center;margin:8px 0 4px;color:var(--ink);font-size:15px"><input type="checkbox" id="記録_不正解のみ">間違えた問題だけ表示する</label>
+    <div id="記録_一覧"></div>
   </section>
 
   <!-- 管理: 設問の確認と修正点の記入 -->

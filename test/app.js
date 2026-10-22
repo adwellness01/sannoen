@@ -89,7 +89,7 @@
     ふりがな表示(on);
     $("btn_ふりがな").addEventListener("click", () => ふりがな表示(document.body.classList.contains("ruby-off")));
   }
-  const 画面 = ["画面_ログイン", "画面_開始", "画面_出題", "画面_結果", "画面_管理メニュー", "画面_管理_受験者", "画面_管理", "画面_管理_出力"];
+  const 画面 = ["画面_ログイン", "画面_開始", "画面_出題", "画面_結果", "画面_管理メニュー", "画面_管理_受験者", "画面_管理_記録", "画面_管理", "画面_管理_出力"];
   function 画面切替(id) { const ids = Array.isArray(id) ? id : [id]; 画面.forEach((p) => $(p).classList.toggle("hidden", !ids.includes(p))); window.scrollTo(0, 0); }
   function トースト(msg) { const t = $("トースト"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2000); }
   async function コピー(ta) {
@@ -263,7 +263,10 @@
           <button class="btn small e_保存" type="button">この内容で受験日時を設定する</button>
         </div>
       </div>`).join("") : `<p class="msg">${ふりがな("受験者が登録されていません。スプレッドシートの受験者シートに追加してください。")}</p>`;
-    $("受験者_記録").innerHTML = r.記録.length ? r.記録.map((x) => `<li><span class="k">${esc(x.合否)}</span><span>${ふりがな(`${x.日時}　${x.氏名}　第${x.段階}段階（${x.回数}回目）　${x.得点 === "" ? "" : `${x.得点}/${x.問数}問`}`)}</span></li>`).join("") : `<li>${ふりがな("まだ記録はありません")}</li>`;
+    $("受験者_記録").innerHTML = r.記録.length ? r.記録.map((x) => `<li><span class="k">${esc(x.合否)}</span><span>${ふりがな(`${x.日時}　${x.氏名}　第${x.段階}段階（${x.回数}回目）　${x.得点 === "" ? "" : `${x.得点}/${x.問数}問`}`)}</span>${x.合否 === "合格" || x.合否 === "不合格" ? `<button class="btn ghost small e_記録" type="button" data-row="${esc(x.行)}">回答を見る</button>` : ""}</li>`).join("") : `<li>${ふりがな("まだ記録はありません")}</li>`;
+    $("受験者_記録").querySelectorAll(".e_記録").forEach((b) => b.addEventListener("click", () => 実行(b, async () => {
+      記録詳細表示(await API("admin_detail", { pin: ログイン.pin, 行: b.dataset.row }));
+    }).catch(() => {})));
     $("受験者_一覧").querySelectorAll(".person").forEach((el) => {
       const p = r.受験者[Number(el.dataset.k)]; const 名 = p.氏名 || p.ID;
       el.querySelector(".e_保存").addEventListener("click", (ev) => {
@@ -274,6 +277,35 @@
       });
     });
   }
+
+  // ---------- 管理モード: 受験記録の中身（出題された問題・選んだ答え・正しい答え） ----------
+  let 記録詳細 = null;
+  function 記録詳細表示(d) {
+    記録詳細 = d;
+    ルビ設定($("記録_見出し"), `${d.氏名 || `No.${d.ID}`}　第${d.段階}段階：${d.範囲}`);
+    ルビ設定($("記録_概要"), `${d.日時}　${d.回数}回目　${d.得点}/${d.問数}問　${d.合否}`);
+    $("記録_不正解のみ").checked = false;
+    記録詳細描画(); 画面切替("画面_管理_記録");
+  }
+  function 記録詳細描画() {
+    const 不正解のみ = $("記録_不正解のみ").checked;
+    const list = 記録詳細.問題.filter((q) => !不正解のみ || q.正誤 === "×");
+    $("記録_一覧").innerHTML = list.length ? list.map((q) => `
+      <div class="rec">
+        <div class="head"><span class="ox ${q.正誤 === "○" ? "o" : "x"}">${q.正誤}</span><span class="qnum">${ふりがな(`第${q.番号}問`)}　［${esc(q.id)}］</span></div>
+        <div class="qtext">${ふりがな(q.q)}</div>
+        <ul class="choices">${q.c.map((c, i) => {
+          const 正 = i === q.a, 選 = i === q.選んだ;
+          const cls = 正 ? " correct" : 選 ? " ng" : "";
+          const tag = 正 && 選 ? "正解・選んだ答え" : 正 ? "正解" : 選 ? "選んだ答え" : "";
+          return `<li class="choice locked${cls}"><span class="mark">${"ABCD"[i]}</span><span>${ふりがな(c)}</span>${tag ? `<span class="tag">${ふりがな(tag)}</span>` : ""}</li>`;
+        }).join("")}</ul>
+        ${q.選んだ === null ? `<p class="note">${ふりがな("この記録には選んだ答えが残っていません（機能追加前の受験）")}</p>` : ""}
+        ${q.e ? `<div class="explain"><b>${ふりがな("解説")}</b>${ふりがな(q.e)}</div>` : ""}
+      </div>`).join("") : `<p class="msg">${ふりがな("間違えた問題はありません。")}</p>`;
+  }
+  $("記録_不正解のみ").addEventListener("change", 記録詳細描画);
+  $("btn_記録_戻る").addEventListener("click", () => 画面切替("画面_管理_受験者"));
 
   // ---------- 管理モード: 設問の確認と修正点の記入 ----------
   /* 問題バンクは管理パスワードを確認したうえでサーバーから受け取る（このページには置かない）。
