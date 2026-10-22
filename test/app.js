@@ -300,7 +300,7 @@
           const tag = 正 && 選 ? "正解・選んだ答え" : 正 ? "正解" : 選 ? "選んだ答え" : "";
           return `<li class="choice locked${cls}"><span class="mark">${"ABCD"[i]}</span><span>${ふりがな(c)}</span>${tag ? `<span class="tag">${ふりがな(tag)}</span>` : ""}</li>`;
         }).join("")}</ul>
-        ${q.選んだ === null ? `<p class="note">${ふりがな("この記録には選んだ答えが残っていません（機能追加前の受験）")}</p>` : ""}
+        ${q.選んだ === null ? `<p class="note warn">${ふりがな("この記録には選んだ答えが残っていません（機能追加前の受験）")}</p>` : ""}
         ${q.e ? `<div class="explain"><b>${ふりがな("解説")}</b>${ふりがな(q.e)}</div>` : ""}
       </div>`).join("") : `<p class="msg">${ふりがな("間違えた問題はありません。")}</p>`;
   }
