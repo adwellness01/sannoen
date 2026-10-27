@@ -125,6 +125,20 @@ dialog{
   padding:18px; width:min(560px, 92vw); box-shadow:var(--shadow);
 }
 dialog::backdrop{background:rgba(20,16,12,.45)}
+.prOpt{display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; font-size:13px; margin:8px 0}
+.prOpt b{min-width:36px}
+.prOpt input{accent-color:var(--accent)}
+#printArea{display:none}
+@media print{
+  html,body{height:auto; overflow:visible; background:#fff !important; display:block}
+  body > *:not(#printArea){display:none !important}
+  #printArea{display:block; color:#222; font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
+  .pg{break-after:page; page-break-after:always}
+  .pg:last-child{break-after:auto; page-break-after:auto}
+  .pg h1{font-size:15pt; margin:0 0 2mm; font-family:"Shippori Mincho",serif}
+  .pg .meta{font-size:9pt; color:#555; margin-bottom:3mm}
+  .pg img{display:block; width:100%; object-fit:contain; border:0.3mm solid #ccc}
+}
 dialog h3{font-size:15px; margin-bottom:4px}
 dialog p{font-size:12px; color:var(--muted); margin-bottom:10px}
 dialog textarea{
@@ -196,6 +210,7 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
   <button class="tbtn" id="undoBtn" title="Ctrl+Z">元に戻す</button>
   <button class="tbtn" id="resetBtn">このフロアを初期配置に戻す</button>
   <button class="tbtn" id="ioBtn">書き出し / 読み込み</button>
+  <button class="tbtn" id="printBtn">印刷</button>
 </div>
 
 <main>
@@ -225,6 +240,26 @@ dialog .row .primary{background:var(--accent); color:var(--accent-ink); border-c
 
 <footer id="foot"></footer>
 
+<dialog id="prDlg">
+  <h3>印刷</h3>
+  <p>表示中のレイアウトの平面図を1フロア1ページで印刷する。</p>
+  <div class="prOpt">
+    <b>範囲</b>
+    <label><input type="radio" name="prRange" value="all" checked> 全フロア</label>
+    <label><input type="radio" name="prRange" value="cur"> 表示中のフロアだけ</label>
+  </div>
+  <div class="prOpt">
+    <b>用紙</b>
+    <label><input type="radio" name="prPaper" value="A4" checked> A4 横</label>
+    <label><input type="radio" name="prPaper" value="A3"> A3 横</label>
+  </div>
+  <div class="row">
+    <button class="tbtn" id="prClose">閉じる</button>
+    <button class="tbtn primary" id="prGo">印刷する</button>
+  </div>
+</dialog>
+<div id="printArea" aria-hidden="true"></div>
+<style id="pageStyle"></style>
 <dialog id="ioDlg">
   <h3>サーバープリセット（全端末で共有）</h3>
   <p id="srvNote">確認中…</p>
@@ -641,6 +676,46 @@ document.getElementById('ioLoad').addEventListener('click',()=>{
     pushUndo(); FLOOR_NAMES.forEach(n=>{ if(p.floors[n]) state.floors[n]=p.floors[n]; });
     selUid=null; selPlan=null; syncRoomInputs(); save(); render(); renderFoot(); dlg.close();
   }catch(e){ alert('読み込めなかった。書き出したテキストをそのまま貼ること。'); }
+});
+
+/* ================= 印刷 ================= */
+const prDlg=document.getElementById('prDlg'), printArea=document.getElementById('printArea');
+document.getElementById('printBtn').addEventListener('click',()=>prDlg.showModal());
+document.getElementById('prClose').addEventListener('click',()=>prDlg.close());
+function esc(s){ return String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+/* 平面図を印刷用の大きさ・ライト配色・選択なし・全体表示で描いて画像にし、描き終えたら画面表示に戻す */
+function planImage(n){
+  const root=document.documentElement, keep={cur,selUid,selPlan,editMode,v:Object.assign({},view2d),theme:root.getAttribute('data-theme')};
+  root.setAttribute('data-theme','light');
+  cur=n; selUid=null; selPlan=null; editMode='furn'; resetView2d();
+  CW=1100; CH=705; DPR=3.5; /* 文字が紙で約8ptになる大きさ */ cv.width=CW*DPR; cv.height=CH*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+  draw2d();
+  const url=cv.toDataURL('image/png');
+  cur=keep.cur; selUid=keep.selUid; selPlan=keep.selPlan; editMode=keep.editMode; Object.assign(view2d,keep.v);
+  if(keep.theme==null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme',keep.theme);
+  resize();
+  return url;
+}
+function buildPrint(range){
+  const L=LAYOUTS.find(x=>x.no===layoutNo), head='わびのや 家具配置図　'+L.name+'（'+L.sub+'）';
+  const today=new Date().toLocaleDateString('ja-JP'), floors=range==='cur'?[cur]:FLOOR_NAMES;
+  let total=0; FLOOR_NAMES.forEach(n=>total+=seatsOf(state.floors[n]).seats);
+  printArea.innerHTML=floors.map(n=>{
+    const s=seatsOf(state.floors[n]);
+    return '<section class="pg"><h1>'+esc(head)+'　'+esc(n)+'</h1>'
+      +'<div class="meta">'+esc(n)+'：卓'+s.tables+'・椅子'+s.chairs+'・計'+s.seats+'席 ／ 全館 '+total+'席 ／ 家具代 '+yenMan(L.total)+' ／ 印刷日 '+today+'</div>'
+      +'<img alt="'+esc(n)+'の平面図" src="'+planImage(n)+'"></section>';
+  }).join('');
+}
+document.getElementById('prGo').addEventListener('click',()=>{
+  const range=prDlg.querySelector('input[name=prRange]:checked').value,
+        paper=prDlg.querySelector('input[name=prPaper]:checked').value;
+  document.getElementById('pageStyle').textContent='@page{size:'+paper+' landscape; margin:10mm} @media print{.pg img{max-height:'+(paper==='A3'?255:170)+'mm}}';
+  buildPrint(range); prDlg.close();
+  const imgs=[...printArea.querySelectorAll('img')];
+  Promise.all(imgs.map(im=>im.decode?im.decode().catch(()=>{}):0)).then(()=>{
+    try{ window.print(); }catch(e){ alert('印刷画面を開けなかった。ブラウザのメニューから印刷する。'); }
+  });
 });
 
 /* ================= サーバープリセット（アーティファクト版のみ） ================= */
