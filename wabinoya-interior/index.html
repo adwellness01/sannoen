@@ -35,11 +35,9 @@ section{margin:0 0 40px}
 dialog{border:0;padding:0;background:transparent;max-width:95vw;max-height:95vh}
 dialog img{max-width:95vw;max-height:90vh;display:block}
 dialog::backdrop{background:rgba(0,0,0,.85)}
-body.locked .wrap{display:none}#gate{max-width:320px;margin:20vh auto;padding:0 16px;text-align:center}#gate input{font-size:18px;padding:8px;width:100%;margin:10px 0;box-sizing:border-box}#gate button{font-size:16px;padding:8px 20px}#gerr{color:#c0392b;min-height:1.5em}
 </style>
 </head>
-<body class="locked">
-<form id="gate"><p>パスコードを入力してください</p><input id="pc" type="password" inputmode="numeric" autocomplete="off"><button>開く</button><p id="gerr"></p></form>
+<body>
 <div class="wrap">
 <h1>わびのや 内装参考ボード</h1>
 <p class="lead">「ご近所の、家みたいな焼肉屋」に寄せた他店の店内写真。写真をクリックすると拡大、店名横のリンクから食べログの内観写真一覧へ飛べます。</p>
@@ -176,21 +174,6 @@ document.querySelectorAll('.grid').forEach(g=>{
   });
 });
 dlg.onclick=()=>dlg.close();
-</script>
-<script>
-(function(){
-  var HASH="90a1fb63e15ccfb9ec0fece0d1fb8deb78be2df610d4e3ae4d59ca1c2d30e510";
-  var KEY="sannoen_plan_auth";
-  function unlock(){document.body.classList.remove("locked");var g=document.getElementById("gate");if(g)g.remove();}
-  try{ if(localStorage.getItem(KEY)==="1"){unlock();} }catch(e){}
-  async function sha256(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
-  var f=document.getElementById("gate");
-  if(f)f.addEventListener("submit",async function(ev){
-    ev.preventDefault();
-    if(await sha256(document.getElementById("pc").value.trim())===HASH){try{localStorage.setItem(KEY,"1")}catch(e){}unlock();}
-    else{document.getElementById("gerr").textContent="パスコードが違います";}
-  });
-})();
 </script>
 </body>
 </html>
