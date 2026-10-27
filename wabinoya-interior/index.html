@@ -236,7 +236,8 @@ document.querySelectorAll('.grid').forEach(g=>{
   (D[g.dataset.k]||[]).forEach(s=>{
     const a=document.createElement('a');a.href=url(s,'640x640_rect');
     a.innerHTML='<img loading="lazy" alt="" src="'+url(s,'320x320_rect')+'">';
-    a.onclick=e=>{e.preventDefault();dimg.src=a.href;dlg.showModal()};
+    // 640サイズが無い写真があるので、元画像→320サイズの順に代わりを出す
+    a.onclick=e=>{e.preventDefault();const alts=[P+s+'.jpg',url(s,'320x320_rect')];dimg.onerror=()=>{if(alts.length)dimg.src=alts.shift()};dimg.src=a.href;dlg.showModal()};
     g.appendChild(a);
   });
 });
