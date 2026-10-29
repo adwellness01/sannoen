@@ -1059,6 +1059,7 @@ function draw2d(){
   if(editMode==='plan')ctx.globalAlpha=0.35;
   f.items.forEach(it=>drawItem2d(it, it.uid===selUid));
   ctx.globalAlpha=1;
+  drawLights2d();
   /* 間取り選択ハイライト */
   if(editMode==='plan')drawPlanSel();
   /* 選択寸法 */
@@ -1150,6 +1151,9 @@ function drawPlanSel(){
   ctx.textAlign='center'; ctx.textBaseline='bottom';
   ctx.fillText(r.w.toLocaleString()+'×'+r.h.toLocaleString(), px+w/2, py-8);
 }
+/* 天井の照明電源（2026-10-29 実測）。レイアウトに関係なく2Dに表示し、印刷にも出す */
+const LIGHT_PTS={'3F':[{x:1900,y:2050,label:'旧和室',dim:'左壁170・奥壁185'},{x:2330,y:5630,label:'主室①',dim:'窓側213・手前185'},{x:3730,y:6970,label:'主室②',dim:'手前51・キッチン側92'},{x:8980,y:5112,label:'独立部屋',dim:'左壁117・奥壁123'}]};
+function drawLights2d(){ const pts=LIGHT_PTS[cur]; if(!pts)return; const s=view2d.scale, r=Math.max(5,110*s); pts.forEach(p=>{ const [px,py]=toPx(p.x,p.y); ctx.fillStyle='#F2B33D'; ctx.strokeStyle='#5A3B00'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px,py,r,0,7); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(px-r*.6,py-r*.6); ctx.lineTo(px+r*.6,py+r*.6); ctx.moveTo(px+r*.6,py-r*.6); ctx.lineTo(px-r*.6,py+r*.6); ctx.stroke(); ctx.fillStyle=cssVar('--accent'); ctx.font='bold 11px "Zen Kaku Gothic New",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.lineWidth=3; ctx.strokeStyle=cssVar('--canvas'); ctx.lineJoin='round'; ctx.strokeText('電源 '+p.label,px,py-r-3); ctx.fillText('電源 '+p.label,px,py-r-3); ctx.fillStyle=cssVar('--muted'); ctx.font='10px "Zen Kaku Gothic New",sans-serif'; ctx.textBaseline='top'; ctx.strokeText(p.dim,px,py+r+3); ctx.fillText(p.dim,px,py+r+3); }); }
 function drawItem2d(it, sel){
   const c=CAT[it.cat], s=view2d.scale, [px,py]=toPx(it.x,it.y);
   ctx.save(); ctx.translate(px,py); ctx.rotate(it.rot*Math.PI/180);
