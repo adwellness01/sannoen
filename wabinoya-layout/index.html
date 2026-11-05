@@ -363,7 +363,7 @@ function defaultFloors(){ return JSON.parse(JSON.stringify(DEFAULT_FLOORS)); }
    総額は購入リスト（わびのや_家具購入リスト_lv5.md・わびのや_3F照明_1点多灯案.md の市販ルート）の値 */
 const LAYOUTS=[
  {no:2, view:'furn',  name:'家具レイアウト', sub:'家具',   total:850988},
- {no:2, view:'light', name:'照明レイアウト', sub:'照明',   total:146257},
+ {no:2, view:'light', name:'照明レイアウト', sub:'照明',   total:125874},
 ];
 function curView(){ return LAYOUTS[viewLight?1:0]; }
 /* レイアウト2の既定 = レイアウト1の既定を新家具へ置き換え、卓の奥行が50mm短くなった分だけ3Fの卓・椅子を詰める */
@@ -1173,23 +1173,24 @@ function drawPlanSel(){
 const LIGHT_PTS={'3F':[{x:1900,y:2050,label:'旧和室',dim:'左壁170・奥壁185'},{x:2330,y:5630,label:'主室①',dim:'窓側213・手前185'},{x:3730,y:6970,label:'主室②',dim:'手前51・キッチン側92'},{x:8980,y:5112,label:'独立部屋',dim:'左壁117・奥壁123'}]};
 function drawLights2d(){ const pts=LIGHT_PTS[cur]; if(!pts)return; const s=view2d.scale, r=Math.max(5,110*s); pts.forEach(p=>{ const [px,py]=toPx(p.x,p.y); ctx.fillStyle='#F2B33D'; ctx.strokeStyle='#5A3B00'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px,py,r,0,7); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(px-r*.6,py-r*.6); ctx.lineTo(px+r*.6,py+r*.6); ctx.moveTo(px+r*.6,py-r*.6); ctx.lineTo(px-r*.6,py+r*.6); ctx.stroke(); if(viewLight)return; /* 照明レイアウトではレールのラベルと重なるので電源の文字は省く */ ctx.fillStyle=cssVar('--accent'); ctx.font='bold 11px "Zen Kaku Gothic New",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.lineWidth=3; ctx.strokeStyle=cssVar('--canvas'); ctx.lineJoin='round'; ctx.strokeText('電源 '+p.label,px,py-r-3); ctx.fillText('電源 '+p.label,px,py-r-3); ctx.fillStyle=cssVar('--muted'); ctx.font='10px "Zen Kaku Gothic New",sans-serif'; ctx.textBaseline='top'; ctx.strokeText(p.dim,px,py+r+3); ctx.fillText(p.dim,px,py+r+3); }); }
 /* 照明レイアウト（市販ルート・わびのや_3F照明_1点多灯案.md）。座標はフロアのmm。
-   rail.pts＝電源から延ばしたレールの折れ線（リュウドは電源から2アーム各1000まで）、spot＝レール上の位置→照らす先、pend＝ペンダント */
-const LIGHT_COST={'3F':102292,'テラス':43965};
+   rail.pts＝電源から延ばしたレールの折れ線（リュウドは電源から2アーム各1000まで）、spot＝レール上の位置→照らす先、pend＝ペンダント。
+   ペンダントは届く卓にしか吊れず卓ごとに差が出るためやめ、テラスと同じく全卓1卓1灯にそろえた */
+const LIGHT_COST={'3F':81909,'テラス':43965};
 const FIXTURES={
  '3F':{
   rails:[
-   {pts:[[1950,6435],[2330,5630],[2997,6375]], white:true, label:'主室① リュウド 2アーム', cost:'3万6,224円', lx:2330, ly:5200},
+   {pts:[[1500,6190],[2330,5630],[3160,6190]], white:true, label:'主室① リュウド 2アーム', cost:'2万976円', lx:2330, ly:5200},
    {pts:[[3230,6970],[4230,6970]], label:'主室② 山田照明 TG-471', cost:'1万8,229円', lx:3730, ly:6780},
    {pts:[[8980,4612],[8980,5612]], label:'独立部屋 TG-471', cost:'2万5,227円', lx:9050, ly:4450},
-   {pts:[[2100,1300],[1900,2050],[1131,1410]], white:true, label:'旧和室 リュウド 2アーム', cost:'2万2,612円', lx:1500, ly:2720},
+   {pts:[[2100,1300],[1900,2050],[1131,1410]], white:true, label:'旧和室 リュウド 2アーム', cost:'1万7,477円', lx:1500, ly:2720},
   ],
   spots:[
-   [2007,6315, 850,6435],[2140,6033,1950,6435],[2664,6003,3050,6435],[2964,6338,4150,6435],
+   [1500,6190, 850,6435],[1915,5910,1950,6435],[2745,5910,3050,6435],[3160,6190,4150,6435],
    [3330,6970,2300,7480],[4130,6970,3900,7480],
    [8980,4700,8600,5100],[8980,5000,8600,5450],[8980,5300,8600,5900],[8980,5600,8600,6350],
-   [1477,1698,1000,1300],[1980,1750,2100,1300],
+   [1160,1435,1000,1300],[2080,1370,2100,1300],[2000,1675,2940,1500],
   ],
-  pend:[[1950,6435],[2997,6375],[2100,1300]],
+  pend:[],
  },
  'テラス':{
   strings:[{pts:[[150,150],[6050,150],[6050,3650],[150,3650],[150,150]], label:'ストリングライト 10m×2（テントの外周）', cost:'1万1,960円'}],
@@ -1243,7 +1244,7 @@ function drawFixtures2d(){
 }
 /* 凡例は画面ではフッター（HTML）に出し、印刷のときだけ図の左下に描く */
 let printing=false;
-const FIX_LEGEND_HTML='<span class="chip">凡例：<b style="color:#C98A1E">●</b>スポット（破線＝照らす先）　<b>◉</b>ペンダント　<b>━</b>レール（白＝リュウド／黒＝TG-471）　<b style="color:#C98A1E">▲</b>クリップライト　<b style="color:#C98A1E">・</b>ストリングライト</span>';
+const FIX_LEGEND_HTML='<span class="chip">凡例：<b style="color:#C98A1E">●</b>スポット（破線＝照らす先・全卓1灯ずつ）　<b>━</b>レール（白＝リュウド／黒＝TG-471）　<b style="color:#C98A1E">▲</b>クリップライト　<b style="color:#C98A1E">・</b>ストリングライト</span>';
 function drawFixLegend(){
   return; /* 凡例は画面＝フッター、印刷＝見出し下の注記に出す（図の上に描くと間取りに重なるため） */
   const items=[['spot','スポット（破線＝照らす先）'],['pend','ペンダント'],['railW','レール リュウド（白）'],['railB','レール TG-471（黒）'],['clip','クリップライト（テラス）'],['bulb','ストリングライト（テラス）']];
