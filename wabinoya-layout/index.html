@@ -611,7 +611,7 @@ function newUid(){ return 'u'+(uidSeq++); }
 const tabsEl=document.getElementById('tabs');
 FLOOR_NAMES.forEach(n=>{
   const b=document.createElement('button'); b.textContent=n;
-  b.addEventListener('click',()=>{ cur=n; selUid=null; selPlan=null; cam.tx=0; cam.ty=0; resetView2d(); syncTabs(); syncRoomInputs(); render(); renderFoot(); syncSelbar(); });
+  b.addEventListener('click',()=>{ cur=n; selUid=null; selPlan=null; cam.tx=0; cam.ty=0; resetView2d(); syncTabs(); syncRoomInputs(); updateHint(); render(); renderFoot(); syncSelbar(); });
   tabsEl.appendChild(b);
 });
 function syncTabs(){ [...tabsEl.children].forEach((b,i)=>b.setAttribute('aria-pressed', FLOOR_NAMES[i]===cur?'true':'false')); }
@@ -816,7 +816,7 @@ presetListEl.addEventListener('click',async e=>{
 /* 2D/3D切替 */
 const v2d=document.getElementById('v2d'), v3d=document.getElementById('v3d'), hint=document.getElementById('hint');
 function updateHint(){
-  if(mode==='3d'){ hint.hidden=false; hint.textContent=cam.eye!=null ? 'ドラッグで見回す / 右ドラッグ・2本指で立ち位置を移動 / ホイールで前後' : 'ドラッグで回転 / 右ドラッグ・2本指で移動 / ホイール・ピンチで拡大縮小'; }
+  if(mode==='3d'){ hint.hidden=false; hint.textContent=(viewLight&&FIXTURES[cur]?'照明の雰囲気（夜・明るさは目安）／ ':'')+(cam.eye!=null ?'ドラッグで見回す / 右ドラッグ・2本指で立ち位置を移動 / ホイールで前後' : 'ドラッグで回転 / 右ドラッグ・2本指で移動 / ホイール・ピンチで拡大縮小'); }
   else if(viewLight){ hint.hidden=false; hint.textContent='照明レイアウト：家具は薄く表示（動かすときは家具レイアウトへ）。レール・ライトは3Fとテラスに表示'; }
   else if(editMode==='plan'){ hint.hidden=false; hint.textContent='壁・設備をクリック→ドラッグで移動、■ハンドルで伸縮。部屋はラベル部をクリック'; }
   else hint.hidden=true;
@@ -1329,10 +1329,39 @@ function setEye(v){
 }
 document.querySelectorAll('#eyebar button').forEach(b=>b.addEventListener('click',()=>setEye(b.dataset.eh===''?null:+b.dataset.eh)));
 eyeH.addEventListener('input',()=>setEye(+eyeH.value));
+/* 照明レイアウトの3D＝夜の雰囲気の目安。FIXTURES の各灯を「照らす先のまわりほど明るい」光として扱い、
+   面の色を電球色で明るくする（物理計算ではなく見た目の目安） */
+function lights3d(f){
+  const F=FIXTURES[cur], L=[];
+  const onTable=(x,y)=>f.items.some(it=>{ const c=CAT[it.cat]; if(c.kind!=='table'&&c.kind!=='roaster')return false;
+    const a=-it.rot*Math.PI/180, dx=x-it.x, dy=y-it.y, lx=dx*Math.cos(a)-dy*Math.sin(a), ly=dx*Math.sin(a)+dy*Math.cos(a);
+    return Math.abs(lx)<=c.w/2+50 && Math.abs(ly)<=c.d/2+50; });
+  (F.spots||[]).forEach(p=>{
+    if(p[4]==='up'){ L.push({x:p[0],y:p[1],z:2300,r:1700,k:.45,up:true,hx:p[0],hy:p[1],hz:2350}); return; }
+    const t=onTable(p[2],p[3]);
+    L.push({x:p[2],y:p[3],z:t?720:1000,r:t?520:750,k:1,hx:p[0],hy:p[1],hz:2350});
+  });
+  (F.clips||[]).forEach(p=>L.push({x:p[0],y:p[1],z:720,r:600,k:1,hx:p[0],hy:p[1],hz:2200}));
+  (F.strings||[]).forEach(st=>{ for(let i=1;i<st.pts.length;i++){ const a=st.pts[i-1], b=st.pts[i], n=Math.round(Math.hypot(b[0]-a[0],b[1]-a[1])/627);
+    for(let k=0;k<n;k++){ const t=(k+.5)/n; L.push({x:a[0]+(b[0]-a[0])*t, y:a[1]+(b[1]-a[1])*t, z:2100, r:800, k:.16, bulb:true}); } } });
+  return L;
+}
+function warmRGB(hex,f){
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16), c=v=>Math.min(255,Math.round(v));
+  return 'rgb('+c(r*f*1.05)+','+c(g*f*0.86)+','+c(b*f*0.64)+')';
+}
 function draw3d(){
   const f=fl();
+  const night=viewLight && !!FIXTURES[cur], L3=night?lights3d(f):null;
+  /* 面の色: 通常は向きで陰影、照明レイアウトでは暗い部屋＋各灯の光 */
+  function lit(col,sh,c){
+    if(!night) return shade(col,sh);
+    let a=0; L3.forEach(l=>{ const dx=c[0]-l.x, dy=c[1]-l.y, dz=c[2]-l.z;
+      a+=l.k*Math.exp(-((dx*dx+dy*dy)/(l.r*l.r) + dz*dz/(l.r*l.r*2))); });
+    return warmRGB(col, 0.2*sh + Math.min(1.25,a)*0.95);
+  }
   ctx.clearRect(0,0,CW,CH);
-  ctx.fillStyle=cssVar('--canvas'); ctx.fillRect(0,0,CW,CH);
+  ctx.fillStyle=night?'#14110E':cssVar('--canvas'); ctx.fillRect(0,0,CW,CH);
   const ez=cam.eye, D=ez==null ? camDist() : 2000;
   /* 俯瞰＝注視点のまわりを回る。目線モード＝その場(tx,ty)に高さezで立ち、ドラッグで見回す */
   const off=[D*Math.cos(cam.pitch)*Math.cos(cam.yaw), D*Math.cos(cam.pitch)*Math.sin(cam.yaw), D*Math.sin(cam.pitch)];
@@ -1365,9 +1394,19 @@ function draw3d(){
     ctx.strokeStyle=o.stroke||'rgba(0,0,0,.12)'; ctx.lineWidth=.7; ctx.stroke(); }
 
   /* 床＋グリッド */
-  const fq=quad([[0,0,0],[f.w,0,0],[f.w,f.d,0],[0,f.d,0]], cssVar('--room'));
+  const fq=quad([[0,0,0],[f.w,0,0],[f.w,f.d,0],[0,f.d,0]], night?warmRGB('#C9BCA8',0.22):cssVar('--room'));
   if(fq)fillQ(fq);
-  ctx.strokeStyle=cssVar('--grid'); ctx.lineWidth=.6;
+  /* 照明レイアウト：床の光だまり（家具より先に描くので、卓の下などは家具で隠れる） */
+  if(night){
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    L3.forEach(l=>{ const R=l.up?l.r*1.1:l.bulb?l.r*.7:l.r*1.5, c=proj([l.x,l.y,3]), e=proj([l.x+R,l.y,3]), e2=proj([l.x,l.y+R,3]);
+      if(!c||!e||!e2)return; const pr=Math.max(Math.hypot(e.x-c.x,e.y-c.y),Math.hypot(e2.x-c.x,e2.y-c.y));
+      const g=ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,pr), al=l.up?.16*l.k:l.bulb?.035:.26*l.k;
+      g.addColorStop(0,'rgba(255,176,96,'+al+')'); g.addColorStop(1,'rgba(255,176,96,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,pr,0,7); ctx.fill(); });
+    ctx.restore();
+  }
+  ctx.strokeStyle=night?'rgba(255,220,180,.05)':cssVar('--grid'); ctx.lineWidth=.6;
   for(let gx=0; gx<=f.w; gx+=500){ const s=seg([gx,0,1],[gx,f.d,1]), a=s&&s[0], b=s&&s[1];
     if(a&&b){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();} }
   for(let gy=0; gy<=f.d; gy+=500){ const s=seg([0,gy,1],[f.w,gy,1]), a=s&&s[0], b=s&&s[1];
@@ -1386,7 +1425,7 @@ function draw3d(){
     boxFaces(pit,b).forEach(fc=>{
       if(dot(fc.n, sub(eye,fc.c))<=0)return;
       const sh=0.6+0.4*Math.max(0,dot(fc.n,light));
-      const o=quad(fc.pts, shade(color,sh), stroke||null);
+      const o=quad(fc.pts, lit(color,sh,fc.c), stroke||null);
       if(o){ o.pw=true; o.po=!!outer; faces.push(o); }
     });
   }
@@ -1435,7 +1474,7 @@ function draw3d(){
       {n:[-1,0,0], pts:[[0,f.d,0],[0,0,0],[0,0,WH],[0,f.d,WH]], c:[0,f.d/2,WH/2]},
       {n:[1,0,0],  pts:[[f.w,0,0],[f.w,f.d,0],[f.w,f.d,WH],[f.w,0,WH]], c:[f.w,f.d/2,WH/2]},
     ];
-    twalls.forEach(w=>{ if(dot(w.n, sub(eye,w.c))<0){ const o=quad(w.pts, wallC,'rgba(0,0,0,.18)'); if(o)fillQ(o); } });
+    twalls.forEach(w=>{ if(dot(w.n, sub(eye,w.c))<0){ const o=quad(w.pts, night?lit(wallC,0.8,w.c):wallC,'rgba(0,0,0,.18)'); if(o)fillQ(o); } });
   }
 
   /* 接地影 */
@@ -1453,7 +1492,7 @@ function draw3d(){
       boxFaces(it,b).forEach(fc=>{
         if(dot(fc.n, sub(eye,fc.c))<=0)return;
         const sh=0.58+0.42*Math.max(0,dot(fc.n,light));
-        const o=quad(fc.pts, shade(col,sh), sel?cssVar('--accent'):null);
+        const o=quad(fc.pts, lit(col,sh,fc.c), sel?cssVar('--accent'):null);
         if(o){ if(sel)o.selW=1.6; faces.push(o); }
       });
     });
@@ -1469,6 +1508,31 @@ function draw3d(){
     ctx.strokeStyle=o.stroke||'rgba(0,0,0,.14)'; ctx.lineWidth=o.selW||.7; ctx.stroke();
     if(fade)ctx.globalAlpha=1;
   });
+
+  /* 照明レイアウト：天井のレール・灯具と光の筋（壁は腰高で切っているので、天井付近に浮かせて描く） */
+  if(night){
+    const F=FIXTURES[cur], RZ=2380;
+    (F.rails||[]).forEach(r=>{ for(let i=1;i<r.pts.length;i++){ const s=seg([r.pts[i-1][0],r.pts[i-1][1],RZ],[r.pts[i][0],r.pts[i][1],RZ]); if(!s)continue;
+      ctx.strokeStyle=r.white?'#E9E4DA':'#2A2622'; ctx.lineWidth=4; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(s[0].x,s[0].y); ctx.lineTo(s[1].x,s[1].y); ctx.stroke(); } });
+    (F.strings||[]).forEach(st=>{ ctx.strokeStyle='rgba(40,30,20,.9)'; ctx.lineWidth=1; for(let i=1;i<st.pts.length;i++){ const s=seg([st.pts[i-1][0],st.pts[i-1][1],2100],[st.pts[i][0],st.pts[i][1],2100]); if(!s)continue; ctx.beginPath(); ctx.moveTo(s[0].x,s[0].y); ctx.lineTo(s[1].x,s[1].y); ctx.stroke(); } });
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    L3.forEach(l=>{
+      if(l.bulb){ const c=proj([l.x,l.y,l.z]); if(!c)return; const g=ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,9);
+        g.addColorStop(0,'rgba(255,214,150,.95)'); g.addColorStop(1,'rgba(255,170,90,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,9,0,7); ctx.fill(); return; }
+      const h=proj([l.hx,l.hy,l.hz]); if(!h)return;
+      if(!l.up){
+        let dx=l.x-l.hx, dy=l.y-l.hy; const dl=Math.hypot(dx,dy); if(dl<1){dx=1;dy=0;}else{dx/=dl;dy/=dl;}
+        const w=l.r*.55, a=proj([l.x-dy*w,l.y+dx*w,l.z]), b=proj([l.x+dy*w,l.y-dx*w,l.z]), t=proj([l.x,l.y,l.z]);
+        if(a&&b&&t){ const g=ctx.createLinearGradient(h.x,h.y,t.x,t.y);
+          g.addColorStop(0,'rgba(255,205,130,.30)'); g.addColorStop(1,'rgba(255,190,110,.04)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(h.x,h.y); ctx.lineTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.closePath(); ctx.fill(); }
+      }
+      const R=l.up?18:11, g=ctx.createRadialGradient(h.x,h.y,0,h.x,h.y,R);
+      g.addColorStop(0,'rgba(255,230,180,1)'); g.addColorStop(.35,'rgba(255,190,110,.55)'); g.addColorStop(1,'rgba(255,170,90,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(h.x,h.y,R,0,7); ctx.fill();
+    });
+    ctx.restore();
+  }
 
   /* フロア名 */
   ctx.fillStyle=cssVar('--muted'); ctx.font='12px "Zen Kaku Gothic New",sans-serif';
