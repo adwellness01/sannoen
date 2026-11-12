@@ -1,14 +1,9 @@
-/* =========================================================
-   焼肉山王苑
-   トンマナ = うしごろ（ushigoro.com）実測ベース
-   白地 / 細字明朝 / 枠線を使わない / 和文＋欧文ペア / ls .1em
-   ========================================================= */
 
 :root{
   --bg:#fff;
-  --bg-2:#f7f6f4;          /* ごく薄いグレー。区切りは色差で作る */
-  --ink:#111;              /* うしごろ実測 rgb(17,17,17) */
-  --ink-2:rgba(0,0,0,.55); /* うしごろ実測 */
+  --bg-2:#f7f6f4;
+  --ink:#111;
+  --ink-2:rgba(0,0,0,.55);
   --ink-3:rgba(0,0,0,.38);
   --line:rgba(0,0,0,.12);
   --line-2:rgba(0,0,0,.07);
@@ -17,8 +12,8 @@
   --gothic:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
   --en:"Montserrat","Helvetica Neue",Arial,sans-serif;
 
-  --ls:.1em;               /* うしごろの基準字間（22px→2.2px / 12px→1.2px） */
-  --wrap:1188px;           /* うしごろ content-inner 実測 */
+  --ls:.1em;
+  --wrap:1188px;
   --wrap-narrow:760px;
   --head-h:74px;
 }
@@ -44,14 +39,12 @@ table{border-collapse:collapse;}
 .wrap{width:min(100% - 48px,var(--wrap));margin-inline:auto;}
 .wrap-narrow{width:min(100% - 48px,var(--wrap-narrow));}
 
-/* 和文＋欧文のペア表記（うしごろの基本単位） */
 .ja{font-family:var(--mincho);font-weight:400;font-size:22px;letter-spacing:var(--ls);color:var(--ink);}
 .en{
   font-family:var(--en);font-weight:400;font-size:12px;letter-spacing:var(--ls);
   color:var(--ink-2);margin-top:6px;
 }
 
-/* ---------- header ---------- */
 .site-header{
   position:fixed;inset:0 0 auto 0;z-index:100;height:var(--head-h);
   background:rgba(255,255,255,0);transition:background .35s ease,box-shadow .35s ease;
@@ -61,7 +54,6 @@ table{border-collapse:collapse;}
   width:min(100% - 48px,1250px);margin-inline:auto;height:100%;
   display:flex;align-items:center;justify-content:space-between;gap:24px;
 }
-/* ワードマークは欧文（SANNOUEN）。Montserratで字間を広めに取る */
 .brand{
   font-family:var(--en);font-weight:400;font-size:17px;letter-spacing:.24em;
   text-decoration:none;color:var(--ink);white-space:nowrap;
@@ -86,9 +78,6 @@ table{border-collapse:collapse;}
 .tel-btn:hover{border-color:var(--ink);}
 .nav-toggle{display:none;}
 
-/* ---------- ファーストビュー ----------
-   うしごろの実測: FV(0〜820px)に写真は1枚も無い。
-   白地＋ワードマーク＋全幅65px級のテキスト索引行だけで入口を作る */
 .hero{padding:calc(var(--head-h) + clamp(72px,12vh,150px)) 0 0;background:var(--bg);}
 .hero-mark{
   font-family:var(--mincho);font-weight:400;
@@ -127,7 +116,6 @@ table{border-collapse:collapse;}
 .hero-index a:hover{padding-left:10px;}
 .hero-index a:hover::after{width:48px;background:var(--ink);}
 
-/* ---------- お知らせ ---------- */
 .news-list li{max-width:640px;margin:0 auto;text-align:center;}
 .news-list li + li{margin-top:36px;}
 .news-img{margin:0 0 24px;overflow:hidden;}
@@ -141,7 +129,6 @@ table{border-collapse:collapse;}
 .news-title a:hover{border-color:var(--ink);}
 .news-body{font-size:13px;line-height:2.2;color:var(--ink-2);}
 
-/* ---------- section common ---------- */
 .section{padding:clamp(72px,8vw,120px) 0;}
 .section:nth-of-type(even){background:var(--bg-2);}
 .sec-head{text-align:center;margin-bottom:clamp(40px,4.4vw,62px);}
@@ -150,10 +137,6 @@ table{border-collapse:collapse;}
   font-family:var(--en);font-size:12px;font-weight:400;letter-spacing:var(--ls);
   color:var(--ink-2);margin-top:9px;
 }
-/* 中央揃えの文は <br> で行長を揃えて折り返しを起こさせない。
-   1行26文字以内で書く（14px × 26字 ≈ 364px < max-width）。
-   自然折り返しに任せると行末がバラけて崩れるため、
-   折り返しが避けられないモバイルでは左揃え＋<br>無効に切り替える */
 .lead{
   max-width:44em;margin:0 auto clamp(40px,4.4vw,58px);text-align:center;
   font-size:14px;line-height:2.35;color:var(--ink-2);
@@ -175,7 +158,6 @@ table{border-collapse:collapse;}
 .course-img{margin:0 0 26px;overflow:hidden;}
 .course-img img{width:100%;aspect-ratio:3/2;object-fit:cover;}
 
-/* ---------- harami ---------- */
 .grade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;}
 .grade{text-align:center;}
 .grade .ja{display:block;font-size:21px;}
@@ -186,13 +168,11 @@ table{border-collapse:collapse;}
   margin-top:18px;padding-top:18px;border-top:1px solid var(--line-2);
 }
 
-/* ---------- niku ---------- */
 .niku-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:52px;}
 .card .ja{display:block;font-size:20px;}
 .card .en{margin-bottom:16px;}
 .card p:last-child{font-size:13px;line-height:2.2;color:var(--ink-2);}
 
-/* ---------- menu ---------- */
 .menu-cols{columns:2;column-gap:60px;}
 .menu-block{break-inside:avoid;margin-bottom:46px;}
 .menu-h{display:flex;flex-direction:column;gap:5px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line);}
@@ -210,7 +190,6 @@ table{border-collapse:collapse;}
 .menu-foot{margin-top:8px;font-size:13px;line-height:2.2;color:var(--ink-2);}
 .menu-foot span{color:var(--ink-3);font-size:11.5px;}
 
-/* ---------- course ---------- */
 .course-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:64px;align-items:start;}
 .course-card .ja{display:block;font-size:21px;}
 .course-card .en{margin-bottom:4px;}
@@ -229,10 +208,8 @@ table{border-collapse:collapse;}
 }
 .course-note{font-size:11.5px;line-height:2;color:var(--ink-3);margin-top:16px;}
 
-/* ---------- lunch ---------- */
 .lunch-menu{max-width:520px;margin:0 auto;}
 
-/* ---------- room（カードは1枚。中央に据える） ---------- */
 .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:1040px;margin:0 auto 56px;}
 .room-card{text-align:center;}
 .room-img{overflow:hidden;aspect-ratio:8/3;margin-bottom:22px;}
@@ -248,8 +225,6 @@ table{border-collapse:collapse;}
 }
 .spec-list li span{flex:0 0 86px;font-family:var(--mincho);letter-spacing:.04em;color:var(--ink);}
 
-/* ---------- access ---------- */
-/* 写真枠は廃止。情報だけを読みやすい幅で中央に置く */
 .access-grid{max-width:760px;margin:0 auto;}
 .info-table{width:100%;margin-bottom:32px;}
 .info-table th,.info-table td{
@@ -274,8 +249,6 @@ table{border-collapse:collapse;}
 .btn-ghost{border:1px solid var(--line);color:var(--ink);}
 .btn-ghost:hover{border-color:var(--ink);}
 
-
-/* ---------- footer ---------- */
 .site-footer{background:var(--bg);padding:64px 0 26px;border-top:1px solid var(--line-2);}
 .footer-inner{display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:start;}
 .footer-brand{font-family:var(--mincho);font-weight:600;font-size:21px;letter-spacing:var(--ls);}
@@ -295,7 +268,6 @@ table{border-collapse:collapse;}
 
 .fab-tel{display:none;}
 
-/* ---------- reveal（JSが動いたときだけ隠す） ---------- */
 .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .85s ease,transform .85s ease;}
 .js .reveal.is-in{opacity:1;transform:none;}
 @media (prefers-reduced-motion:reduce){
@@ -303,12 +275,7 @@ table{border-collapse:collapse;}
   .js .reveal{opacity:1;transform:none;transition:none;}
 }
 
-/* =========================================================
-   responsive
-   ========================================================= */
 @media (max-width:1024px){
-  /* スマホ・タブレットでは薄い横罫が視認しづらくノイズになるため、
-     項目間のヘアラインを撤去する（見出し下の罫は構造の目印として残す） */
   .menu-list li,
   .course-list li,
   .spec-list li,
@@ -319,7 +286,6 @@ table{border-collapse:collapse;}
   .hero-index a{border-top:none;border-bottom:none;}
   .hero-index a::after{display:none;}
 
-  /* 縦積みでは「価格→次の品名」が続いて見えるため、1格ごとに薄い面で囲って区切る */
   .grade-grid{grid-template-columns:1fr;gap:14px;max-width:460px;margin-inline:auto;}
   .grade{background:var(--bg-2);padding:30px 22px 26px;}
   .grade .en{margin-bottom:12px;}
@@ -327,8 +293,6 @@ table{border-collapse:collapse;}
   .figure-pair{gap:10px;}
   .grade-price{margin-top:10px;}
   .niku-grid{grid-template-columns:1fr;gap:38px;}
-  
-  
   .footer-inner{grid-template-columns:1fr;gap:26px;}
   .footer-nav{flex-direction:row;flex-wrap:wrap;gap:20px;}
 }
@@ -339,7 +303,6 @@ table{border-collapse:collapse;}
     display:flex;flex-direction:column;justify-content:center;gap:6px;
     width:44px;height:44px;background:none;border:0;cursor:pointer;padding:0 10px;z-index:120;
   }
-  /* FVが白地になったので、バーは常に黒でよい（白×白で消える事故が構造的に起きない） */
   .nav-toggle span{display:block;height:1.5px;background:var(--ink);transition:transform .35s ease,opacity .25s ease;}
   .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
   .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
@@ -359,7 +322,6 @@ table{border-collapse:collapse;}
 }
 
 @media (max-width:768px){
-  /* スマホは左右の余白を広めに取る（32pxずつ） */
   .wrap,.wrap-narrow{width:calc(100% - 64px);}
   .header-inner{width:calc(100% - 64px);}
   .hero-index a{width:calc(100% - 64px);}
@@ -370,8 +332,6 @@ table{border-collapse:collapse;}
   .hero-index a{padding:20px 0;gap:14px;flex-wrap:wrap;}
   .hero-index a i{width:100%;order:3;}
   .hero-index a::after{align-self:center;}
-  /* 中央揃え文はモバイルでは折り返しが避けられない。
-     左揃えに切り替え、PC用の改行は無効化して自然に流す */
   .lead{text-align:left;}
   .lead br{display:none;}
   .room-card{text-align:left;}

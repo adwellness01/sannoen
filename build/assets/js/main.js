@@ -1,10 +1,8 @@
 (function () {
   'use strict';
 
-  /* JS が生きている印。これが付いたときだけ .reveal を隠す */
   document.documentElement.classList.add('js');
 
-  /* ---- header: 背景をスクロールで出す ---- */
   var header = document.getElementById('siteHeader');
   var onScroll = function () {
     if (window.scrollY > 40) {
@@ -16,7 +14,6 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---- モバイルナビ ---- */
   var toggle = document.getElementById('navToggle');
   var nav = document.getElementById('siteNav');
 
@@ -42,7 +39,6 @@
     if (e.key === 'Escape' && nav.classList.contains('is-open')) closeNav();
   });
 
-  /* ---- スクロールで要素をフェードイン ---- */
   var targets = document.querySelectorAll('.reveal');
 
   var revealAll = function () {
@@ -54,7 +50,6 @@
     return;
   }
 
-  /* 保険: 何らかの理由で監視が走らなくても4秒後に必ず出す */
   var safety = setTimeout(revealAll, 4000);
   window.addEventListener('pagehide', function () { clearTimeout(safety); });
 
@@ -67,14 +62,12 @@
   }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
 
   Array.prototype.forEach.call(targets, function (el, i) {
-    // 同じ行に並ぶカードは少しずつ遅らせる
     var delay = (el.parentElement && el.parentElement.children.length > 1) ? (i % 3) * 90 : 0;
     el.style.transitionDelay = delay + 'ms';
     io.observe(el);
   });
 })();
 
-/* GA4: 予約リンク（食べログのネット予約フォーム）のクリックをイベント送信 */
 document.addEventListener('click', function (e) {
   var a = e.target.closest && e.target.closest('a[href*="yoyaku.tabelog.com"]');
   if (!a || typeof gtag !== 'function') return;
